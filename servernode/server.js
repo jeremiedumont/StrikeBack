@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {useNewUrlParser : true, useCreateIndex : true});
+mongoose.connect(uri, {useNewUrlParser : true,useUnifiedTopology: true, useCreateIndex : true});
 
 const connection = mongoose.connection;
 connection.once('open', () => {
@@ -24,11 +24,11 @@ const userRouter = require('./routes/user');
 const reportRouter = require('./routes/report');
 const notificationRouter = require('./routes/notification');
 
-app.use('/answers', answerRouter);
-app.use('/remarks', remarkRouter);
-app.use('/users', userRouter);
-app.use('/reports', reportRouter);
-app.use('/notifications', notificationRouter);
+//app.use('/answers', answerRouter);
+//app.use('/remarks', remarkRouter);
+//app.use('/users', userRouter);
+//app.use('/reports', reportRouter);
+//app.use('/notifications', notificationRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port : ${port}`);

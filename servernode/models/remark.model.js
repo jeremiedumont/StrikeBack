@@ -9,8 +9,13 @@ const Content = new Schema({
         required: true
     },
     text: String,
-    image: String
-})
+    image: {
+        type: String,
+        default: "none"
+    },
+},
+{ _id : false }
+)
 
 const RemarkSchema = new Schema({
     userId : {
@@ -30,9 +35,6 @@ const RemarkSchema = new Schema({
         type: Number,
         required: true,
         default: 0
-    },
-    answers: {
-        type: Array,
     }
 },
 {versionKey: false})

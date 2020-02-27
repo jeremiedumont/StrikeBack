@@ -31,7 +31,7 @@ const RemarkSchema = new Schema({
         required: true,
         default: Date.now()
     },
-    heared: {
+    heard: {
         type: Number,
         required: true,
         default: 0

@@ -37,15 +37,15 @@ router.get('/sorted/date', (req,res,next) => {
     .catch(err => res.status(400).json('Error:' + err))
 });
 
-//http://localhost:5000/remarks/sorted/heared?order=1&skip=0&number=4
-router.get('/sorted/heared', (req,res,next) => {
+//http://localhost:5000/remarks/sorted/heard?order=1&skip=0&number=4
+router.get('/sorted/heard', (req,res,next) => {
     const order = req.query.order; // -1 ou 1
     const skip = req.query.skip; // nombre de remarks renvoyes
     const number = req.query.number; // num de page a renvoyer
 
     Remark.find(
         {}        )
-        .sort({'heared': order})
+        .sort({'heard': order})
         .skip(skip*1)
         .limit(number*1)
     .then((remarks) => res.status(200).json(remarks))
@@ -68,17 +68,17 @@ router.route('/add').post((req, res) =>{
 ////PUT REQUESTS
 
 //
-router.put('/heared', (req,res,next) => {
+router.put('/heard', (req,res,next) => {
     Remark.findOneAndUpdate(
     { 
         _id: req.query.id
     },
     {
-        $inc : {heared : 1}
+        $inc : {heard : 1}
     },
     {useFindAndModify:false} //to avoid deprecation warning
     )
-    .then(() => res.json('Remark heared one more time.'))
+    .then(() => res.json('Remark heard one more time.'))
     .catch(err => res.status(400).json('Error:' + err))
 });
 

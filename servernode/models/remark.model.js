@@ -3,28 +3,23 @@ const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema
 
-const Content = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    text: String,
-    image: {
-        type: String,
-        default: "none"
-    },
-},
-{ _id : false }
-)
-
 const RemarkSchema = new Schema({
     userId : {
         type: String,
         required: true
     },
-    content : {
-        type: Content,
+    title: {
+        type: String,
         required: true
+    },
+    text: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required:true,
+        default: "none"
     },
     date: {
         type: Date,

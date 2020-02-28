@@ -4,7 +4,7 @@ const Remark = require('../models/remark.model')
 
 ////GET REQUESTS
 
-//http://localhost:5000/remarks/?id=5e500b489febd9351c7bdac1
+//http://localhost:5000/remarks/?id=5e500b859febd9351c7bdac2
 router.get('/', (req,res,next) => {
     Remark.findOne({ 
         _id: req.query.id 
@@ -58,8 +58,10 @@ router.get('/sorted/heard', (req,res,next) => {
 //http://localhost:5000/remarks/add
 router.route('/add').post((req, res) =>{
     const userId = req.body.userId; 
-    const content = req.body.content;
-    const newRemark = new Remark({ userId,content })
+    const title = req.body.title;
+    const text = req.body.text;
+    const image = req.body.image;
+    const newRemark = new Remark({ userId, title, text, image })
     newRemark.save()
     .then(() => res.status(200).json('Remark added.'))
     .catch(err => res.status(400).json('Error: ' + err));    
@@ -78,7 +80,7 @@ router.put('/heard', (req,res,next) => {
     },
     {useFindAndModify:false} //to avoid deprecation warning
     )
-    .then(() => res.json('Remark heard one more time.'))
+    .then(() => res.status(200).json('Remark heard one more time.'))
     .catch(err => res.status(400).json('Error:' + err))
 });
 

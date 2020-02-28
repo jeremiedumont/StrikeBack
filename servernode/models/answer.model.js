@@ -7,6 +7,10 @@ const AnswerSchema = new Schema({
         type: String,
         required: true
     },
+    userId : {
+        type: String,
+        required: true
+    },
     content : {
         type: String,
         required: true
@@ -24,6 +28,10 @@ const AnswerSchema = new Schema({
     downs: {
         type: Number,
         required: true,
+        default: 0
+    },
+    pertinency: {
+        type: Number,
         default: 0
     }
 },

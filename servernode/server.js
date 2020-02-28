@@ -9,7 +9,10 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-
+//ROUTE racine
+app.get('/', (req,res) => {
+    res.send('Welcome to Strike-Back, please use a proper URL to continue');
+});
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {useNewUrlParser : true,useUnifiedTopology: true, useCreateIndex : true});
 
@@ -18,13 +21,13 @@ connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
 })
 
-//const answerRouter = require('./routes/answer');
+const answerRouter = require('./routes/answer');
 const remarkRouter = require('./routes/remark');
 const userRouter = require('./routes/user');
 const reportRouter = require('./routes/report');
 //const notificationRouter = require('./routes/notification');
 
-//app.use('/answers', answerRouter);
+app.use('/answers', answerRouter);
 app.use('/remarks', remarkRouter);
 app.use('/users', userRouter);
 app.use('/reports', reportRouter);

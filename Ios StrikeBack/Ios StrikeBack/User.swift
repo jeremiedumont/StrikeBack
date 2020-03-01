@@ -19,9 +19,9 @@ import Foundation
 import Foundation
 //pseudo, color, email, password, admin, creationDate
 class User : ObservableObject, Identifiable, Decodable{
-     var pseudo : String
-     var color : String
-     var email : String
+     @Published var pseudo : String
+     @Published var color : String
+     @Published var email : String
      //var password : String
     //var admin : Bool
     var creationDate: Date

@@ -36,7 +36,7 @@ struct ContentView: View {
                 }
                     .gesture(drag)
             }
-                .navigationBarTitle("Side Menu", displayMode: .inline)
+                .navigationBarTitle("Accueil", displayMode: .inline)
                 .navigationBarItems(leading: (
                     Button(action: {
                         withAnimation {

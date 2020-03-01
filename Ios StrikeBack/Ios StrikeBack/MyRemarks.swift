@@ -6,4 +6,15 @@
 //  Copyright © 2020 user164174. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
+
+struct MyRemarks : View{
+    
+    /*var tabRemarks = getAllUserRemarks(userId : String)*/
+    init(){
+        
+    }
+    var body: some View {
+       Text("view")
+    }
+}

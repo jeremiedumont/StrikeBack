@@ -12,59 +12,71 @@ import SwiftUI
 
 struct MenuView: View {
     var body: some View {
-        VStack(alignment: .leading) {
+        
+        VStack() {
             HStack {
-                Image(systemName: "person")
-                    .foregroundColor(.gray)
-                    .imageScale(.large)
-                Text("Profile")
-                    .foregroundColor(.gray)
-                    .font(.headline)
+                
+                NavigationLink(destination: MyRemarks()) {
+                    Image(systemName: "person")
+                        .foregroundColor(.gray)
+                        .imageScale(.large)
+                    
+                    Text("Profile")
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                }
+                
+            
+                
             }
             .padding(.top, 100)
             HStack {
-                Image(systemName: "envelope")
-                    .foregroundColor(.gray)
-                    .imageScale(.large)
-                Text("Mes Remarques")
-                    .foregroundColor(.gray)
-                    .font(.headline)
+                NavigationLink(destination: MyRemarks()) {
+                    Image(systemName: "envelope")
+                        .foregroundColor(.gray)
+                        .imageScale(.large)
+                    Text("Mes Remarques")
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                }
+                
             }
                 .padding(.top, 30)
             HStack {
-                Image(systemName: "envelope")
-                    .foregroundColor(.gray)
-                    .imageScale(.large)
-                Text("Mes Réponses")
-                    .foregroundColor(.gray)
-                    .font(.headline)
+                NavigationLink(destination: MyRemarks()) {
+                    Image(systemName: "envelope")
+                        .foregroundColor(.gray)
+                        .imageScale(.large)
+                    Text("Mes Réponses")
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                }
+                
             }
                 .padding(.top, 30)
+            
             HStack {
-                Image(systemName: "gear")
-                    .foregroundColor(.gray)
-                    .imageScale(.large)
-                Text("Settings")
-                    .foregroundColor(.gray)
-                    .font(.headline)
+                NavigationLink(destination: LoginView()) {
+                    Image(systemName: "person")
+                        .foregroundColor(.gray)
+                        .imageScale(.large)
+                    Text("Se connecter")
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                }
+                
             }
             .padding(.top, 30)
             HStack {
-                Image(systemName: "person")
-                    .foregroundColor(.gray)
-                    .imageScale(.large)
-                Text("Se connecter")
-                    .foregroundColor(.gray)
-                    .font(.headline)
-            }
-            .padding(.top, 30)
-            HStack {
-                Image(systemName: "person")
-                    .foregroundColor(.gray)
-                    .imageScale(.large)
-                Text("S'inscrire")
-                    .foregroundColor(.gray)
-                    .font(.headline)
+                NavigationLink(destination: SignupView(pseudo : "",email:"",password :"",color : "#000000", creationDate : Date())) {
+                    Image(systemName: "person")
+                        .foregroundColor(.gray)
+                        .imageScale(.large)
+                    Text("S'inscrire")
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                }
+                
             }
             .padding(.top, 30)
             Spacer()

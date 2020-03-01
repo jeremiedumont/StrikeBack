@@ -9,29 +9,83 @@
 import Foundation
 
 public class UserDAO {
+    
+    let rootURL : String = "https://strike-back.herokuapp.com/users/"
+
+    //----------------------------------
+    //---------- POST requests ---------
+    //----------------------------------
 
     static func signup (pseudo : String, password : String, email : String, color : String) -> User?{
+        // Prepare URL
+        let url = URL(string: rooturl + "signup")
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "POST"
+        
+        let semaphore = DispatchSemaphore(value :0)
+        var res : Bool = false
+        //----------------------------------------------------------
+        //___________verifier si ca marche de cette facon___________
+        //__________________________________________________________
+        let json: [String: Any] = ["pseudo": pseudo,"password": password, "email": email, "color": color ]
+        // Set HTTP Request Body
+        do {
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json) 
+        } catch let error {
+            print(error)
+        }
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
+        // Perform HTTP Request
+         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+                
+                let resp = response as? HTTPURLResponse
+                res = (resp?.statusCode == 200)
+                
+            if let data = data{
+                if let jsonString = String(data: data, encoding: .utf8){
+                    print(jsonString)
+                }
+            }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        return res
+    }
+    
+    static func login (pseudo : String, password : String) -> User?{
 
         return nil
     }
     
-    static func deleteUser(idUser : String) -> Bool{
+    //----------------------------------
+    //---------- PUT requests ----------
+    //----------------------------------
+
+    
+    static func updatePassword (userId : String, oldPassword : String,  newPassword : String) -> Bool{
 
            return false
        }
     
-    static func updatePassword (idUser : String, newpassword : String) -> Bool{
+    static func updateColor (userId : String, color : String) -> Bool{
 
            return false
        }
     
-    static func updateColor (pseudo : String, color : String) -> Bool{
+    //----------------------------------
+    //---------- DELETE requests -------
+    //----------------------------------
+
+    static func deleteUser(userId : String) -> Bool{
 
            return false
-       }
-    
-    static func login (pseudo : String, password : String) -> User?{
-
-           return nil
        }
 }

@@ -1,0 +1,22 @@
+
+    [
+        {
+            "firstName" : "Alexandre",
+            "lastName" : "Girbal",
+            "job" : "responsable technique",
+            "department" : "IG4"
+        },
+        {
+            "firstName" : "Jerem",
+            "lastName" : "Dumont",
+            "job" : "responsable café",
+            "department" : "IG4"
+        },
+        {
+            "firstName" : "David",
+            "lastName" : "Meier",
+            "job" : "responsable design",
+            "department" : "IG4"
+        }
+    ]
+

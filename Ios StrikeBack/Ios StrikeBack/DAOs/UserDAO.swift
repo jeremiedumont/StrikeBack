@@ -7,3 +7,31 @@
 //
 
 import Foundation
+
+public class UserDAO {
+
+    static func signup (pseudo : String, password : String, email : String, color : String) -> User?{
+
+        return nil
+    }
+    
+    static func deleteUser(idUser : String) -> Bool{
+
+           return false
+       }
+    
+    static func updatePassword (idUser : String, newpassword : String) -> Bool{
+
+           return false
+       }
+    
+    static func updateColor (pseudo : String, color : String) -> Bool{
+
+           return false
+       }
+    
+    static func login (pseudo : String, password : String) -> User?{
+
+           return nil
+       }
+}

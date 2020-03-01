@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RemarkDAO {
+public class RemarkDAO {
     static func addRemark (rem : Remark) -> Bool{
         // Prepare URL
         let url = URL(string: "https://strike-back.herokuapp.com/remarks/add")//ICI

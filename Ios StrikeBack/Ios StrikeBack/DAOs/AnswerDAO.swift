@@ -9,9 +9,176 @@
 import Foundation
 
 public class AnswerDAO {
-    static func addAnswer (rem : Remark) -> Bool{
+    
+    let rootURL : String = "https://strike-back.herokuapp.com/answers/"
+
+    //----------------------------------
+    //---------- GET requests ----------
+    //----------------------------------
+
+    static func getSortedAnswersByDate(order : Int, skip : Int, number : Int) -> [Answer]{
         // Prepare URL
-        let url = URL(string: "https://strike-back.herokuapp.com/answers/add")//ICI
+        let preString = rooturl + "sorted/date"
+        let postString = "?order="+String(order)+"&skip="+String(skip)+"&number="+String(number)
+        let url = URL(string: preString+postString)
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        let semaphore = DispatchSemaphore(value :0)
+         
+        // Perform HTTP Request
+        var res : [Answer] = []
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+            
+                // Convert HTTP Response Data to a String
+                if let data = data{
+                    
+                    do{
+                        res = try JSONDecoder().decode([Answer].self, from: data)
+                        
+                    }catch let error {
+                        print(error)
+                    }
+                }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
+
+    static func getSortedAnswersByPertinency(order : Int, skip : Int, number : Int) -> [Answer]{
+        // Prepare URL
+        let preString = rooturl + "sorted/heard"
+        let postString = "?order="+String(order)+"&skip="+String(skip)+"&number="+String(number)
+        let url = URL(string: preString+postString)
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        let semaphore = DispatchSemaphore(value :0)
+         
+        // Perform HTTP Request
+        var res : [Answer] = []
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+            
+                // Convert HTTP Response Data to a String
+                if let data = data{
+                    
+                    do{
+                        res = try JSONDecoder().decode([Answer].self, from: data)
+                        
+                    }catch let error {
+                        print(error)
+                    }
+                }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
+
+    static func getAllUserAnswers(userId : String) -> [Answer] {
+        // Prepare URL
+        let preString = rooturl + "findByUserId"
+        let postString = "?id="+String(userId)
+        let url = URL(string: preString+postString)
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        let semaphore = DispatchSemaphore(value :0)
+
+        // Perform HTTP Request
+        var res : [Answer] = []
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+            
+                // Convert HTTP Response Data to a String
+                if let data = data{
+                    
+                    do{
+                        res = try JSONDecoder().decode([Answer].self, from: data)
+                        
+                    }catch let error {
+                        print(error)
+                    }
+                }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
+
+    static func getAnswer(answerId : String) -> Answer?{
+        // Prepare URL
+        let preString = rooturl + ""
+        let postString = "?id="+String(answerId)
+        let url = URL(string: preString+postString)
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        let semaphore = DispatchSemaphore(value :0)
+
+        // Perform HTTP Request
+        var res : [Answer] = []
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+            
+                // Convert HTTP Response Data to a String
+                if let data = data{
+                    
+                    do{
+                        res = try JSONDecoder().decode([Answer].self, from: data)
+                        
+                    }catch let error {
+                        print(error)
+                    }
+                }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
+
+    //----------------------------------
+    //---------- POST requests ---------
+    //----------------------------------
+
+    static func addAnswer (rem : Answer) -> Bool{
+        // Prepare URL
+        let url = URL(string: rooturl + "add")//ICI
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
@@ -50,18 +217,103 @@ public class AnswerDAO {
         semaphore.wait()
         return res
     }
+
     
-    
-    static func deleteAnswer(remid : String) -> Bool{
+
+    //----------------------------------
+    //---------- PUT requests ----------
+    //----------------------------------
+
+    static func addUp(answerId : String) -> Bool {
         // Prepare URL
-        let url = URL(string: "https://strike-back.herokuapp.com/answers/delete") // ICI
+        let preString = rooturl + "up"
+        let postString = "?id="+String(answerId)
+        let url = URL(string: preString+postString)
+
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "PUT"
+
+        let semaphore = DispatchSemaphore(value :0)
+         
+        // Perform HTTP Request
+        var res : Bool = false
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            } else {
+                let resp = response as? HTTPURLResponse
+                res = (resp?.statusCode == 200) //true si on a bien increment le heard
+                if let data = data {
+                    if let jsonString = String(data: data, encoding: .utf8){
+                        print(jsonString)
+                    }
+                }
+            }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
+
+    static func addDown(answerId : String) -> Bool {
+        // Prepare URL
+        let preString = rooturl + "down"
+        let postString = "?id="+String(answerId)
+        let url = URL(string: preString+postString)
+
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "PUT"
+
+        let semaphore = DispatchSemaphore(value :0)
+         
+        // Perform HTTP Request
+        var res : Bool = false
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            } else {
+                let resp = response as? HTTPURLResponse
+                res = (resp?.statusCode == 200) //true si on a bien increment le heard
+                if let data = data {
+                    if let jsonString = String(data: data, encoding: .utf8){
+                        print(jsonString)
+                    }
+                }
+            }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
+
+    //----------------------------------
+    //---------- DELETE requests -------
+    //----------------------------------
+    
+    static func deleteAnswer(answerId : String) -> Bool{
+        // Prepare URL
+        let url = URL(string: rooturl + "delete")
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "DELETE"
          
         // HTTP Request Parameters which will be sent in HTTP Request Body
-        let postString = "id="+remid;
+        let postString = "id="+answerId;
         // Set HTTP Request Body
         request.httpBody = postString.data(using: String.Encoding.utf8);
         var res : Bool = false
@@ -75,170 +327,14 @@ public class AnswerDAO {
                 }
          
                 // Convert HTTP Response Data to a String
-                                    let resp = response as? HTTPURLResponse
+                    let resp = response as? HTTPURLResponse
                     res = (resp?.statusCode == 200)
                 
         }
         task.resume()
         return res
     }
-    
-    static func getAllUserAnswers(userId : String) -> [Remark]{
-        
-    // Prepare URL
-    let url = URL(string: "https://strike-back.herokuapp.com/answers/.......................")
-    guard let requestUrl = url else { fatalError() }
-    // Prepare URL Request Object
-    var request = URLRequest(url: requestUrl)
-    request.httpMethod = "GET"
-    let semaphore = DispatchSemaphore(value :0)
-    // HTTP Request Parameters which will be sent in HTTP Request Body
-    let postString = "userId="+userId;
-    // Set HTTP Request Body
-    request.httpBody = postString.data(using: String.Encoding.utf8);
-    // Perform HTTP Request
-    var res : [Remark] = []
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            // Check for Error
-            if let error = error {
-                print("Error took place \(error)")
-                return
-            }
-     
-            // Convert HTTP Response Data to a String
-            if let data = data{
-                do{
-                    res = try JSONDecoder().decode([Remark].self, from: data)
-                }catch let error {
-                    print(error)
-                }
-            }
-        semaphore.signal()
-    }
-    task.resume()
-    semaphore.wait()
-    return res
-    }
-    static func getAnswer(remId : String) -> Remark?{
-        // Prepare URL
-        let url = URL(string: "https://strike-back.herokuapp.com/answers/....................")
-        guard let requestUrl = url else { fatalError() }
-        // Prepare URL Request Object
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = "GET"
-        let semaphore = DispatchSemaphore(value :0)
-        // HTTP Request Parameters which will be sent in HTTP Request Body
-        let postString = "id="+remId;
-        // Set HTTP Request Body
-        request.httpBody = postString.data(using: String.Encoding.utf8);
-        // Perform HTTP Request
-        var res : Remark? = nil
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
-         
-                // Convert HTTP Response Data to a String
-                if let data = data{
-                    do{
-                        res = try JSONDecoder().decode(Remark.self, from: data)
-                    }catch let error {
-                        print(error)
-                    }
-                }
-            semaphore.signal()
-        }
-        task.resume()
-        semaphore.wait()
-        return res
-    }
-    static func getSortedAnswersByDate(order : Int, skip : Int, number : Int) -> [Remark]{
-        // Prepare URL
-        //ICI
-        let preString = "https://strike-back.herokuapp.com/answers/sorted/date"
-        let postString = "?order="+String(order)+"&skip="+String(skip)+"&number="+String(number)
-        let url = URL(string: preString+postString)
-        guard let requestUrl = url else { fatalError() }
-        // Prepare URL Request Object
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = "GET"
-        let semaphore = DispatchSemaphore(value :0)
-         
-        // HTTP Request Parameters which will be sent in HTTP Request Body
-        
-        // Set HTTP Request Body
-        //request.httpBody = postString.data(using: String.Encoding.utf8)
-        // Perform HTTP Request
-        var res : [Remark] = []
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
-            
-                // Convert HTTP Response Data to a String
-                if let data = data{
-                    
-                    do{
-                        res = try JSONDecoder().decode([Remark].self, from: data)
-                        
-                    }catch let error {
-                        print(error)
-                    }
-                }
-            semaphore.signal()
-        }
-        task.resume()
-        semaphore.wait()
-        
-        return res
-        
-    }
-    static func getSortedAnswersByPertinency(order : Int, skip : Int, number : Int) -> [Remark]{
-        // Prepare URL
-        let url = URL(string: "https://strike-back.herokuapp.com/answers/sorted/pertinency")//ICI
-        guard let requestUrl = url else { fatalError() }
-        // Prepare URL Request Object
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = "GET"
-        let semaphore = DispatchSemaphore(value :0)
-        // HTTP Request Parameters which will be sent in HTTP Request Body
-        let postString = "order=" + String(order) + "&skip=" + String(skip) + "&number=" + String(number)
-        // Set HTTP Request Body
-        request.httpBody = postString.data(using: String.Encoding.utf8)
-        // Perform HTTP Request
-        var res : [Remark] = []
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
-         
-                // Convert HTTP Response Data to a String
-                if let data = data{
-                    do{
-                        res = try JSONDecoder().decode([Remark].self, from: data)
-                    }catch let error {
-                        print(error)
-                    }
-                }
-            semaphore.signal()
-        }
-        task.resume()
-        
-        semaphore.wait()
-        return res
 
-    }
-    
 }
 
 

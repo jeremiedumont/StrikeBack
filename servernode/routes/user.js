@@ -13,8 +13,8 @@ router.route('/signup').post((req, res) =>{
     const password = req.body.password;
     const color = req.body.color;
     const email = req.body.email;
-    const admin = req.body.admin;
-    const newUser = new User({pseudo : pseudo, email : email, admin : admin, color : color, password : password})
+    //const admin = req.body.admin; //pas top safety
+    const newUser = new User({pseudo : pseudo, email : email, color : color, password : password})
 
     newUser.save()
     .then(() => res.status(200).json('User added'))
@@ -23,44 +23,59 @@ router.route('/signup').post((req, res) =>{
 
 //Route used for login
 router.route('/login').post((req, res) => {
-    User.findOne({pseudo : req.body.pseudo, password : req.body.password})
-    .then(user => res.json(user))
+    User.findOne({ pseudo : req.body.pseudo })
+    .then(user => {
+        if (user == null) {
+            res.status(401).json('Error : Wrong pseudo')
+        } else if (user.password != req.body.password) {
+            res.status(401).json('Error : Wrong password')
+        } else {
+            res.status(200).json(user)
+        }
+    })
     .catch(err  => res.status(400).json('Error : ' + err));
 });
 
-//Route used for deleteing a user
+//Route used for deleting a user
 router.route('/delete').delete((req, res) => {
-    User.findOne({pseudo : req.body.pseudo, password : req.body.password}, (error, user) => {
+    User.findOne({pseudo : req.body.pseudo }, (error, user) => {
         if(user==null){
             res.send('User not found')
         }else{
-            User.deleteOne({pseudo : req.body.pseudo, password : req.body.password})
-            .then(() => res.json('User deleted'))
-            .catch(err => res.status(400).json('Error : ' + err));
+            if (user.password == req.body.password){
+                User.deleteOne({pseudo : req.body.pseudo})
+                .then(() => res.status(200).json('User deleted'))
+                .catch(err => res.status(400).json('Error : ' + err));
+            }
         }
     });   
 });
 
 //Route used for updating the users's password
-router.route('/updatePassword/').put((req, res) => {
-    User.findById(req.body.id)
+//https://strike-back.herokuapp.com/users/updatePassword
+router.route('/updatePassword').put((req, res) => {
+    User.findById(req.body.userId)
         .then(user => {
-            user.password = req.body.password;
+            if (user.password == req.body.oldPassword) {
+                user.password = req.body.newPassword;
+            } else {
+                res.status(401).json('The old password is wrong.')
+            }
 
             user.save()
-                .then(() => res.json('User updated'))
+                .then(() => res.status(200).json('Password updated'))
                 .catch(err => res.status(400).json('Error : ' + err))
         }).catch(err => res.status(400).json('Error : ' + err));
 });
 
 //Route used for updating the users's color
-router.route('/updateColor/').put((req, res) => {
+router.route('/updateColor').put((req, res) => {
     User.findById(req.body.id)
         .then(user => {
             user.color = req.body.color;
 
             user.save()
-                .then(() => res.json('User updated'))
+                .then(() => res.status(200).json('User updated'))
                 .catch(err => res.status(400).json('Error : ' + err))
         }).catch(err => res.status(400).json('Error : ' + err));
 });

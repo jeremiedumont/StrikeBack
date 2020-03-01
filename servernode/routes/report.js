@@ -4,7 +4,7 @@ let Report = require('../models/report.model');
 //Getting every reports in the DB
 router.route('/').get((req, res) => {
     Report.find()
-    .then(reports => res.json(reports))
+    .then(reports => res.status(200).json(reports))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -14,7 +14,7 @@ router.route('/add').put((req, res) =>{
     Report.count({postId: req.body.postId, type : req.body.type}, function (err, count){ 
         if(count>0){
             Report.findOneAndUpdate({postId : req.body.postId}, {$inc : {numberReportings : 1}})
-                .then(() => res.json('Report updated'))
+                .then(() => res.status(200).json('Report updated'))
                 .catch(err => res.status(400).json('Error: ' + err));
         }else{
             const postId = req.body.postId; 
@@ -31,15 +31,15 @@ router.route('/add').put((req, res) =>{
 
 //Getting reports concerning a post
 router.route('/findByPostId').get((req, res) => {
-    Report.findOne({postId : req.params.id})
-        .then(report => res.json(report))
+    Report.findOne({postId : req.query.id})
+        .then(report => res.status(200).json(report))
         .catch(err  => res.status(400).json('Error : ' + err));
 });
 
 //Deleting reports concerning a post
 router.route('/deleteByPostId').delete((req, res) => {
     Report.findOneAndDelete({postId : req.body.postId})
-        .then(() => res.json('Report deleted'))
+        .then(() => res.status(200).json('Report deleted'))
         .catch(err => res.status(400).json('Error : ' + err));
 });
 

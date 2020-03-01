@@ -4,7 +4,7 @@ const Remark = require('../models/remark.model')
 
 ////GET REQUESTS
 
-//http://localhost:5000/remarks/?id=5e500b489febd9351c7bdac1
+//http://localhost:5000/remarks/?id=5e500b859febd9351c7bdac2
 router.get('/', (req,res,next) => {
     Remark.findOne({ 
         _id: req.query.id 
@@ -37,15 +37,15 @@ router.get('/sorted/date', (req,res,next) => {
     .catch(err => res.status(400).json('Error:' + err))
 });
 
-//http://localhost:5000/remarks/sorted/heared?order=1&skip=0&number=4
-router.get('/sorted/heared', (req,res,next) => {
+//http://localhost:5000/remarks/sorted/heard?order=1&skip=0&number=4
+router.get('/sorted/heard', (req,res,next) => {
     const order = req.query.order; // -1 ou 1
     const skip = req.query.skip; // nombre de remarks renvoyes
     const number = req.query.number; // num de page a renvoyer
 
     Remark.find(
         {}        )
-        .sort({'heared': order})
+        .sort({'heard': order})
         .skip(skip*1)
         .limit(number*1)
     .then((remarks) => res.status(200).json(remarks))
@@ -58,8 +58,10 @@ router.get('/sorted/heared', (req,res,next) => {
 //http://localhost:5000/remarks/add
 router.route('/add').post((req, res) =>{
     const userId = req.body.userId; 
-    const content = req.body.content;
-    const newRemark = new Remark({ userId,content })
+    const title = req.body.title;
+    const text = req.body.text;
+    const image = req.body.image;
+    const newRemark = new Remark({ userId, title, text, image })
     newRemark.save()
     .then(() => res.status(200).json('Remark added.'))
     .catch(err => res.status(400).json('Error: ' + err));    
@@ -68,17 +70,17 @@ router.route('/add').post((req, res) =>{
 ////PUT REQUESTS
 
 //
-router.put('/heared', (req,res,next) => {
+router.put('/heard', (req,res,next) => {
     Remark.findOneAndUpdate(
     { 
         _id: req.query.id
     },
     {
-        $inc : {heared : 1}
+        $inc : {heard : 1}
     },
     {useFindAndModify:false} //to avoid deprecation warning
     )
-    .then(() => res.json('Remark heared one more time.'))
+    .then(() => res.status(200).json('Remark heard one more time.'))
     .catch(err => res.status(400).json('Error:' + err))
 });
 

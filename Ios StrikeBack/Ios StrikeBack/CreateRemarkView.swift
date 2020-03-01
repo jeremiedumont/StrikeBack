@@ -11,20 +11,38 @@ import SwiftUI
 struct CreateRemarkView: View {
     @ObservedObject private var remark : Remark = Remark(postId : "", userId : "useridqdhfjekfs", title : "", text : "", image : "", date : Date(), heard : 0)
      @Binding var isActive : Bool
+     @State private var showImagePicker : Bool = false
+     @State private var image : UIImage? = nil
+    
      var body: some View {
            NavigationView{
+            VStack{
+                
+                Button("Open Camera"){
+                    self.showImagePicker.toggle()
+                }.padding()
+                    .foregroundColor(Color.white)
+                    .background( Color.purple)
+                if(image != nil){
+                    Text("image selected")
+                    
+                }
                Form{
-                   Section(header: Text("title")){
+                Section(header: Text("title")){
                        TextField("title", text: $remark.title)
                    }
                    Section(header: Text("text")){
                     TextField("text", text: $remark.text)
                    }
-                   Section(header: Text("image")){
-                       TextField("image", text: $remark.image)
-                   }
+                   
                    Section{
                        Button(action:{
+                        if(self.image != nil){
+                            	
+                            //var rep = UIImagePNGRepresentation(image)
+                            //print(String(data : (self.image?.jpegData(compressionQuality: 0.8))!, encoding : .utf8))
+                            //self.remark.image = String(data : (self.image?.pngData())!, encoding : .utf8)!
+                        }
                         if(!(RemarkDAO.addRemark(rem: self.remark))){
                             print("erreur lors de l'ajout")
                         }
@@ -35,9 +53,12 @@ struct CreateRemarkView: View {
                        }
                    }
                }
-               
+            }.sheet(isPresented: self.$showImagePicker){
+                    PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
+            
            }
        }
+    }
 }
 
 /*

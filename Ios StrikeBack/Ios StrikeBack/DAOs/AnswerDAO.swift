@@ -10,7 +10,7 @@ import Foundation
 
 public class AnswerDAO {
     
-    let rootURL : String = "https://strike-back.herokuapp.com/answers/"
+    static let rootURL : String = "https://strike-back.herokuapp.com/answers/"
 
     //----------------------------------
     //---------- GET requests ----------
@@ -18,7 +18,7 @@ public class AnswerDAO {
 
     static func getSortedAnswersByDate(order : Int, skip : Int, number : Int) -> [Answer]{
         // Prepare URL
-        let preString = rooturl + "sorted/date"
+        let preString : String = AnswerDAO.rootURL + "sorted/date"
         let postString = "?order="+String(order)+"&skip="+String(skip)+"&number="+String(number)
         let url = URL(string: preString+postString)
         guard let requestUrl = url else { fatalError() }
@@ -57,7 +57,7 @@ public class AnswerDAO {
 
     static func getSortedAnswersByPertinency(order : Int, skip : Int, number : Int) -> [Answer]{
         // Prepare URL
-        let preString = rooturl + "sorted/heard"
+        let preString = AnswerDAO.rootURL + "sorted/heard"
         let postString = "?order="+String(order)+"&skip="+String(skip)+"&number="+String(number)
         let url = URL(string: preString+postString)
         guard let requestUrl = url else { fatalError() }
@@ -96,7 +96,7 @@ public class AnswerDAO {
 
     static func getAllUserAnswers(userId : String) -> [Answer] {
         // Prepare URL
-        let preString = rooturl + "findByUserId"
+        let preString = AnswerDAO.rootURL + "findByUserId"
         let postString = "?id="+String(userId)
         let url = URL(string: preString+postString)
         guard let requestUrl = url else { fatalError() }
@@ -135,7 +135,7 @@ public class AnswerDAO {
 
     static func getAnswer(answerId : String) -> Answer?{
         // Prepare URL
-        let preString = rooturl + ""
+        let preString = AnswerDAO.rootURL + ""
         let postString = "?id="+String(answerId)
         let url = URL(string: preString+postString)
         guard let requestUrl = url else { fatalError() }
@@ -145,7 +145,7 @@ public class AnswerDAO {
         let semaphore = DispatchSemaphore(value :0)
 
         // Perform HTTP Request
-        var res : [Answer] = []
+        var res : Answer? = nil
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 
                 // Check for Error
@@ -158,7 +158,7 @@ public class AnswerDAO {
                 if let data = data{
                     
                     do{
-                        res = try JSONDecoder().decode([Answer].self, from: data)
+                        res = try JSONDecoder().decode(Answer.self, from: data)
                         
                     }catch let error {
                         print(error)
@@ -178,7 +178,7 @@ public class AnswerDAO {
 
     static func addAnswer (rem : Answer) -> Bool{
         // Prepare URL
-        let url = URL(string: rooturl + "add")//ICI
+        let url = URL(string: UserDAO.rootURL + "add")//ICI
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
@@ -226,7 +226,7 @@ public class AnswerDAO {
 
     static func addUp(answerId : String) -> Bool {
         // Prepare URL
-        let preString = rooturl + "up"
+        let preString = UserDAO.rootURL + "up"
         let postString = "?id="+String(answerId)
         let url = URL(string: preString+postString)
 
@@ -264,7 +264,7 @@ public class AnswerDAO {
 
     static func addDown(answerId : String) -> Bool {
         // Prepare URL
-        let preString = rooturl + "down"
+        let preString = self.rootURL + "down"
         let postString = "?id="+String(answerId)
         let url = URL(string: preString+postString)
 
@@ -306,7 +306,7 @@ public class AnswerDAO {
     
     static func deleteAnswer(answerId : String) -> Bool{
         // Prepare URL
-        let url = URL(string: rooturl + "delete")
+        let url = URL(string: rootURL + "delete")
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)

@@ -145,7 +145,7 @@ public class RemarkDAO {
         let semaphore = DispatchSemaphore(value :0)
 
         // Perform HTTP Request
-        var res : [Remark] = []
+        var res : Remark? = nil
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 
                 // Check for Error
@@ -158,7 +158,7 @@ public class RemarkDAO {
                 if let data = data{
                     
                     do{
-                        res = try JSONDecoder().decode([Remark].self, from: data)
+                        res = try JSONDecoder().decode(Remark.self, from: data)
                         
                     }catch let error {
                         print(error)
@@ -195,7 +195,7 @@ public class RemarkDAO {
             print(error)
         }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
+        //print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
         // Perform HTTP Request
          let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -208,7 +208,7 @@ public class RemarkDAO {
                 
             if let data = data{
                 if let jsonString = String(data: data, encoding: .utf8){
-                    print(jsonString)
+                    //print(jsonString)
                 }
             }
             semaphore.signal()

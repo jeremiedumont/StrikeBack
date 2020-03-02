@@ -9,10 +9,17 @@
 import SwiftUI
 
 struct CreateRemarkView: View {
-    @ObservedObject private var remark : Remark = Remark(postId : "", userId : "useridqdhfjekfs", title : "", text : "", image : "", date : Date(), heard : 0)
+    @ObservedObject private var remark : Remark = Remark(postId : "", userId : "useridqdhfjekfs", title : "", text : "", image : UIImage(), date : Date(), heard : 0)
      @Binding var isActive : Bool
      @State private var showImagePicker : Bool = false
      @State private var image : UIImage? = nil
+     var imageData : Data?
+    
+    mutating func convertImage(){
+        if let image = image {
+            self.imageData = image.jpegData(compressionQuality: 0.1)
+        }
+    }
     
      var body: some View {
            NavigationView{
@@ -24,9 +31,14 @@ struct CreateRemarkView: View {
                     .foregroundColor(Color.white)
                     .background( Color.purple)
                 if(image != nil){
-                    Text("image selected")
+                    //self.convertImage()
+                    //self.imageData = image.jpegData(compressionQuality: 0.1)
+                    //Text((image!.jpegData(compressionQuality: 0.1)).base64EncodedString())
+                //Text("coucou")
+                        Image(uiImage: image!).resizable().scaledToFit()
                     
                 }
+                
                Form{
                 Section(header: Text("title")){
                        TextField("title", text: $remark.title)
@@ -37,8 +49,8 @@ struct CreateRemarkView: View {
                    
                    Section{
                        Button(action:{
-                        if(self.image != nil){
-                            	
+                        if let myimage = self.image{
+                            self.remark.image = myimage
                             //var rep = UIImagePNGRepresentation(image)
                             //print(String(data : (self.image?.jpegData(compressionQuality: 0.8))!, encoding : .utf8))
                             //self.remark.image = String(data : (self.image?.pngData())!, encoding : .utf8)!
@@ -54,7 +66,7 @@ struct CreateRemarkView: View {
                    }
                }
             }.sheet(isPresented: self.$showImagePicker){
-                    PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
+                PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
             
            }
        }

@@ -10,15 +10,15 @@ import Foundation
 
 public class UserDAO {
     
-    let rootURL : String = "https://strike-back.herokuapp.com/users/"
+    static let rootURL : String = "https://strike-back.herokuapp.com/users/"
 
     //----------------------------------
     //---------- POST requests ---------
     //----------------------------------
 
-    static func signup (pseudo : String, password : String, email : String, color : String) -> User?{
+    static func signup (pseudo : String, password : String, email : String, color : String) -> Bool{
         // Prepare URL
-        let url = URL(string: rooturl + "signup")
+        let url = URL(string: UserDAO.rootURL + "signup")
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)

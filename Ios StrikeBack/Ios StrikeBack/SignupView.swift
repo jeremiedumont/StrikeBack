@@ -15,15 +15,18 @@ struct SignupView: View {
     @State var pseudo : String
     @State var email : String
     @State var password :String
+    @State var password_conf :String
     var color : String = "#000000"
     var creationDate: Date = Date()
 
+    //init(pseudo : String, email : String, password : )
+    
     var body: some View {
    
                 VStack() {
                    
                     VStack(alignment: .center, spacing: 15) {
-                        TextField("Username", text: self.$email)
+                        TextField("Username", text: self.$pseudo)
                             .padding()
                             .background(Color.themeTextField)
                             .cornerRadius(20.0)
@@ -35,13 +38,13 @@ struct SignupView: View {
                         .cornerRadius(20.0)
                         .shadow(radius: 10.0, x: 20, y: 10)
                         
-                        SecureField("Password", text: self.$email)
+                        SecureField("Password", text: self.$password)
                         .padding()
                         .background(Color.themeTextField)
                         .cornerRadius(20.0)
                         .shadow(radius: 10.0, x: 20, y: 10)
                         
-                        SecureField("ConfirmPassword", text: self.$password)
+                        SecureField("ConfirmPassword", text: self.$password_conf)
                             .padding()
                             .background(Color.themeTextField)
                             .cornerRadius(20.0)
@@ -68,6 +71,7 @@ struct SignupView: View {
                     }.padding()
                     
                 }
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: Alignment.center)
                 .background(
                     LinearGradient(gradient: Gradient(colors: [.purple, .blue]), startPoint: .top, endPoint: .bottom)
                         .edgesIgnoringSafeArea(.all))

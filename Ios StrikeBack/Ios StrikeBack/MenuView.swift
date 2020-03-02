@@ -68,7 +68,7 @@ struct MenuView: View {
             }
             .padding(.top, 30)
             HStack {
-                NavigationLink(destination: SignupView(pseudo : "",email:"",password :"",color : "#000000", creationDate : Date())) {
+                NavigationLink(destination: SignupView(pseudo : "",email:"",password :"",password_conf : "", color : "#000000", creationDate : Date())) {
                     Image(systemName: "person")
                         .foregroundColor(.gray)
                         .imageScale(.large)

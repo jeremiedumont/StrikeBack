@@ -11,6 +11,7 @@ import SwiftUI
 
 struct LoginView: View {
    
+    @Environment(\.presentationMode) var presentation
     @State private var email = ""
     @State private var password = ""
     
@@ -33,7 +34,14 @@ struct LoginView: View {
                     .shadow(radius: 10.0, x: 20, y: 10)
             }.padding([.leading, .trailing], 27.5)
             
-            Button(action: {}) {
+            Button(action: {
+                if(!(UserDAO.login(pseudo: self.email, password: self.password))){
+                    print("Error ! Login impossible")
+                }else{
+                    print("You are logged in")
+                    self.presentation.wrappedValue.dismiss()
+                }
+            }) {
                 Text("Sign In")
                     .font(.headline)
                     .foregroundColor(.white)

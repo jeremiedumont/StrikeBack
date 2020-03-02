@@ -12,12 +12,14 @@ struct SignupView: View {
     
     /*@ObservedObject private var user : User = User(pseudo: "", color: "#000000", email: "", creationDate: Date())
     @Binding var confirm : String = "" */
+    @Environment(\.presentationMode) var presentation
     @State var pseudo : String
     @State var email : String
     @State var password :String
     @State var password_conf :String
-    var color : String = "#000000"
-    var creationDate: Date = Date()
+    @Binding var showMenu : Bool
+    var color : String
+    var creationDate: Date
 
     //init(pseudo : String, email : String, password : )
     
@@ -26,6 +28,7 @@ struct SignupView: View {
                 VStack() {
                    
                     VStack(alignment: .center, spacing: 15) {
+        
                         TextField("Username", text: self.$pseudo)
                             .padding()
                             .background(Color.themeTextField)
@@ -51,8 +54,23 @@ struct SignupView: View {
                             .shadow(radius: 10.0, x: 20, y: 10)
                     }.padding([.leading, .trailing], 27.5)
                     
-                    Button(action: {}) {
-                        Text("Sign In")
+        
+                    Button(action: {
+                        if(self.password == self.password_conf && self.password.count >= 6 && !(self.password.contains(" "))){
+                            let isSignUp: Bool = UserDAO.signup(pseudo: self.pseudo, password: self.password, email: self.email, color: self.color)
+                            if isSignUp {
+                                print("Account has been signed up.")
+                                
+                                self.presentation.wrappedValue.dismiss()
+                                
+                            } else {
+                                print("Not signed up.")
+                            }
+                        } else {
+                            print("Passwords don't match")
+                        }
+                    }) {
+                        Text("Sign Up")
                             .font(.headline)
                             .foregroundColor(.white)
                             .padding()

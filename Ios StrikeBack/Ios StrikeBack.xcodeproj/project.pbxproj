@@ -12,8 +12,9 @@
 		C947D985240BD82E0058DA9D /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D984240BD82E0058DA9D /* MenuView.swift */; };
 		C947D987240BE5E90058DA9D /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D986240BE5E90058DA9D /* UserDAO.swift */; };
 		C947D989240BE6B20058DA9D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D988240BE6B20058DA9D /* User.swift */; };
-		C947D98B240BEF7E0058DA9D /* MyRemarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D98A240BEF7E0058DA9D /* MyRemarks.swift */; };
 		C95D27F9240CEB3500F670FE /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D27F8240CEB3500F670FE /* Answer.swift */; };
+		C980E2B4240D6C74002FE56A /* MyActivities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E2B3240D6C74002FE56A /* MyActivities.swift */; };
+		C980E2B6240D71CD002FE56A /* AnswerSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E2B5240D71CD002FE56A /* AnswerSet.swift */; };
 		C98E1DF2240960F3006457E1 /* CreateRemarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E1DF1240960F3006457E1 /* CreateRemarkView.swift */; };
 		C98FAD0F240ADDE0007E8D84 /* AnswerDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98FAD0E240ADDE0007E8D84 /* AnswerDAO.swift */; };
 		C9A109DA240982F500D86A44 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A109D9240982F500D86A44 /* ImagePicker.swift */; };
@@ -55,8 +56,9 @@
 		C947D984240BD82E0058DA9D /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		C947D986240BE5E90058DA9D /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		C947D988240BE6B20058DA9D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		C947D98A240BEF7E0058DA9D /* MyRemarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRemarks.swift; sourceTree = "<group>"; };
 		C95D27F8240CEB3500F670FE /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
+		C980E2B3240D6C74002FE56A /* MyActivities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivities.swift; sourceTree = "<group>"; };
+		C980E2B5240D71CD002FE56A /* AnswerSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerSet.swift; sourceTree = "<group>"; };
 		C98E1DF1240960F3006457E1 /* CreateRemarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRemarkView.swift; sourceTree = "<group>"; };
 		C98FAD0E240ADDE0007E8D84 /* AnswerDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDAO.swift; sourceTree = "<group>"; };
 		C9A109D9240982F500D86A44 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -137,12 +139,14 @@
 			children = (
 				C98F48B3240AD662001CE9F1 /* DAOs */,
 				C9A109DD24098B8900D86A44 /* PhotoCaptureView.swift */,
+				C980E2B3240D6C74002FE56A /* MyActivities.swift */,
 				C947D984240BD82E0058DA9D /* MenuView.swift */,
 				C9A109DB24098B4200D86A44 /* ImagePickerCordinator.swift */,
 				C9A109D9240982F500D86A44 /* ImagePicker.swift */,
 				C98E1DF1240960F3006457E1 /* CreateRemarkView.swift */,
 				C9133892240C2352004E1F37 /* LoginView.swift */,
 				C9C025A924082313003C373B /* RemarkSet.swift */,
+				C980E2B5240D71CD002FE56A /* AnswerSet.swift */,
 				C9C025A124080D55003C373B /* Remark.swift */,
 				C95D27F8240CEB3500F670FE /* Answer.swift */,
 				C9C0259824080B0D003C373B /* JsonManager.swift */,
@@ -154,7 +158,6 @@
 				C9C0259B24080B0D003C373B /* PersonSet.swift */,
 				C9C0259424080AD4003C373B /* CreateView.swift */,
 				C9C0259324080AD4003C373B /* DetailView.swift */,
-				C947D98A240BEF7E0058DA9D /* MyRemarks.swift */,
 				C9C0257524080434003C373B /* ContentView.swift */,
 				C9C0256E24080434003C373B /* AppDelegate.swift */,
 				C9C0257024080434003C373B /* SceneDelegate.swift */,
@@ -289,11 +292,11 @@
 				C9C025A82408187D003C373B /* RemarkDAO.swift in Sources */,
 				C9C0256F24080434003C373B /* AppDelegate.swift in Sources */,
 				C98FAD0F240ADDE0007E8D84 /* AnswerDAO.swift in Sources */,
-				C947D98B240BEF7E0058DA9D /* MyRemarks.swift in Sources */,
 				C947D987240BE5E90058DA9D /* UserDAO.swift in Sources */,
 				C947D985240BD82E0058DA9D /* MenuView.swift in Sources */,
 				C9133893240C2352004E1F37 /* LoginView.swift in Sources */,
 				C95D27F9240CEB3500F670FE /* Answer.swift in Sources */,
+				C980E2B4240D6C74002FE56A /* MyActivities.swift in Sources */,
 				C9C0259D24080B0D003C373B /* JsonManager.swift in Sources */,
 				C9C0259C24080B0D003C373B /* PersonJson.swift in Sources */,
 				C98E1DF2240960F3006457E1 /* CreateRemarkView.swift in Sources */,
@@ -304,6 +307,7 @@
 				C9C025A224080D55003C373B /* Remark.swift in Sources */,
 				C9C0259524080AD5003C373B /* DetailView.swift in Sources */,
 				C9C0259E24080B0D003C373B /* Person.swift in Sources */,
+				C980E2B6240D71CD002FE56A /* AnswerSet.swift in Sources */,
 				C9A109DE24098B8900D86A44 /* PhotoCaptureView.swift in Sources */,
 				C9A109DC24098B4200D86A44 /* ImagePickerCordinator.swift in Sources */,
 				C9A109DA240982F500D86A44 /* ImagePicker.swift in Sources */,

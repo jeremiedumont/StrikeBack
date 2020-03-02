@@ -6,6 +6,7 @@
 //  Copyright © 2020 user164174. All rights reserved.
 //
 
+import SwiftUI
 import Foundation
 
 public class UserDAO {
@@ -60,9 +61,51 @@ public class UserDAO {
         return res
     }
     
-    static func login (pseudo : String, password : String) -> User?{
-
-        return nil
+    static func login (pseudo : String, password : String) -> Bool{
+        // Prepare URL
+        let url = URL(string: UserDAO.rootURL + "login")
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "POST"
+        
+        let semaphore = DispatchSemaphore(value :0)
+        var res : Bool = false
+        //----------------------------------------------------------
+        //___________verifier si ca marche de cette facon___________
+        //__________________________________________________________
+        let json: [String: Any] = ["pseudo": pseudo,"password": password]
+        // Set HTTP Request Body
+        do {
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json)
+        } catch let error {
+            print(error)
+        }
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
+        // Perform HTTP Request
+         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+             // Check for Error
+                           if let error = error {
+                               print("Error took place \(error)")
+                               return
+                           }
+                       
+                           // Convert HTTP Response Data to a String
+                           if let data = data{
+                               
+                               do{
+                                   (UIApplication.shared.delegate as! AppDelegate).currentUser = try JSONDecoder().decode(User.self, from: data)
+                                   res = true
+                               }catch let error {
+                                   print(error)
+                               }
+                           }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        return res
     }
     
     //----------------------------------

@@ -22,14 +22,16 @@ class User : ObservableObject, Identifiable, Decodable{
      @Published var pseudo : String
      @Published var color : String
      @Published var email : String
+     @Published var userId : String
      //var password : String
     //var admin : Bool
     var creationDate: Date
-    init(pseudo : String, color : String, email : String, creationDate : Date){
+    init(pseudo : String, color : String, email : String, creationDate : Date, userId : String){
         self.pseudo = pseudo
         self.color = color
         self.email = email
         self.creationDate = creationDate
+        self.userId = userId
     }
     
    
@@ -39,7 +41,7 @@ class User : ObservableObject, Identifiable, Decodable{
        case color = "color"
        case email = "email"
        case creationDate = "creationDate"
-        
+       case userId = "_id"
         
     }
     
@@ -50,7 +52,7 @@ class User : ObservableObject, Identifiable, Decodable{
         self.color = try container.decode(String.self, forKey: .color)
         self.email = try container.decode(String.self, forKey: .email)
         let isodate = try container.decode(String.self, forKey: .creationDate)
-        
+        self.userId = try container.decode(String.self, forKey: .userId)
         let dateF = DateFormatter()
         dateF.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         

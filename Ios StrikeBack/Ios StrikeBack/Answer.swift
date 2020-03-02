@@ -16,8 +16,9 @@ class Answer : ObservableObject, Identifiable, Codable{
     @Published var downs : Int
     @Published var date : Date
     @Published var pertinency : Int
+    @Published var answerId : String
    
-    init(remarkId : String, userId : String, downs : Int, content : String, ups : Int, date : Date, pertinency : Int){
+    init(remarkId : String, userId : String, downs : Int, content : String, ups : Int, date : Date, pertinency : Int, answerId : String){
         self.remarkId = remarkId
         self.userId = userId
         self.downs = downs
@@ -25,6 +26,7 @@ class Answer : ObservableObject, Identifiable, Codable{
         self.ups = ups
         self.date = date
         self.pertinency = pertinency
+        self.answerId = answerId
     }
     
  
@@ -36,8 +38,9 @@ class Answer : ObservableObject, Identifiable, Codable{
         case content = "content"
         case ups = "ups"
         case date = "date"
-        case remarkId = "_id"
+        case remarkId = "remarkId"
         case pertinency = "pertinency"
+        case answerId = "_id"
     }
     
     
@@ -50,7 +53,7 @@ class Answer : ObservableObject, Identifiable, Codable{
         self.ups = try container.decode(Int.self, forKey: .ups)
         let isodate : String = try container.decode(String.self, forKey: .date)
         self.pertinency = try container.decode(Int.self, forKey: .pertinency)
-        
+        self.answerId = try container.decode(String.self, forKey: .answerId)
         
         let dateF = DateFormatter()
         dateF.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -66,6 +69,7 @@ class Answer : ObservableObject, Identifiable, Codable{
         try container.encode(content, forKey: .content)
         try container.encode(ups, forKey: .ups)
         try container.encode(remarkId, forKey: .remarkId)
+        try container.encode(answerId, forKey: .answerId)//Useless but needed
     }
     
 }

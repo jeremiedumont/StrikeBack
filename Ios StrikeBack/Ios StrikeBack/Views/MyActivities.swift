@@ -39,29 +39,32 @@ struct MyActivities : View{
            }
            .pickerStyle(SegmentedPickerStyle())
          
-        //In Remarks tab
-        if(selectedTab==0){
-            List (myremarks.tabRemark){ remark in
-                //NavigationLink(destination : DetailView(person: person)){
-                Text(remark.text)
-                //}
-            }
-        }
-        //In Answers tab
-        else{
-            ForEach(0 ..< myanswers.count){ index in
-                //NavigationLink(destination : DetailView(person: person)){
-                VStack{
-                    Text(self.myanswers[index].1).font(.system(size: 30))
-                    Text(self.myanswers[index].0)
+            //In Remarks tab
+            if(selectedTab==0){
+                List (myremarks.tabRemark){ remark in
+                    //NavigationLink(destination : DetailView(person: person)){
+                    Text(remark.text)
+                    //}
                 }
-                .background(Color.gray)
-                .padding(10)
-                
-                //}
             }
-            
+            //In Answers tab
+            else{
+                ForEach(0 ..< myanswers.count){ index in
+                    //NavigationLink(destination : DetailView(person: person)){
+                    VStack{
+                        Text(self.myanswers[index].1)
+                            .font(.title)
+                        Text(self.myanswers[index].0)
+                            .font(.subheadline)
+                            .foregroundColor(.orange)
+                    }
+                    .background(Color.gray)
+                    .padding(10)
+                    
+                    //}
+                }
+                Spacer()
+            }
         }
-       }
     }
 }

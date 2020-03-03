@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    //var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var showMenu = false
     //@State var isConnected = false
     var body: some View {
@@ -52,6 +52,7 @@ struct ContentView: View {
 }
 
 struct MainView: View {
+    var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var isActive = false
     var mytab = RemarkSet(tab : RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10))
     
@@ -59,13 +60,15 @@ struct MainView: View {
     var body: some View {
         NavigationView{
             VStack{
-                
-                Button(action : {
-                    self.isActive.toggle()
-                }){
-                    Text("New")
-                }.sheet(isPresented : self.$isActive){
-                    CreateRemarkView(isActive : self.$isActive)
+                if( currentUser != nil){
+                    Button(action : {
+                        self.isActive.toggle()
+                    }){
+                        Text("New")
+                    }.sheet(isPresented : self.$isActive){
+                        CreateRemarkView(isActive : self.$isActive)
+                    }
+                 
                 }
                 /*
                 NavigationLink(destination : CreateView()){
@@ -76,9 +79,9 @@ struct MainView: View {
                 
                 
                 List (mytab.tabRemark){ remark in
-                    //NavigationLink(destination : DetailView(person: person)){
-                    Text(remark.text)
-                    //}
+                    NavigationLink(destination : RemarkDetailsView(remark: remark)){
+                        Text(remark.text)
+                    }
                 }
                 
                 

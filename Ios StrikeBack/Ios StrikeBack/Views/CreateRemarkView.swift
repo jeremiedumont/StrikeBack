@@ -9,16 +9,21 @@
 import SwiftUI
 
 struct CreateRemarkView: View {
-    @ObservedObject private var remark : Remark = Remark(postId : "", userId : "useridqdhfjekfs", title : "", text : "", image : UIImage(), date : Date(), heard : 0)
+    @ObservedObject private var remark : Remark = Remark(postId : "", userId : "", title : "", text : "", image : UIImage(), date : Date(), heard : 0)
      @Binding var isActive : Bool
      @State private var showImagePicker : Bool = false
      @State private var image : UIImage? = nil
      var imageData : Data?
+     var user = (UIApplication.shared.delegate as! AppDelegate).currentUser
     
     mutating func convertImage(){
         if let image = image {
             self.imageData = image.jpegData(compressionQuality: 0.1)
         }
+        if( user != nil){
+            remark.userId = user!.userId
+        }
+        
     }
     
      var body: some View {

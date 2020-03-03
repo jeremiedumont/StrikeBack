@@ -108,6 +108,45 @@ public class UserDAO {
         return res
     }
     
+    static func getUserById(userId : String) -> User?{
+        // Prepare URL
+        let preString = UserDAO.rootURL + "findById"
+        let postString = "?id="+String(userId)
+        let url = URL(string: preString+postString)
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        let semaphore = DispatchSemaphore(value :0)
+
+        // Perform HTTP Request
+        var res : User? = nil
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+            
+                // Convert HTTP Response Data to a String
+                if let data = data{
+                    
+                    do{
+                        res = try JSONDecoder().decode(User.self, from: data)
+                        
+                    }catch let error {
+                        print(error)
+                    }
+                }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
+    
     //----------------------------------
     //---------- PUT requests ----------
     //----------------------------------

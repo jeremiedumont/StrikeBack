@@ -132,6 +132,45 @@ public class AnswerDAO {
         
         return res
     }
+    
+    static func getAnswersByRemarkId(remarkId : String) -> [Answer] {
+        // Prepare URL
+        let preString = AnswerDAO.rootURL + "findByRemark"
+        let postString = "?id="+String(remarkId)
+        let url = URL(string: preString+postString)
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        let semaphore = DispatchSemaphore(value :0)
+
+        // Perform HTTP Request
+        var res : [Answer] = []
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+            
+                // Convert HTTP Response Data to a String
+                if let data = data{
+                    
+                    do{
+                        res = try JSONDecoder().decode([Answer].self, from: data)
+                        
+                    }catch let error {
+                        print(error)
+                    }
+                }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        
+        return res
+    }
 
     static func getAnswer(answerId : String) -> Answer?{
         // Prepare URL
@@ -176,7 +215,7 @@ public class AnswerDAO {
     //---------- POST requests ---------
     //----------------------------------
 
-    static func addAnswer (rem : Answer) -> Bool{
+    static func addAnswer (ans : Answer) -> Bool{
         // Prepare URL
         let url = URL(string: UserDAO.rootURL + "add")//ICI
         guard let requestUrl = url else { fatalError() }
@@ -189,7 +228,7 @@ public class AnswerDAO {
         do{
             //try  print(JSONSerialization.jsonObject(with: JSONEncoder().encode(rem), options: []))
             //let json = try JSONSerialization.jsonObject(with: JSONEncoder().encode(rem), options: [])
-            request.httpBody = try JSONEncoder().encode(rem)
+            request.httpBody = try JSONEncoder().encode(ans)
             
         }catch let error {
             print(error)

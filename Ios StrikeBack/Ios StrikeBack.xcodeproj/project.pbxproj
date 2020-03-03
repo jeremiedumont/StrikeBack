@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B709DED3240E98BC00650401 /* ImagePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709DED2240E98BC00650401 /* ImagePost.swift */; };
+		B709DED5240E9A9500650401 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709DED4240E9A9500650401 /* AnswerView.swift */; };
 		C9133891240C1D89004E1F37 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133890240C1D89004E1F37 /* SignupView.swift */; };
 		C9133893240C2352004E1F37 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133892240C2352004E1F37 /* LoginView.swift */; };
 		C92708EB240E90B6007B6625 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = C92708EA240E90B6007B6625 /* SwiftyJSON */; };
@@ -68,6 +70,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B709DED2240E98BC00650401 /* ImagePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePost.swift; sourceTree = "<group>"; };
+		B709DED4240E9A9500650401 /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
 		C9133890240C1D89004E1F37 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		C9133892240C2352004E1F37 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C92708EC240E90D6007B6625 /* ImagePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePost.swift; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 				C98E1DF1240960F3006457E1 /* CreateRemarkView.swift */,
 				C9133890240C1D89004E1F37 /* SignupView.swift */,
 				C950D1CF240E57A600B5E823 /* RemarkDetailsView.swift */,
+				B709DED4240E9A9500650401 /* AnswerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 				C9C0257224080434003C373B /* Ios_StrikeBack.xcdatamodeld */,
 				C950D1B6240E4BDE00B5E823 /* Old */,
 				C9C0257924080436003C373B /* Preview Content */,
+				B709DED2240E98BC00650401 /* ImagePost.swift */,
 			);
 			path = "Ios StrikeBack";
 			sourceTree = "<group>";
@@ -347,6 +353,7 @@
 			files = (
 				C9C025A82408187D003C373B /* RemarkDAO.swift in Sources */,
 				C9C0256F24080434003C373B /* AppDelegate.swift in Sources */,
+				B709DED5240E9A9500650401 /* AnswerView.swift in Sources */,
 				C98FAD0F240ADDE0007E8D84 /* AnswerDAO.swift in Sources */,
 				C947D987240BE5E90058DA9D /* UserDAO.swift in Sources */,
 				C947D985240BD82E0058DA9D /* MenuView.swift in Sources */,
@@ -356,6 +363,7 @@
 				C9C0259D24080B0D003C373B /* JsonManager.swift in Sources */,
 				C9C0259C24080B0D003C373B /* PersonJson.swift in Sources */,
 				C98E1DF2240960F3006457E1 /* CreateRemarkView.swift in Sources */,
+				B709DED3240E98BC00650401 /* ImagePost.swift in Sources */,
 				C9C025AA24082313003C373B /* RemarkSet.swift in Sources */,
 				C9C0257124080434003C373B /* SceneDelegate.swift in Sources */,
 				C9C0257624080434003C373B /* ContentView.swift in Sources */,

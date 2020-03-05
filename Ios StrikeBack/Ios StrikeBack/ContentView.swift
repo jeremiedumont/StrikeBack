@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    //var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var showMenu = false
-    @State var isConnected = false
+    //@State var isConnected = false
     var body: some View {
         
         let drag = DragGesture()
@@ -25,18 +25,18 @@ struct ContentView: View {
         return NavigationView {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    MainView(showMenu: self.$showMenu)
+                    MainView()
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .disabled(self.showMenu ? true : false)
                     if self.showMenu {
-                        MenuView()
+                        MenuView(showMenu : self.$showMenu)
                             .frame(width: geometry.size.width/2)
                             .transition(.move(edge: .leading))
                     }
                 }
                     .gesture(drag)
             }
-                .navigationBarTitle("Side Menu", displayMode: .inline)
+                .navigationBarTitle("Accueil", displayMode: .inline)
                 .navigationBarItems(leading: (
                     Button(action: {
                         withAnimation {
@@ -52,20 +52,23 @@ struct ContentView: View {
 }
 
 struct MainView: View {
+    var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var isActive = false
     var mytab = RemarkSet(tab : RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10))
-    @Binding var showMenu: Bool
+    
     
     var body: some View {
         NavigationView{
             VStack{
-                
-                Button(action : {
-                    self.isActive.toggle()
-                }){
-                    Text("New")
-                }.sheet(isPresented : self.$isActive){
-                    CreateRemarkView(isActive : self.$isActive)
+                if( currentUser != nil){
+                    Button(action : {
+                        self.isActive.toggle()
+                    }){
+                        Text("New")
+                    }.sheet(isPresented : self.$isActive){
+                        CreateRemarkView(isActive : self.$isActive)
+                    }
+                 
                 }
                 /*
                 NavigationLink(destination : CreateView()){
@@ -76,9 +79,9 @@ struct MainView: View {
                 
                 
                 List (mytab.tabRemark){ remark in
-                    //NavigationLink(destination : DetailView(person: person)){
-                    Text(remark.text)
-                    //}
+                    NavigationLink(destination : RemarkDetailsView(remark: remark)){
+                        Text(remark.text)
+                    }
                 }
                 
                 
@@ -87,11 +90,7 @@ struct MainView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+
 /*struct MainView: View {
     @State var isActive = false
     var mytab = RemarkSet(tab : RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10))

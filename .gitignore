@@ -1,3 +1,7 @@
 #SERVER
 servernode/.env
 servernode/node_modules
+servernode/config.js
+
+#REACT
+node_modules

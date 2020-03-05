@@ -1,9 +1,28 @@
 const router = require('express').Router();
 let User = require('../models/user.model');
 
+//
 router.route('/').get((req, res) => {
     User.find()
     .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//http://localhost:5000/users/findById?id=5e568d0d0ee9a81b14264091
+router.route('/findById').get((req, res) => {
+    User.findOne({ 
+        _id: req.query.id 
+    })
+    .then(user => res.json(
+        {
+            "_id": user._id,
+            "pseudo": user.pseudo,
+            "admin": user.admin,
+            "email": user.email, 
+            "creationDate": user.creationDate,
+            "color": user.color
+        }
+    ))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

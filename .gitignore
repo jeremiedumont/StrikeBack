@@ -2,8 +2,8 @@
 servernode/.env
 servernode/node_modules
 servernode/config.js
-Ios StrikeBack/Ios StrikeBackStrikeBack.xcodeproj
-Ios StrikeBack/Pods
+Ios\ StrikeBack/Ios\ StrikeBackStrikeBack.xcodeproj
+Ios\ StrikeBack/Pods
 #REACT
 node_modules
 

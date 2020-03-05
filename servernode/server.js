@@ -9,6 +9,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
 //ROUTE racine
 app.get('/', (req,res) => {
     res.send('Welcome to Strike-Back, please use a proper URL to continue');
@@ -27,6 +28,13 @@ const userRouter = require('./routes/user');
 const reportRouter = require('./routes/report');
 //const notificationRouter = require('./routes/notification');
 
+app.use('',function (req,res,next) {
+    console.log("-----BODY-----")
+    console.log(req.body)
+    console.log("-----QUERY-----")
+    console.log(req.query)
+    next();
+});
 app.use('/answers', answerRouter);
 app.use('/remarks', remarkRouter);
 app.use('/users', userRouter);

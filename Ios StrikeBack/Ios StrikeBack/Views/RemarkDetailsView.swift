@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct RemarkDetailsView: View {
+    let testColor = UIColor(red: 0.5, green: 0.4, blue: 0.6, alpha: 1)
     var remark: Remark!
     var mytab : AnswerSet
     let formatter = DateFormatter()
@@ -41,32 +42,35 @@ struct RemarkDetailsView: View {
                 //auteur et date
                     HStack{
                         Text("Written by")
-                        Text(UserDAO.getUserById(userId : remark.userId)!.pseudo).fontWeight(.light)
+                            .font(.system(size: 15))
+                        Text(UserDAO.getUserById(userId : remark.userId)!.pseudo)
+                            .fontWeight(.light)
+                            .foregroundColor(Color(testColor))
+                            .font(.system(size: 15))
                         Spacer()
-                        Text(self.formatter.string(from :remark.date)).italic()
+                        Text(self.formatter.string(from :remark.date))
+                            .italic()
+                            .font(.system(size: 15))
                     }
                     //TEXT et titre
                     VStack{
-                        Text(remark.title).bold()
+                        Text(remark.title)
+                            .bold()
                             .font(.title)
+                            .foregroundColor(Color(.blue))
                         Text(remark.text)
                     }
                     
                 }.padding(10)
                 .border(Color.black, width: 3)
                 List (mytab.tabAnswer){ answer in
-                    VStack{
-                        Text(answer.content)
-                       
-                        HStack{
-                            Text(UserDAO.getUserById(userId : answer.userId)!.pseudo)
-                            Text(self.formatter.string(from: answer.date))
-                        }
-                    }.padding(10)
-                    .border(Color.black, width: 1)
+                    AnswerView(answer: answer)
+                    .padding()
                     
                 }                // LIST DES REPONSES
-            .listStyle(GroupedListStyle())
+                .listStyle(PlainListStyle())
+                
+                
             }
             //si connecté
             if(user != nil){

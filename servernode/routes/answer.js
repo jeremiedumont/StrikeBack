@@ -13,6 +13,15 @@ router.get('/', (req,res,next) => {
     .catch(err => res.status(400).json('Error:' + err))
 });
 
+//
+router.get('/findByRemark', (req,res,next) => {
+    Answer.find({ 
+        remarkId: req.query.id 
+    })
+    .then((answers) => res.status(200).json(answers))
+    .catch(err => res.status(400).json('Error:' + err))
+});
+
 //http://localhost:5000/answers/findByUserId?id=5e500b859febd9351c7bdac2
 router.get('/findByUserId', (req,res,next) => {
     Answer.find({ 

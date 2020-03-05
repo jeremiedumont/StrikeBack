@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		86D4C856CF013E26A5442FFF /* Pods_Ios_StrikeBack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3004F4A6AB58E4DA780D1757 /* Pods_Ios_StrikeBack.framework */; };
+		C90C6AC324119266003D60C6 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90C6AC224119266003D60C6 /* AnswerView.swift */; };
 		C9133891240C1D89004E1F37 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133890240C1D89004E1F37 /* SignupView.swift */; };
 		C9133893240C2352004E1F37 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133892240C2352004E1F37 /* LoginView.swift */; };
 		C92708EB240E90B6007B6625 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = C92708EA240E90B6007B6625 /* SwiftyJSON */; };
@@ -58,6 +59,7 @@
 		3004F4A6AB58E4DA780D1757 /* Pods_Ios_StrikeBack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ios_StrikeBack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E7DCCEA465DD8D86BC0C0A3 /* Pods-Ios StrikeBack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ios StrikeBack.release.xcconfig"; path = "Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack.release.xcconfig"; sourceTree = "<group>"; };
 		BF818770FCF6B231DA5760D4 /* Pods-Ios StrikeBack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ios StrikeBack.debug.xcconfig"; path = "Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack.debug.xcconfig"; sourceTree = "<group>"; };
+		C90C6AC224119266003D60C6 /* AnswerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnswerView.swift; path = "../../../../../Test/StrikeBack/Ios StrikeBack/Ios StrikeBack/Views/AnswerView.swift"; sourceTree = "<group>"; };
 		C9133890240C1D89004E1F37 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		C9133892240C2352004E1F37 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C947D984240BD82E0058DA9D /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				C9C025A72408187D003C373B /* RemarkDAO.swift */,
+				C90C6AC224119266003D60C6 /* AnswerView.swift */,
 				C98FAD0E240ADDE0007E8D84 /* AnswerDAO.swift */,
 				C947D986240BE5E90058DA9D /* UserDAO.swift */,
 			);
@@ -391,6 +394,7 @@
 			files = (
 				C9C025A82408187D003C373B /* RemarkDAO.swift in Sources */,
 				C9C0256F24080434003C373B /* AppDelegate.swift in Sources */,
+				C90C6AC324119266003D60C6 /* AnswerView.swift in Sources */,
 				C98FAD0F240ADDE0007E8D84 /* AnswerDAO.swift in Sources */,
 				C947D987240BE5E90058DA9D /* UserDAO.swift in Sources */,
 				C947D985240BD82E0058DA9D /* MenuView.swift in Sources */,

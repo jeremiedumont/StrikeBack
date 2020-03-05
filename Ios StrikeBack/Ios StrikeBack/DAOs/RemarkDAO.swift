@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 public class RemarkDAO {
 
@@ -177,6 +178,7 @@ public class RemarkDAO {
     //----------------------------------
 
     static func addRemark (rem : Remark) -> Bool{
+        var remId : String? = nil
         // Prepare URL
         let url = URL(string: "https://strike-back.herokuapp.com/remarks/add")//ICI
         guard let requestUrl = url else { fatalError() }
@@ -205,16 +207,91 @@ public class RemarkDAO {
                 
                 let resp = response as? HTTPURLResponse
                 res = (resp?.statusCode == 200)
-                
             if let data = data{
                 if let jsonString = String(data: data, encoding: .utf8){
-                    //print(jsonString)
+                    print(jsonString)
+                    
+                    remId = String(jsonString.dropFirst().dropLast())
+                    print("new string : " + remId!)
                 }
             }
             semaphore.signal()
         }
         task.resume()
         semaphore.wait()
+        
+        if let image = rem.image{
+            guard let imagedata = image.jpegData(compressionQuality: 0.1) else{
+                print("Error while getting data from image")
+                return false
+            }
+            let filename = UUID.init().uuidString
+            let uploadref = Storage.storage().reference(withPath: "/images/\(filename).jpeg")
+            
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            print("POINT1")
+            
+            
+            //uploadtaskt necessary to manage life cycle but not used for now
+            let uploadTask = uploadref.putData(imagedata, metadata: metadata){ metadata, error in
+              //not used but possible
+                guard let metadata = metadata else {
+                print("POINT2")
+                return
+              }
+                print("POINT3")
+ 
+              uploadref.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    print("POINT4")
+                  return
+                }
+                print(downloadURL)
+                print("POINT5")
+                
+                let url = URL(string: "https://strike-back.herokuapp.com/remarks/image")
+                guard let requestUrl = url else { fatalError() }
+                // Prepare URL Request Object
+                var request = URLRequest(url: requestUrl)
+                request.httpMethod = "PUT"
+                guard let remId = remId else{fatalError()}
+                let json: [String: Any] = ["id": remId,"url": downloadURL.absoluteString ]
+                // Set HTTP Request Body
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: json)
+                } catch let error {
+                    print(error)
+                }
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
+                // Perform HTTP Request
+                 let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    if let error = error {
+                        print("Error took place \(error)")
+                        return
+                    }
+                        
+                        let resp = response as? HTTPURLResponse
+                        res = (resp?.statusCode == 200)
+                        
+                    if let data = data{
+                        if let jsonString = String(data: data, encoding: .utf8){
+                            print(jsonString)
+                        }
+                    }
+                   
+                }
+                task.resume()
+              }
+
+            
+            }
+        }else{
+            print("imagestring value is nil")
+        }
+        print("Waiting for upload...")
+        
         return res
     }
 

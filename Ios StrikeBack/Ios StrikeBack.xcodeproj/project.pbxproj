@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86D4C856CF013E26A5442FFF /* Pods_Ios_StrikeBack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3004F4A6AB58E4DA780D1757 /* Pods_Ios_StrikeBack.framework */; };
 		C9133891240C1D89004E1F37 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133890240C1D89004E1F37 /* SignupView.swift */; };
 		C9133893240C2352004E1F37 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133892240C2352004E1F37 /* LoginView.swift */; };
 		C92708EB240E90B6007B6625 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = C92708EA240E90B6007B6625 /* SwiftyJSON */; };
-		C92708ED240E90D6007B6625 /* ImagePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708EC240E90D6007B6625 /* ImagePost.swift */; };
 		C947D985240BD82E0058DA9D /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D984240BD82E0058DA9D /* MenuView.swift */; };
 		C947D987240BE5E90058DA9D /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D986240BE5E90058DA9D /* UserDAO.swift */; };
 		C947D989240BE6B20058DA9D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D988240BE6B20058DA9D /* User.swift */; };
@@ -18,6 +18,7 @@
 		C95D27F9240CEB3500F670FE /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D27F8240CEB3500F670FE /* Answer.swift */; };
 		C980E2B4240D6C74002FE56A /* MyActivities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E2B3240D6C74002FE56A /* MyActivities.swift */; };
 		C980E2B6240D71CD002FE56A /* AnswerSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E2B5240D71CD002FE56A /* AnswerSet.swift */; };
+		C985DC14240FCEE000E4F34C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C985DC13240FCEE000E4F34C /* GoogleService-Info.plist */; };
 		C98E1DF2240960F3006457E1 /* CreateRemarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E1DF1240960F3006457E1 /* CreateRemarkView.swift */; };
 		C98FAD0F240ADDE0007E8D84 /* AnswerDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98FAD0E240ADDE0007E8D84 /* AnswerDAO.swift */; };
 		C9A109DA240982F500D86A44 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A109D9240982F500D86A44 /* ImagePicker.swift */; };
@@ -41,7 +42,6 @@
 		C9C025A224080D55003C373B /* Remark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C025A124080D55003C373B /* Remark.swift */; };
 		C9C025A82408187D003C373B /* RemarkDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C025A72408187D003C373B /* RemarkDAO.swift */; };
 		C9C025AA24082313003C373B /* RemarkSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C025A924082313003C373B /* RemarkSet.swift */; };
-		C9E54A04240E92A200904A22 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C9E54A03240E92A200904A22 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,23 +54,12 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C92708E8240E8EF6007B6625 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		3004F4A6AB58E4DA780D1757 /* Pods_Ios_StrikeBack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ios_StrikeBack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E7DCCEA465DD8D86BC0C0A3 /* Pods-Ios StrikeBack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ios StrikeBack.release.xcconfig"; path = "Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack.release.xcconfig"; sourceTree = "<group>"; };
+		BF818770FCF6B231DA5760D4 /* Pods-Ios StrikeBack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ios StrikeBack.debug.xcconfig"; path = "Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack.debug.xcconfig"; sourceTree = "<group>"; };
 		C9133890240C1D89004E1F37 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		C9133892240C2352004E1F37 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		C92708EC240E90D6007B6625 /* ImagePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePost.swift; sourceTree = "<group>"; };
 		C947D984240BD82E0058DA9D /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		C947D986240BE5E90058DA9D /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		C947D988240BE6B20058DA9D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -78,6 +67,7 @@
 		C95D27F8240CEB3500F670FE /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		C980E2B3240D6C74002FE56A /* MyActivities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivities.swift; sourceTree = "<group>"; };
 		C980E2B5240D71CD002FE56A /* AnswerSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerSet.swift; sourceTree = "<group>"; };
+		C985DC13240FCEE000E4F34C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C98E1DF1240960F3006457E1 /* CreateRemarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRemarkView.swift; sourceTree = "<group>"; };
 		C98FAD0E240ADDE0007E8D84 /* AnswerDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDAO.swift; sourceTree = "<group>"; };
 		C9A109D9240982F500D86A44 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -113,7 +103,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C92708EB240E90B6007B6625 /* SwiftyJSON in Frameworks */,
-				C9E54A04240E92A200904A22 /* Alamofire in Frameworks */,
+				86D4C856CF013E26A5442FFF /* Pods_Ios_StrikeBack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,13 +117,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C92708E3240E8EF6007B6625 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		C950D1B5240E4B7A00B5E823 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +126,7 @@
 				C980E2B3240D6C74002FE56A /* MyActivities.swift */,
 				C98E1DF1240960F3006457E1 /* CreateRemarkView.swift */,
 				C9133890240C1D89004E1F37 /* SignupView.swift */,
+				C9C0257524080434003C373B /* ContentView.swift */,
 				C950D1CF240E57A600B5E823 /* RemarkDetailsView.swift */,
 			);
 			path = Views;
@@ -174,10 +158,12 @@
 		C9C0256224080434003C373B = {
 			isa = PBXGroup;
 			children = (
+				C985DC13240FCEE000E4F34C /* GoogleService-Info.plist */,
 				C9C0256D24080434003C373B /* Ios StrikeBack */,
 				C9C0258724080436003C373B /* Ios StrikeBackTests */,
 				C9C0256C24080434003C373B /* Products */,
-				C92708E3240E8EF6007B6625 /* Frameworks */,
+				DDAED0182C4808FB24FD1833 /* Pods */,
+				FC87E3E752D59FF28B14A4B0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,11 +186,9 @@
 				C9C025A924082313003C373B /* RemarkSet.swift */,
 				C980E2B5240D71CD002FE56A /* AnswerSet.swift */,
 				C9C025A124080D55003C373B /* Remark.swift */,
-				C92708EC240E90D6007B6625 /* ImagePost.swift */,
 				C95D27F8240CEB3500F670FE /* Answer.swift */,
 				C9C0259824080B0D003C373B /* JsonManager.swift */,
 				C947D988240BE6B20058DA9D /* User.swift */,
-				C9C0257524080434003C373B /* ContentView.swift */,
 				C9C0256E24080434003C373B /* AppDelegate.swift */,
 				C9C0257024080434003C373B /* SceneDelegate.swift */,
 				C9C0257724080436003C373B /* Assets.xcassets */,
@@ -234,6 +218,23 @@
 			path = "Ios StrikeBackTests";
 			sourceTree = "<group>";
 		};
+		DDAED0182C4808FB24FD1833 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BF818770FCF6B231DA5760D4 /* Pods-Ios StrikeBack.debug.xcconfig */,
+				7E7DCCEA465DD8D86BC0C0A3 /* Pods-Ios StrikeBack.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		FC87E3E752D59FF28B14A4B0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3004F4A6AB58E4DA780D1757 /* Pods_Ios_StrikeBack.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -241,10 +242,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9C0258D24080436003C373B /* Build configuration list for PBXNativeTarget "Ios StrikeBack" */;
 			buildPhases = (
+				D78B513FBDBCD25243E177FB /* [CP] Check Pods Manifest.lock */,
 				C9C0256724080434003C373B /* Sources */,
 				C9C0256824080434003C373B /* Frameworks */,
 				C9C0256924080434003C373B /* Resources */,
-				C92708E8240E8EF6007B6625 /* Embed Frameworks */,
+				B09413292D978FEF2CEA90D7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -253,7 +255,6 @@
 			name = "Ios StrikeBack";
 			packageProductDependencies = (
 				C92708EA240E90B6007B6625 /* SwiftyJSON */,
-				C9E54A03240E92A200904A22 /* Alamofire */,
 			);
 			productName = "Ios StrikeBack";
 			productReference = C9C0256B24080434003C373B /* Ios StrikeBack.app */;
@@ -307,7 +308,7 @@
 			mainGroup = C9C0256224080434003C373B;
 			packageReferences = (
 				C92708E9240E90B6007B6625 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
-				C9E54A02240E92A200904A22 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				C9E54A09240E983200904A22 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = C9C0256C24080434003C373B /* Products */;
 			projectDirPath = "";
@@ -326,6 +327,7 @@
 			files = (
 				C9C0257E24080436003C373B /* LaunchScreen.storyboard in Resources */,
 				C9C0257B24080436003C373B /* Preview Assets.xcassets in Resources */,
+				C985DC14240FCEE000E4F34C /* GoogleService-Info.plist in Resources */,
 				C9C0259F24080B0D003C373B /* person.json in Resources */,
 				C9C0257824080436003C373B /* Assets.xcassets in Resources */,
 			);
@@ -339,6 +341,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B09413292D978FEF2CEA90D7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D78B513FBDBCD25243E177FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Ios StrikeBack-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C9C0256724080434003C373B /* Sources */ = {
@@ -372,7 +416,6 @@
 				C9C0257424080434003C373B /* Ios_StrikeBack.xcdatamodeld in Sources */,
 				C947D989240BE6B20058DA9D /* User.swift in Sources */,
 				C9133891240C1D89004E1F37 /* SignupView.swift in Sources */,
-				C92708ED240E90D6007B6625 /* ImagePost.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,6 +565,7 @@
 		};
 		C9C0258E24080436003C373B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF818770FCF6B231DA5760D4 /* Pods-Ios StrikeBack.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -541,6 +585,7 @@
 		};
 		C9C0258F24080436003C373B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E7DCCEA465DD8D86BC0C0A3 /* Pods-Ios StrikeBack.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -641,12 +686,13 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		C9E54A02240E92A200904A22 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		C9E54A09240E983200904A22 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.2;
+				kind = versionRange;
+				maximumVersion = 6.0.0;
+				minimumVersion = 3.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -656,11 +702,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C92708E9240E90B6007B6625 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
-		};
-		C9E54A03240E92A200904A22 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C9E54A02240E92A200904A22 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 

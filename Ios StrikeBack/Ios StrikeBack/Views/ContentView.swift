@@ -80,6 +80,10 @@ struct MainView: View {
                 
                 List (mytab.tabRemark){ remark in
                     NavigationLink(destination : RemarkDetailsView(remark: remark)){
+                        if(remark.image != nil){
+                            Image(uiImage: remark.image!).resizable().scaledToFit()
+                        }
+                        Text(remark.title)
                         Text(remark.text)
                     }
                 }

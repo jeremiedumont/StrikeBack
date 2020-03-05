@@ -8,17 +8,18 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 
 class Remark : ObservableObject, Identifiable, Codable{
     @Published var userId : String
     @Published var postId : String
     @Published var title : String
     @Published var text : String
-    @Published var image : UIImage
+    @Published var image : UIImage?
     @Published var date : Date
     @Published var heard : Int
    
-    init(postId : String, userId : String, title : String, text : String, image : UIImage, date : Date, heard : Int){
+    init(postId : String, userId : String, title : String, text : String, image : UIImage?, date : Date, heard : Int){
         self.postId = postId
         self.userId = userId
         self.title = title
@@ -57,41 +58,35 @@ class Remark : ObservableObject, Identifiable, Codable{
         
         self.date = dateF.date(from: isodate.components(separatedBy: ".")[0])!
         
-        image = UIImage()
-        if(imagestring != nil || imagestring != "" || imagestring != "none"){
-        if let dataDecoded:NSData = NSData(base64Encoded: imagestring, options: NSData.Base64DecodingOptions(rawValue: 0))!{
-            guard let myimage = UIImage(data: dataDecoded as Data) else{print("No image in remark"); return}
+        image = nil
+        print("postid : " + postId + ", image : " + imagestring)
+        if(imagestring != "" &&	 imagestring != "none"){
+            print("POINT 1")
+                guard let url = URL(string: imagestring) else{
+                    print("POINT7")
+                    return
+                }
+                print("POINT 2")
+                
+                    if let data = try? Data(contentsOf: url) {
+                        print("POINT 3")
+                        if let image = UIImage(data: data) {
+                                self.image = image
+                                print("POINT 4")
+                        }
+                    }else{
+                        print("POINT6")
+                    }
         }
-        }
-        //let imagedata = Data(base64Encoded: imagestring)
-        /*if let imagedata = imagedata{
-                self.image = UIImage		(data: imagedata)
-        }*/
-        
-        
-        
-        
-        
     }
     
     func encode(to encoder: Encoder) throws {
-        let imagedata = image.jpegData(compressionQuality: 0.1)
-        let imagestring = imagedata?.base64EncodedString()
-        
-        
+        guard let user = (UIApplication.shared.delegate as! AppDelegate).currentUser else{return}
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
+        try container.encode(user.userId, forKey: .userId)
         try container.encode(title, forKey: .title)
         try container.encode(text, forKey: .text)
-        
         try container.encode(postId, forKey: .postId)
-        if let imagestring = imagestring {
-            //print(imagestring)
-            try container.encode(imagestring, forKey: .image)
-        }else {
-            print("imagestring value is nil")
-            try container.encode("none", forKey: .image)
-        }
     }
     
 }

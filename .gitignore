@@ -2,6 +2,8 @@
 servernode/.env
 servernode/node_modules
 .DS_Store
+Ios StrikeBack/.DS_Store
+Ios StrikeBack/GoogleService-Info.plist
 Ios StrikeBack/Ios StrikeBack.xcodeproj
 Ios StrikeBack/Ios StrikeBack/.DS_Store
 Ios StrikeBack/Pods/
@@ -12,3 +14,5 @@ Ios StrikeBack/Pods
 #REACT
 node_modules
 
+Ios StrikeBack/Ios StrikeBack.xcworkspace/
+Ios StrikeBack/Ios StrikeBack.xcworkspace/xcuserdata/user164174.xcuserdatad/UserInterfaceState.xcuserstate

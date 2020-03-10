@@ -53,12 +53,17 @@ struct RemarkDetailsView: View {
                             .font(.system(size: 15))
                     }
                     //TEXT et titre
-                    VStack{
-                        Text(remark.title)
-                            .bold()
-                            .font(.title)
-                            .foregroundColor(Color(.blue))
-                        Text(remark.text)
+                   HStack{
+                        if(remark.image != nil){
+                            Image(uiImage: remark.image!).resizable().scaledToFit()
+                        }
+                        VStack{
+                            Text(remark.title)
+                                .bold()
+                                .font(.title)
+                                .foregroundColor(Color(.blue))
+                            Text(remark.text)
+                        }
                     }
                     
                 }.padding(10)

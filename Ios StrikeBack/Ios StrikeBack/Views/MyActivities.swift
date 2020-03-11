@@ -11,7 +11,7 @@ import SwiftUI
 struct MyActivities : View{
     var user = (UIApplication.shared.delegate as! AppDelegate).currentUser
     var myremarks : RemarkSet
-    var myanswers : [(String, String)] = []
+    var myanswers : [(Answer, Remark)] = []
     var mytabs = ["My Remarks", "My answers"]
     @State private var selectedTab = 0
     /*var tabRemarks = getAllUserRemarks(userId : String)*/
@@ -21,7 +21,7 @@ struct MyActivities : View{
             var answerslist = AnswerSet(tab: AnswerDAO.getAllUserAnswers(userId: user.userId))
             answerslist.tabAnswer.forEach{ans in
                 if let rem = RemarkDAO.getRemark(remarkId: ans.remarkId){
-                    myanswers.append((ans.content, rem.text))
+                    myanswers.append((ans, rem))
                 }
             }
         }else{
@@ -41,27 +41,41 @@ struct MyActivities : View{
          
             //In Remarks tab
             if(selectedTab==0){
-                List (myremarks.tabRemark){ remark in
-                    //NavigationLink(destination : DetailView(person: person)){
-                    Text(remark.text)
-                    //}
+                ScrollView{
+                    VStack{
+                        ForEach(0 ..< myremarks.tabRemark.count){ index in
+                            //NavigationLink(destination : DetailView(person: person)){
+                            NavigationLink(destination : RemarkDetailsView(remark: self.myremarks.tabRemark[index])){
+                               
+                                RemarkView(remark : self.myremarks.tabRemark[index], canheard: false)
+                            
+                            }
+                            Divider().frame(height: 20).padding()
+                        }
+                    }
                 }
             }
             //In Answers tab
             else{
-                ForEach(0 ..< myanswers.count){ index in
-                    //NavigationLink(destination : DetailView(person: person)){
-                    VStack{
-                        Text(self.myanswers[index].1)
-                            .font(.title)
-                        Text(self.myanswers[index].0)
-                            .font(.subheadline)
-                            .foregroundColor(.orange)
+                ScrollView{
+                    ForEach(0 ..< myanswers.count){ index in
+
+                        VStack{
+                            NavigationLink(destination : RemarkDetailsView(remark: self.myanswers[index].1)){
+                               
+                                RemarkView(remark : self.myanswers[index].1, canheard: false)
+                                
+                            }
+                            NavigationLink(destination : RemarkDetailsView(remark: self.myanswers[index].1)){
+                               
+                                
+                                AnswerView(answer: self.myanswers[index].0, caninteract : false)
+                                
+                            }
+                            Divider().frame(height: 20).padding()
+                        }
+                          
                     }
-                    .background(Color.gray)
-                    .padding(10)
-                    
-                    //}
                 }
                 Spacer()
             }

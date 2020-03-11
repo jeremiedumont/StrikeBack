@@ -153,8 +153,47 @@ public class UserDAO {
 
     
     static func updatePassword (userId : String, oldPassword : String,  newPassword : String) -> Bool{
-
-           return false
+        // Prepare URL
+               let url = URL(string: UserDAO.rootURL + "updatePassword")
+               guard let requestUrl = url else { fatalError() }
+               // Prepare URL Request Object
+               var request = URLRequest(url: requestUrl)
+               request.httpMethod = "PUT"
+               
+               let semaphore = DispatchSemaphore(value :0)
+               var res : Bool = false
+               //----------------------------------------------------------
+               //___________verifier si ca marche de cette facon___________
+               //__________________________________________________________
+               let json: [String: Any] = ["userId": userId,"oldPassword": oldPassword, "newPassword": newPassword]
+               // Set HTTP Request Body
+               do {
+                   request.httpBody = try? JSONSerialization.data(withJSONObject: json)
+               } catch let error {
+                   print(error)
+               }
+               request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+               print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
+               // Perform HTTP Request
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                   if let error = error {
+                       print("Error took place \(error)")
+                       return
+                   }
+                       
+                       let resp = response as? HTTPURLResponse
+                       res = (resp?.statusCode == 200)
+                       
+                   if let data = data{
+                       if let jsonString = String(data: data, encoding: .utf8){
+                           print(jsonString)
+                       }
+                   }
+                   semaphore.signal()
+               }
+               task.resume()
+               semaphore.wait()
+               return res
        }
     
     static func updateColor (userId : String, color : String) -> Bool{

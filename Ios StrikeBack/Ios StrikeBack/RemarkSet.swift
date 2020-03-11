@@ -13,4 +13,6 @@ class RemarkSet : ObservableObject{
     init(tab : [Remark]){
         self.tabRemark = tab
     }
+    
+    
 }

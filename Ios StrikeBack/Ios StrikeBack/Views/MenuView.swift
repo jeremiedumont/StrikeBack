@@ -18,7 +18,7 @@ struct MenuView: View {
         VStack() {
             if( (UIApplication.shared.delegate as! AppDelegate).currentUser != nil){
                 HStack {
-                    NavigationLink(destination: MyActivities()) {
+                    NavigationLink(destination: MyProfilView()) {
                         Image(systemName: "person")
                             .foregroundColor(.gray)
                             .imageScale(.large)

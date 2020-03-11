@@ -11,10 +11,15 @@
 		C9133891240C1D89004E1F37 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133890240C1D89004E1F37 /* SignupView.swift */; };
 		C9133893240C2352004E1F37 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133892240C2352004E1F37 /* LoginView.swift */; };
 		C92708EB240E90B6007B6625 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = C92708EA240E90B6007B6625 /* SwiftyJSON */; };
+		C935FD472417D2C700157B6E /* TextView in Frameworks */ = {isa = PBXBuildFile; productRef = C935FD462417D2C700157B6E /* TextView */; };
+		C935FD492417D60900157B6E /* CreateAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C935FD482417D60900157B6E /* CreateAnswerView.swift */; };
 		C947D985240BD82E0058DA9D /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D984240BD82E0058DA9D /* MenuView.swift */; };
 		C947D987240BE5E90058DA9D /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D986240BE5E90058DA9D /* UserDAO.swift */; };
 		C947D989240BE6B20058DA9D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947D988240BE6B20058DA9D /* User.swift */; };
 		C950D1D0240E57A600B5E823 /* RemarkDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950D1CF240E57A600B5E823 /* RemarkDetailsView.swift */; };
+		C9585BD424191BCF00FD019C /* MyProfilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9585BD324191BCF00FD019C /* MyProfilView.swift */; };
+		C9585BD62419211A00FD019C /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9585BD52419211A00FD019C /* ChangePasswordView.swift */; };
+		C9585BD82419212900FD019C /* ChangeColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9585BD72419212900FD019C /* ChangeColorView.swift */; };
 		C95D27F9240CEB3500F670FE /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95D27F8240CEB3500F670FE /* Answer.swift */; };
 		C980E2B4240D6C74002FE56A /* MyActivities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E2B3240D6C74002FE56A /* MyActivities.swift */; };
 		C980E2B6240D71CD002FE56A /* AnswerSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C980E2B5240D71CD002FE56A /* AnswerSet.swift */; };
@@ -62,10 +67,14 @@
 		BF818770FCF6B231DA5760D4 /* Pods-Ios StrikeBack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ios StrikeBack.debug.xcconfig"; path = "Target Support Files/Pods-Ios StrikeBack/Pods-Ios StrikeBack.debug.xcconfig"; sourceTree = "<group>"; };
 		C9133890240C1D89004E1F37 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		C9133892240C2352004E1F37 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C935FD482417D60900157B6E /* CreateAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAnswerView.swift; sourceTree = "<group>"; };
 		C947D984240BD82E0058DA9D /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		C947D986240BE5E90058DA9D /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		C947D988240BE6B20058DA9D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C950D1CF240E57A600B5E823 /* RemarkDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkDetailsView.swift; sourceTree = "<group>"; };
+		C9585BD324191BCF00FD019C /* MyProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfilView.swift; sourceTree = "<group>"; };
+		C9585BD52419211A00FD019C /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		C9585BD72419212900FD019C /* ChangeColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeColorView.swift; sourceTree = "<group>"; };
 		C95D27F8240CEB3500F670FE /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		C980E2B3240D6C74002FE56A /* MyActivities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivities.swift; sourceTree = "<group>"; };
 		C980E2B5240D71CD002FE56A /* AnswerSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerSet.swift; sourceTree = "<group>"; };
@@ -107,6 +116,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C92708EB240E90B6007B6625 /* SwiftyJSON in Frameworks */,
+				C935FD472417D2C700157B6E /* TextView in Frameworks */,
 				86D4C856CF013E26A5442FFF /* Pods_Ios_StrikeBack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,6 +144,10 @@
 				C9C0257524080434003C373B /* ContentView.swift */,
 				C950D1CF240E57A600B5E823 /* RemarkDetailsView.swift */,
 				C983F9612416857900D199FB /* RemarkView.swift */,
+				C935FD482417D60900157B6E /* CreateAnswerView.swift */,
+				C9585BD324191BCF00FD019C /* MyProfilView.swift */,
+				C9585BD52419211A00FD019C /* ChangePasswordView.swift */,
+				C9585BD72419212900FD019C /* ChangeColorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -261,6 +275,7 @@
 			name = "Ios StrikeBack";
 			packageProductDependencies = (
 				C92708EA240E90B6007B6625 /* SwiftyJSON */,
+				C935FD462417D2C700157B6E /* TextView */,
 			);
 			productName = "Ios StrikeBack";
 			productReference = C9C0256B24080434003C373B /* Ios StrikeBack.app */;
@@ -315,6 +330,7 @@
 			packageReferences = (
 				C92708E9240E90B6007B6625 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				C9E54A09240E983200904A22 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				C935FD452417D2C700157B6E /* XCRemoteSwiftPackageReference "TextView" */,
 			);
 			productRefGroup = C9C0256C24080434003C373B /* Products */;
 			projectDirPath = "";
@@ -398,15 +414,18 @@
 				C9C025A82408187D003C373B /* RemarkDAO.swift in Sources */,
 				C9C0256F24080434003C373B /* AppDelegate.swift in Sources */,
 				C98FAD0F240ADDE0007E8D84 /* AnswerDAO.swift in Sources */,
+				C935FD492417D60900157B6E /* CreateAnswerView.swift in Sources */,
 				C947D987240BE5E90058DA9D /* UserDAO.swift in Sources */,
 				C947D985240BD82E0058DA9D /* MenuView.swift in Sources */,
 				C983F9602416855500D199FB /* AnswerView.swift in Sources */,
+				C9585BD62419211A00FD019C /* ChangePasswordView.swift in Sources */,
 				C9133893240C2352004E1F37 /* LoginView.swift in Sources */,
 				C95D27F9240CEB3500F670FE /* Answer.swift in Sources */,
 				C980E2B4240D6C74002FE56A /* MyActivities.swift in Sources */,
 				C9C0259D24080B0D003C373B /* JsonManager.swift in Sources */,
 				C9C0259C24080B0D003C373B /* PersonJson.swift in Sources */,
 				C983F9622416857900D199FB /* RemarkView.swift in Sources */,
+				C9585BD424191BCF00FD019C /* MyProfilView.swift in Sources */,
 				C98E1DF2240960F3006457E1 /* CreateRemarkView.swift in Sources */,
 				C9C025AA24082313003C373B /* RemarkSet.swift in Sources */,
 				C9C0257124080434003C373B /* SceneDelegate.swift in Sources */,
@@ -423,6 +442,7 @@
 				C9C0259624080AD5003C373B /* CreateView.swift in Sources */,
 				C9C0257424080434003C373B /* Ios_StrikeBack.xcdatamodeld in Sources */,
 				C947D989240BE6B20058DA9D /* User.swift in Sources */,
+				C9585BD82419212900FD019C /* ChangeColorView.swift in Sources */,
 				C9133891240C1D89004E1F37 /* SignupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -694,6 +714,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		C935FD452417D2C700157B6E /* XCRemoteSwiftPackageReference "TextView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kenmueller/TextView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 		C9E54A09240E983200904A22 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -710,6 +738,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C92708E9240E90B6007B6625 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		C935FD462417D2C700157B6E /* TextView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C935FD452417D2C700157B6E /* XCRemoteSwiftPackageReference "TextView" */;
+			productName = TextView;
 		};
 /* End XCSwiftPackageProductDependency section */
 

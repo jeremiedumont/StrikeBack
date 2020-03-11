@@ -217,7 +217,7 @@ public class AnswerDAO {
 
     static func addAnswer (ans : Answer) -> Bool{
         // Prepare URL
-        let url = URL(string: UserDAO.rootURL + "add")//ICI
+        let url = URL(string: AnswerDAO.rootURL + "add")//ICI
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
@@ -233,6 +233,7 @@ public class AnswerDAO {
         }catch let error {
             print(error)
         }
+        
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
         // Perform HTTP Request
@@ -243,6 +244,8 @@ public class AnswerDAO {
             }
                 
                 let resp = response as? HTTPURLResponse
+            print("code d'erreur")
+            print(resp?.statusCode)
                 res = (resp?.statusCode == 200)
                 
             if let data = data{
@@ -265,7 +268,7 @@ public class AnswerDAO {
 
     static func addUp(answerId : String) -> Bool {
         // Prepare URL
-        let preString = UserDAO.rootURL + "up"
+        let preString = AnswerDAO.rootURL + "up"
         let postString = "?id="+String(answerId)
         let url = URL(string: preString+postString)
 
@@ -303,7 +306,7 @@ public class AnswerDAO {
 
     static func addDown(answerId : String) -> Bool {
         // Prepare URL
-        let preString = self.rootURL + "down"
+        let preString = AnswerDAO.rootURL + "down"
         let postString = "?id="+String(answerId)
         let url = URL(string: preString+postString)
 

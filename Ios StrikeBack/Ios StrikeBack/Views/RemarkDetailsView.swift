@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import TextView
 
 struct RemarkDetailsView: View {
     let testColor = UIColor(red: 0.5, green: 0.4, blue: 0.6, alpha: 1)
@@ -15,7 +16,8 @@ struct RemarkDetailsView: View {
     let formatter = DateFormatter()
     @ObservedObject private var  newAnswer : Answer
     var user = (UIApplication.shared.delegate as! AppDelegate).currentUser
-    
+    @State var isActive = false;
+    var i = 0;
     init(remark : Remark){
         self.remark = remark
         self.mytab = AnswerSet(tab: AnswerDAO.getAnswersByRemarkId(remarkId: remark.postId))
@@ -33,71 +35,65 @@ struct RemarkDetailsView: View {
     
     var body: some View {
             //details
-        
-        VStack{
             VStack{
-               
+                          if( user != nil){
+                            VStack{
+                              Button(action : {
+                                  self.isActive.toggle()
+                              }){
+                                Image(systemName: "plus.bubble.fill")
+                                  Text("add answer")
+                              }.sheet(isPresented : self.$isActive){
+                                CreateAnswerView(newAnswer: self.newAnswer, isActive : self.$isActive)
+                              }
+                           
+                          }
+                       }
+        
+            
+            VStack{
+                HStack{
                 //Remark details
-                VStack{
-                //auteur et date
-                    HStack{
-                        Text("Written by")
-                            .font(.system(size: 15))
-                        Text(UserDAO.getUserById(userId : remark.userId)!.pseudo)
-                            .fontWeight(.light)
-                            .foregroundColor(Color(testColor))
-                            .font(.system(size: 15))
-                        Spacer()
-                        Text(self.formatter.string(from :remark.date))
-                            .italic()
-                            .font(.system(size: 15))
-                    }
-                    //TEXT et titre
-                   HStack{
-                        if(remark.image != nil){
-                            Image(uiImage: remark.image!).resizable().scaledToFit()
-                        }
-                        VStack{
-                            Text(remark.title)
-                                .bold()
-                                .font(.title)
-                                .foregroundColor(Color(.blue))
-                            Text(remark.text)
-                        }
-                    }
-                    
-                }.padding(10)
-                .border(Color.black, width: 3)
+                RemarkView(remark: remark, canheard: false)
+                
+                /*VStack{
+                      Button(action : {
+                          RemarkDAO.addHeard(remarkId: self.remark.postId)
+                          }){
+                              Image(systemName: "chevron.up")
+                          }
+                              Text(String(self.remark.heard))
+                      }
+                          VStack{
+                              Button(action : {
+                                             //-----------------A FAIRE-----------------------Creer l'action de report---------------------------------------
+                              }){
+                              Image(systemName: "alarm")
+                              }
+                              Text("Report")
+                          }
+                }*/
+                
+                /*
                 List (mytab.tabAnswer){ answer in
                     AnswerView(answer: answer)
                     .padding()
                     
                 }                // LIST DES REPONSES
                 .listStyle(PlainListStyle())
-                
-                
-            }
-            //si connecté
-            if(user != nil){
-                Form{
-                    TextField("Enter your answer...", text: self.$newAnswer.content)
-                    .padding()
-                    .background(Color.themeTextField)
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)            // BUTTON SUBMIT
-                    
-                     Button(action:{
-                     
-                        if(!(AnswerDAO.addAnswer(ans: self.newAnswer))){
-                         print("erreur lors de l'ajout")
-                     }
-                        //self.isActive = false
-                        //self.presentation.wrappedValue.dismiss()
-                    }){
-                        Text("Submit")
+                */
+                }
+                ScrollView{
+                    VStack(spacing: 20){
+                        ForEach(mytab.tabAnswer){ answer in
+                            AnswerView(answer: answer, caninteract: true)
+                            .padding()
+                        }
                     }
                 }
+                
             }
+            
         }
     }
 }

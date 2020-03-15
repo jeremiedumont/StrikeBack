@@ -1,7 +1,21 @@
 #SERVER
 servernode/.env
 servernode/node_modules
+.DS_Store
+Ios StrikeBack/.DS_Store
+IosStrikeBack/GoogleService-Info.plist
+#Ios StrikeBack/Ios StrikeBack.xcodeproj
+Ios StrikeBack/Ios StrikeBack/.DS_Store
+#Ios StrikeBack/Pods/
+#Ios StrikeBack/Ios StrikeBack.xcworkspace
 servernode/config.js
-
+#Ios StrikeBack/Ios StrikeBackStrikeBack.xcodeproj
+#Ios StrikeBack/Pods
 #REACT
 node_modules
+
+#Ios StrikeBack/Ios StrikeBack.xcworkspace/
+#Ios StrikeBack/Ios #StrikeBack.xcworkspace/xcuserdata/user164174.xcuserdatad/UserInterfaceState.xcuserstate
+Ios StrikeBack/Ios StrikeBack/AWSS3Manager.swift
+Ios StrikeBack/Ios StrikeBack/ImagePost.swift
+Ios StrikeBack/Ios StrikeBack/JsonManager.swift

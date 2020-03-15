@@ -29,11 +29,12 @@ const reportRouter = require('./routes/report');
 //const notificationRouter = require('./routes/notification');
 
 app.use('',function (req,res,next) {
+    console.log("\n-----QUERY-----")
+    console.log(req.query)
     console.log("-----BODY-----")
     console.log(req.body)
-    console.log("-----QUERY-----")
-    console.log(req.query)
     next();
+
 });
 app.use('/answers', answerRouter);
 app.use('/remarks', remarkRouter);

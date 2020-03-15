@@ -19,4 +19,4 @@ const NotificationSchema = new Schema({
 {versionKey: false})
 
 
-module.exports = mongoose.model('notification', NotificationSchema);
+module.exports = mongoose.model('notifications', NotificationSchema);

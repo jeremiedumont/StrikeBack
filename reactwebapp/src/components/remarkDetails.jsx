@@ -1,8 +1,7 @@
 import React from 'react'
-import moment from 'moment'
 
 import {getAnswersByRemarkId} from '../DAOs/answersDAO'
-
+import {getRemarkById} from '../DAOs/remarksDAO'
 import Remark from './remark'
 import Answer from './answer'
 
@@ -10,13 +9,14 @@ export default class RemarkDetails extends React.Component {
     constructor(props){ //remark
         super(props);
         this.state = {
-            //remark: this.props.remark,
-            answers: []
+            remark: {
+                _id: this.props.match.params.id
+            },
+            answers: [],
+            isLoading: true
         }
-    }
 
-    componentDidMount(){
-        getAnswersByRemarkId(this.props.remark._id)
+        getAnswersByRemarkId(this.state.remark._id)
         .then( res => {
             return res
         }).then(answers => {
@@ -26,31 +26,50 @@ export default class RemarkDetails extends React.Component {
         })
     }
 
+    componentDidMount() {
+        getRemarkById(this.props.match.params.id)
+        .then( res => {
+            return res
+        }).then(newremark => {
+            //console.log("RemarkDetails -> componentDidMount -> remark", newremark)
+            this.setState({
+                remark: newremark,
+                isLoading: false
+            })
+        })
+    }
+
     render() {
         console.log('Render of a remarkDetails.')
-        //<Remark remark={this.props.remark}></Remark>
-        return (
-            <div style={styles.answers}>
-                {this.state.answers.map((answer, index) => (
-                    <div key={index} style={styles.answer}>
-                        <Answer answer={answer}></Answer>
-                    </div>
-                ))
-                }
+        return (            
+            <div style={styles.details}>
+                { !this.state.isLoading && (
+                    <Remark remark={this.state.remark}></Remark>
+                )}
+                <div style={styles.answers}>
+                    {this.state.answers.map((answer, index) => (
+                        <div key={index} style={styles.answer}>
+                            <Answer answer={answer}></Answer>
+                        </div>
+                        
+                    ))
+                    }
+                </div>
             </div>
         )
     }
 }
-let styles = {
-    answers: {
-      marginLeft: 50,
-      marginRight: 50,
-      marginBottom: 10,
+const styles = {
+    details: {
+      margin: 50,
       padding: 1
     },
+    answers: {
+        marginTop: 50,
+    },
     answer: {
-        backgroundColor: '#98b7e3',
-        margin: 10,
+        //backgroundColor: '#98ffff',
+        margin: 20,
         padding: 1
       }
 }

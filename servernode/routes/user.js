@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let User = require('../models/user.model');
+let AuthToken = require('../models/authToken.model');
 
 //
 router.route('/').get((req, res) => {
@@ -49,7 +50,17 @@ router.route('/login').post((req, res) => {
         } else if (user.password != req.body.password) {
             res.status(401).json('Error : Wrong password')
         } else {
-            res.status(200).json(user)
+            const newToken = new AuthToken({userId: user._id})
+            newToken.save()
+            .then((token) => res.status(200).json({
+                _id: user._id,
+                pseudo: user.pseudo,
+                email: user.email,
+                creationDate: user.creationDate,
+                color: user.color,
+                authToken: token._id
+            }))
+            .catch(err => res.status(400).json('Error: ' + err));
         }
     })
     .catch(err  => res.status(400).json('Error : ' + err));
@@ -89,7 +100,7 @@ router.route('/updatePassword').put((req, res) => {
 
 //Route used for updating the users's color
 router.route('/updateColor').put((req, res) => {
-    User.findById(req.body.id)
+    User.findById(req.body.userId)
         .then(user => {
             user.color = req.body.color;
 

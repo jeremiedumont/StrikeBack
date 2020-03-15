@@ -1,25 +1,41 @@
 import React from 'react'
 import moment from 'moment'
 
+import {
+    Grid,
+    Paper,
+    Card,
+    CardContent,
+    IconButton,
+    Avatar 
+} from '@material-ui/core';
+
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
+import '../styles/answer.css'
+
+
 import {getUserById} from '../DAOs/usersDAO'
+import {incrementUp, incrementDown} from '../DAOs/answersDAO'
 
 export default class Answer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            isLoggedIn: false,
             user: {
                 _id: this.props.answer.userId,
                 pseudo: "",
                 color: ""
-            }
+            },
+            pertinency: this.props.answer.pertinency
         }
     }
 
     componentDidMount(){
         getUserById(this.state.user._id)
-        .then( res => {
-            return res
-        }).then(user => {
+        .then(user => {
             this.setState({
                 user: {
                     pseudo: user.pseudo,
@@ -29,14 +45,76 @@ export default class Answer extends React.Component {
         })
     }
 
+    _handleUp(){
+        console.log('Click UP')
+        incrementUp(this.props.answer._id)
+        this.setState({
+            pertinency: this.state.pertinency + 1
+        })
+    }
+
+    _handleDown() {
+        console.log('Click DOWN')
+        incrementDown(this.props.answer._id)
+        this.setState({
+            pertinency: this.state.pertinency - 1
+        })
+    }
+
     render() {
 
         const date = moment(this.props.answer.date).format('DD/MM/YYYY')
         return(
-            <div>
-                <h4 className='user'>Written by {this.state.user.pseudo} on {date}</h4>
-                <h1 className='content'>{this.props.answer.content}</h1>
-            </div>
+            <Paper elevation={5} >
+                <Card variant="outlined">
+                    <Grid container spacing={2} className="Answer-content">
+                        <Grid item xs={10}>
+                            <CardContent>
+                                <div>
+                                    <h1>{this.props.answer.content}</h1>
+                                    <div>
+                                        <span>Written by {this.state.user.pseudo} on {date}</span>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Grid>
+                        {this.state.isLoggedIn && (
+                            <Grid
+                                item xs={1} 
+                                container spacing={5}
+                                direction="column"
+                                justify="center"
+                                alignItems="center"
+                            >
+                                    <IconButton
+                                        color='primary'
+                                        onClick={()=>{this._handleUp()}}
+                                        variant="contained"
+                                    >
+                                        <ArrowUpwardIcon />
+                                    </IconButton>
+                                    <IconButton
+                                        color='primary'
+                                        onClick={()=>{this._handleDown()}}
+                                        variant="contained"
+                                    >
+                                        <ArrowDownwardIcon />
+                                    </IconButton>
+                            </Grid>
+                        )}
+                        <Grid item xs={1} 
+                            container spacing={5}
+                            direction="column"
+                            justify="center"
+                            alignItems="center"
+                        >
+                            <Avatar>
+                                {this.state.pertinency} 
+                            </Avatar>
+                        </Grid>
+                    </Grid>
+                </Card>
+            </Paper>
         )
     }
 }

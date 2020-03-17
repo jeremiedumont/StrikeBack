@@ -38,4 +38,4 @@ const AnswerSchema = new Schema({
 {versionKey: false})
 
 
-module.exports = mongoose.model('answer', AnswerSchema);
+module.exports = mongoose.model('answers', AnswerSchema);

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Report = require('../models/report.model');
+let AuthToken = require('../models/authToken.model');
 
 //Getting every reports in the DB
 router.route('/').get((req, res) => {

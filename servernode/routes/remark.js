@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Remark = require('../models/remark.model');
+let AuthToken = require('../models/authToken.model');
 var aws = require('aws-sdk');
 var config = require('../config');
 var uuid = require('uuid'); //je sais pas trop ce que c'est
@@ -16,13 +17,19 @@ router.get('/', (req,res,next) => {
     .catch(err => res.status(400).json('Error:' + err))
 });
 
-//http://localhost:5000/remarks/findByUserId?id=5e500b859febd9351c7bdac2
+//http://localhost:5000/remarks/findByUserId?token=5e500b859febd9351c7bdac2
 router.get('/findByUserId', (req,res,next) => {
-    Remark.find({ 
-        userId: req.query.id
+    AuthToken.findById(req.query.token)
+    .then((token) => {
+        Remark.find({ 
+            userId: token.userId
+        })
+        .then((remarks) => res.status(200).json(remarks))
+        .catch(err => res.status(400).json('Error:' + err))
     })
-    .then((remarks) => res.status(200).json(remarks))
-    .catch(err => res.status(400).json('Error:' + err))
+    .catch(err => {
+        res.status(401).json('Authentication Error: ' + err)
+    })
 });
 
 //http://localhost:5000/remarks/sorted/date?order=1&skip=0&number=4
@@ -56,8 +63,6 @@ router.get('/sorted/heard', (req,res,next) => {
 });
 
 router.route('/getSignedUrl').get((req, res, next) => {
-    //postURL: https://strikeback-s3.s3.amazonaws.com/c7cf3e30-084d-4955-8037-10c86253a539?AWSAccessKeyId=AKIAYZWWZWNSHS3NC3LM&Content-Type=image%2Fjpeg&Expires=1583159168&Signature=SSPzDbLFKMvmafM1CbLLPf1J6Yk%3D
-    //getURL: https://strikeback-s3.s3.amazonaws.com/c7cf3e30-084d-4955-8037-10c86253a539
     var s3 = new aws.S3();
     s3.config.update({accessKeyId: config.accessKeyId, secretAccessKey: config.secretAccessKey});
 
@@ -81,51 +86,95 @@ router.route('/getSignedUrl').get((req, res, next) => {
 
 //http://localhost:5000/remarks/add
 router.route('/add').post((req, res) =>{
-    const userId = req.body.userId; 
-    const title = req.body.title;
-    const text = req.body.text;
-    const image = req.body.image;
-    const newRemark = new Remark({ userId, title, text, image })
-    newRemark.save()
-    .then((rem) => res.status(200).send(rem._id)) //attention pas en json
+
+    AuthToken.findById(req.query.token )
+    .then((token) => {
+        const userId = token.userId; 
+        const title = req.body.title;
+        const text = req.body.text;
+        const image = req.body.image;
+        const newRemark = new Remark({ userId, title, text, image })
+        newRemark.save()
+        .then((rem) => res.status(200).send(rem._id)) //attention pas en json
+        .catch(err => {
+            res.status(400).json('Error: ' + err)
+        })
+    })
     .catch(err => {
-        res.status(400).json('Error: ' + err)
-    });    
+        res.status(401).json('Authentication Error: ' + err)
+    })
+
 });
 
 ////PUT REQUESTS
 
 //
 router.put('/heard', (req,res,next) => {
-    Remark.findOneAndUpdate(
-    { 
-        _id: req.query.id
-    },
-    {
-        $inc : {heard : 1}
-    },
-    {useFindAndModify:false} //to avoid deprecation warning
-    )
-    .then(() => res.status(200).json('Remark heard one more time.'))
-    .catch(err => res.status(400).json('Error:' + err))
+    AuthToken.findById(req.query.token )
+    .then((token) => {
+        User.findById(token.userId)
+        .then(
+            Remark.findOneAndUpdate(
+            { 
+                _id: req.query.id
+            },
+            {
+                $inc : {heard : 1}
+            },
+            {useFindAndModify:false} //to avoid deprecation warning
+            )
+            .then(() => res.status(200).json('Remark heard one more time.'))
+            .catch(err => res.status(400).json('Error:' + err))
+        )
+	})
+    .catch(err => {
+        res.status(401).json('Authentication Error: ' + err)
+    })
+});
+
+router.put('/heard/decrement', (req,res,next) => {
+    AuthToken.findById(req.query.token )
+    .then((token) => {
+        User.findById(token.userId)
+        .then(
+            Remark.findOneAndUpdate(
+            { 
+                _id: req.query.id
+            },
+            {
+                $inc : {heard : -1}
+            },
+            {useFindAndModify:false} //to avoid deprecation warning
+            )
+            .then(() => res.status(200).json('Remark heard one less time.'))
+            .catch(err => res.status(400).json('Error:' + err))
+        )})
 });
 
 //http://localhost:5000/remarks/image
 router.put('/image', (req,res,next) => {
-    const link = req.body.url
-    const remarkId = req.body.id
-    Remark.findOneAndUpdate(
-    { 
-        _id: remarkId
-    },{
-        $set: {
-            image: link
-          }
-    },
-    {useFindAndModify:false} //to avoid deprecation warning
-    )
-    .then(() => res.status(200).json('Image updated'))
-    .catch(err => res.status(400).json('Error:' + err))
+    AuthToken.findById(req.query.token)
+    .then((token) => {
+        const url = req.body.url
+        const remarkId = req.body.id
+        Remark.findOneAndUpdate(
+        { 
+            _id: remarkId,
+            userId: token.userId
+        },{
+            $set: {
+                image: url
+              }
+        },
+        {useFindAndModify:false} //to avoid deprecation warning
+        )
+        .then(() => res.status(200).json('Image updated'))
+        .catch(err => res.status(400).json('Error:' + err))
+    })
+    .catch(err => {
+        res.status(401).json('Authentication Error: ' + err)
+    })
+
 });
 
 
@@ -133,11 +182,24 @@ router.put('/image', (req,res,next) => {
 
 //http://localhost:5000/remarks/delete?id=5e57d25f4b249c3a740985dd
 router.delete('/delete', (req,res,next) => {
-    Remark.findOneAndDelete({ 
-        _id: req.query.id 
+    AuthToken.findById(req.query.token )
+    .then((token) => {
+        User.findById(token.userId)
+        .then((err,user) => {
+            if (user.admin) {
+                Remark.findOneAndDelete({ 
+                    _id: req.query.id
+                })
+                .then((remark) => res.status(200).json("The remark has been deleted."))
+                .catch(err => res.status(400).json('Error:' + err))
+            } else {
+                res.status(403).json('Permission Error:' + err)
+            }
+        })
     })
-    .then((remark) => res.status(200).json("The remark has been deleted."))
-    .catch(err => res.status(400).json('Error:' + err))
+    .catch(err => {
+        res.status(401).json('Authentication Error: ' + err)
+    })    
 });
 
 module.exports = router;

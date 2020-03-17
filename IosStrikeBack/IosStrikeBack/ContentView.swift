@@ -11,6 +11,8 @@ struct ContentView: View {
     //var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var showMenu = false
     //@State var isConnected = false
+    
+        
     var body: some View {
         
         let drag = DragGesture()

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C94D2E95241CE47E00C521B6 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2E94241CE47E00C521B6 /* NotificationsView.swift */; };
+		C94D2E97241CE56200C521B6 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2E96241CE56200C521B6 /* Notification.swift */; };
+		C94D2E99241CE8FF00C521B6 /* NotificationDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2E98241CE8FF00C521B6 /* NotificationDAO.swift */; };
+		C94D2E9B241CF18E00C521B6 /* NotifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D2E9A241CF18E00C521B6 /* NotifView.swift */; };
 		C9821F3A241BCBCF0069B44D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9821F39241BCBCF0069B44D /* AppDelegate.swift */; };
 		C9821F3C241BCBCF0069B44D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9821F3B241BCBCF0069B44D /* SceneDelegate.swift */; };
 		C9821F3E241BCBCF0069B44D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9821F3D241BCBCF0069B44D /* ContentView.swift */; };
@@ -73,6 +77,10 @@
 		227CAC159ECAF05D27893D32 /* Pods_IosStrikeBack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IosStrikeBack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F994FBEA0A34C17D850585 /* Pods-IosStrikeBack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IosStrikeBack.debug.xcconfig"; path = "Target Support Files/Pods-IosStrikeBack/Pods-IosStrikeBack.debug.xcconfig"; sourceTree = "<group>"; };
 		B0D48AB583801B20F57EDAE2 /* Pods-IosStrikeBack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IosStrikeBack.release.xcconfig"; path = "Target Support Files/Pods-IosStrikeBack/Pods-IosStrikeBack.release.xcconfig"; sourceTree = "<group>"; };
+		C94D2E94241CE47E00C521B6 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		C94D2E96241CE56200C521B6 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		C94D2E98241CE8FF00C521B6 /* NotificationDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDAO.swift; sourceTree = "<group>"; };
+		C94D2E9A241CF18E00C521B6 /* NotifView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifView.swift; sourceTree = "<group>"; };
 		C9821F36241BCBCF0069B44D /* IosStrikeBack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IosStrikeBack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9821F39241BCBCF0069B44D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9821F3B241BCBCF0069B44D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -207,6 +215,10 @@
 				C9821F47241BCBD10069B44D /* Info.plist */,
 				C9821F41241BCBD10069B44D /* Preview Content */,
 				C9880C8D241BFABC00DE0EF0 /* Color.xcassets */,
+				C94D2E94241CE47E00C521B6 /* NotificationsView.swift */,
+				C94D2E96241CE56200C521B6 /* Notification.swift */,
+				C94D2E98241CE8FF00C521B6 /* NotificationDAO.swift */,
+				C94D2E9A241CF18E00C521B6 /* NotifView.swift */,
 			);
 			path = IosStrikeBack;
 			sourceTree = "<group>";
@@ -389,6 +401,7 @@
 				C9821F3C241BCBCF0069B44D /* SceneDelegate.swift in Sources */,
 				C9821F66241BCE400069B44D /* AnswerView.swift in Sources */,
 				C9821F6D241BCE540069B44D /* MyRemarks.swift in Sources */,
+				C94D2E9B241CF18E00C521B6 /* NotifView.swift in Sources */,
 				C9821F76241BCE640069B44D /* RemarkSet.swift in Sources */,
 				C9821F68241BCE400069B44D /* Answer.swift in Sources */,
 				C9821F96241BD61B0069B44D /* RemarkView.swift in Sources */,
@@ -403,12 +416,15 @@
 				C9821F86241BD5E60069B44D /* MenuView.swift in Sources */,
 				C9821F65241BCE400069B44D /* AnswerDAO.swift in Sources */,
 				C9821F6E241BCE540069B44D /* ImagePicker.swift in Sources */,
+				C94D2E97241CE56200C521B6 /* Notification.swift in Sources */,
 				C9821F90241BD6060069B44D /* CreateRemarkView.swift in Sources */,
+				C94D2E99241CE8FF00C521B6 /* NotificationDAO.swift in Sources */,
 				C9821F67241BCE400069B44D /* AnswerSet.swift in Sources */,
 				C9821F8F241BD6060069B44D /* ChangeColorView.swift in Sources */,
 				C9821F88241BD5E60069B44D /* MyProfilView.swift in Sources */,
 				C9821F3E241BCBCF0069B44D /* ContentView.swift in Sources */,
 				C9821F8D241BD6060069B44D /* CreateAnswerView.swift in Sources */,
+				C94D2E95241CE47E00C521B6 /* NotificationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

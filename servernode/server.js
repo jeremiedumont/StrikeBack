@@ -26,7 +26,7 @@ const answerRouter = require('./routes/answer');
 const remarkRouter = require('./routes/remark');
 const userRouter = require('./routes/user');
 const reportRouter = require('./routes/report');
-//const notificationRouter = require('./routes/notification');
+const notificationRouter = require('./routes/notification');
 
 app.use('',function (req,res,next) {
     console.log("\n-----QUERY-----")
@@ -40,7 +40,7 @@ app.use('/answers', answerRouter);
 app.use('/remarks', remarkRouter);
 app.use('/users', userRouter);
 app.use('/reports', reportRouter);
-//app.use('/notifications', notificationRouter);
+app.use('/notifications', notificationRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port : ${port}`);

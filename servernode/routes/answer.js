@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Answer = require('../models/answer.model')
+const Remark = require('../models/remark.model')
+const Notification = require('../models/notification.model')
 let AuthToken = require('../models/authToken.model');
 
 ////GET REQUESTS
@@ -81,7 +83,39 @@ router.route('/add').post((req, res) =>{
             const content = req.body.content;
             const newAnswer = new Answer({ userId, remarkId, content })
             newAnswer.save()
-            .then(() => res.status(200).json('Answer added.'))
+            .then((answer) => {
+                Notification.findOne(
+                    {
+                        postId: remarkId
+                    }
+                ).then( (notif) => {
+                    if (notif == null) {
+                        Remark.findById(remarkId)
+                        .then( (remark) => {
+                            const userIdOfThePoster = remark.userId
+                            const newNotif = new Notification({ postId: remarkId, userId: userIdOfThePoster })
+                            newNotif.save()
+                            .then(() => res.status(200).json('Notification created.'))
+                            .catch(err => res.status(400).json('Error:' + err))
+                        })
+                        .catch(err => res.status(400).json('Error:' + err))
+                    } else {
+                        Notification.findOneAndUpdate(
+                            { 
+                                postId: remarkId
+                            },
+                            {
+                                $inc : {numberNotifs : 1}
+                            },
+                            {useFindAndModify:false} //to avoid deprecation warning
+                        )
+                        .then(() => res.status(200).json('Notification updated.'))
+                        .catch(err => res.status(400).json('Error:' + err))
+                    }
+
+                })
+                .catch(err => res.status(400).json('Error: ' + err));
+            })
             .catch(err => res.status(400).json('Error: ' + err));
         } else {
             res.status(400).json("Error: token doesn't match userId transmitted.")

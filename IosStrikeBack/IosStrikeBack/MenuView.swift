@@ -46,6 +46,18 @@ struct MenuView: View {
                 }.padding(.top, 30)
                 
                 HStack {
+                    NavigationLink(destination: NotificationsView()) {
+                        Image(systemName: "envelope")
+                            .foregroundColor(.gray)
+                            .imageScale(.large)
+                        Text("Notifications")
+                            .foregroundColor(.gray)
+                            .font(.headline)
+                    }
+                    
+                }.padding(.top, 30)
+                
+                HStack {
                     NavigationLink(destination: ContentView()) {
                         Image(systemName: "trash")
                             .foregroundColor(.gray)

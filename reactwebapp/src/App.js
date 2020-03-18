@@ -14,14 +14,19 @@ import purple from '@material-ui/core/colors/purple';
 import blue from '@material-ui/core/colors/blue';
 
 import NavBar from './components/navbar';
-import { Home } from './components/home';
+import Home from './components/home';
 import RemarkDetails from './components/remarkDetails';
 import AddRemark from './components/addRemark';
 import Login from './components/login';
 
+//import {useSelector, useDispatch} from 'react-redux'
+//import {login, logout} from './actions'
+
 
 export default function App() {
   console.log('APP')
+  //const auth = useSelector(state => state.authenticationReducer.token)
+  //const dispatch = useDispatch()
   return (
     <MuiThemeProvider theme={theme}>
       <Router>

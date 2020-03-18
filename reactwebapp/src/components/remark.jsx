@@ -36,7 +36,7 @@ export default class Remark extends React.Component {
                 color: ""
             },
             heard:this.props.remark.heard,
-            isHeard: false, //attention on peut arnaquer hehe
+            isHeard: false, //attention on peut arnaquer
             answers: [],
             isClicked: false
         }

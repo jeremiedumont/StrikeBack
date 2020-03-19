@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
   Route
 } from 'react-router-dom'
@@ -19,6 +19,8 @@ import RemarkDetails from './components/remarkDetails';
 import AddRemark from './components/addRemark';
 import Login from './components/login';
 
+import history from './history'
+
 //import {useSelector, useDispatch} from 'react-redux'
 //import {login, logout} from './actions'
 
@@ -29,16 +31,17 @@ export default function App() {
   //const dispatch = useDispatch()
   return (
     <MuiThemeProvider theme={theme}>
-      <Router>
+      <Router history={history}>
         <div className="App">
+
           <NavBar></NavBar>
+
           <Switch>
             <Route path='/' exact render={(props) => <Home {...props}></Home>}/>
             <Route path='/fullRemark:id' render={(props) => <RemarkDetails {...props}></RemarkDetails>}/>
             <Route path='/addRemark' render={(props) => <AddRemark {...props}></AddRemark>}/>
             <Route path='/login' render={(props) => <Login {...props}></Login>}/>
           </Switch>
-
 
           <footer className="App-footer">
             This is our wonderful footer

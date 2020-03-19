@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import {
     AppBar,
     Typography,
     Button,
-    Toolbar
+    Toolbar,
+    Grid
 } from '@material-ui/core'
 
 import Fab from '@material-ui/core/Fab';
@@ -14,95 +15,64 @@ import AddIcon from '@material-ui/icons/Add';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import '../styles/navbar.css'
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux'
 
-const NavBar = () => {
-    const [isLogged, setIsLogged] = useState(useSelector(state => state.isLoggedIn))
+import history from '../history'
+
+const NavBar = (props) => {
+    //var [isLogged, setIsLogged] = useState(useSelector(state => state.isLoggedIn))
 
     return (
         <AppBar position="sticky">
             <Toolbar>
-                <Typography variant="h6" >
-                    Strike Back |
-                </Typography>
-                { !isLogged
-                    &&
-                    <Button
-                        href='/login'
-                        color="inherit"
-                        startIcon={<AccountCircleIcon />}
-
-                    >
-                        Login
-                    </Button>
-                }
-
-                <Fab
-                    color="secondary"
-                    aria-label="add"
-                    href='/addRemark'
+                <Grid
+                    container
+                    spacing={3}
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="center"
                 >
-                    <AddIcon />
-                </Fab>
+                    <Grid item xs={4}>
+                        <Typography
+                            variant="h4"
+                            onClick={() => history.push('/')}
+                            className='NavBar-Title'
+                        >
+                            Strike Back
+                        </Typography>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        {!props.isLogged
+                            &&
+                            <Button
+                                href='/login'
+                                color="inherit"
+                                startIcon={<AccountCircleIcon />}
+                            >
+                                Login
+                        </Button>
+                        }
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <Fab
+                            color="secondary"
+                            aria-label="add"
+                            onClick={() => history.push('/addRemark')}
+                        >
+                            <AddIcon />
+                        </Fab>
+                    </Grid>
+                </Grid>
             </Toolbar>
         </AppBar>
     )
 }
 
-class NavBar1 extends React.Component {
+const mapStateToProps = (state) => ({
+    isLogged: state.authenticationReducer.token
+})
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            isLoggedIn: false,
-            open: false
-        }
-    }
-
-    _handleOpen = () => {
-        console.log('OOO')
-        this.setState({
-            open: true
-        })
-    };
-
-    _handleClose = () => {
-        console.log('CCC')
-        this.setState({
-            open: false
-        })
-    };
-
-    render() {
-        return (
-            <AppBar position="sticky">
-                <Toolbar>
-                    <Typography variant="h6" >
-                        Strike Back |
-                        </Typography>
-                    {true
-                        &&
-                        <Button
-                            href='/login'
-                            color="inherit"
-                            startIcon={<AccountCircleIcon />}
-
-                        >
-                            Login
-                            </Button>
-                    }
-
-                    <Fab
-                        color="secondary"
-                        aria-label="add"
-                        href='/addRemark'
-                    >
-                        <AddIcon />
-                    </Fab>
-                </Toolbar>
-            </AppBar>
-        )
-    }
-}
-
-export default NavBar
+export default connect(mapStateToProps)(NavBar)
+//export default NavBar

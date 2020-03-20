@@ -19,6 +19,7 @@ import {
 
 import {getUserById} from '../DAOs/usersDAO';
 import {incrementHeard, decrementHeard} from '../DAOs/remarksDAO';
+import {addReport} from '../DAOs/reportsDAO'
 import history from '../history'
 import { connect, useSelector, useDispatch } from 'react-redux'
 
@@ -80,7 +81,8 @@ class Remark extends React.Component {
     }
 
     _reportRemark() {
-        console.error('We should report the remark.')
+        console.log('We should report the remark.')
+        addReport(this.props.remark._id, "Remark")
     }
 
     _colorPicker() {
@@ -183,8 +185,7 @@ class Remark extends React.Component {
                                         <IconButton
                                             onClick={()=>{
                                                 this._reportRemark()
-                                            }}
-                                        >
+                                            }}>
                                             <ReportRoundedIcon fontSize='large'></ReportRoundedIcon>
                                         </IconButton>
                                     </Grid>

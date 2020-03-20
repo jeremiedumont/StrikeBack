@@ -11,9 +11,11 @@ import {
 } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ReportRoundedIcon from '@material-ui/icons/ReportRounded';
 import '../styles/answer.css'
 
 import {getUserById} from '../DAOs/usersDAO'
+import {addReport} from '../DAOs/reportsDAO'
 import {incrementUp, incrementDown} from '../DAOs/answersDAO'
 
 import history from '../history'
@@ -45,6 +47,12 @@ class Answer extends React.Component {
         })
     }
 
+    _reportAnswer(){
+        console.log("we should report this answer")
+        console.log(this.props.answer._id)
+        addReport(this.props.answer._id, "Answer")
+    }
+
     _handleUp(){
         console.log('Click UP')
         incrementUp(this.props.answer._id)
@@ -68,7 +76,7 @@ class Answer extends React.Component {
             <Paper elevation={5} >
                 <Card variant="outlined">
                     <Grid container spacing={2} className="Answer-content">
-                        <Grid item xs={10}>
+                        <Grid item xs={this.state.isLoggedIn ? 9 : 10 }>
                             <CardContent>
                                 <div>
                                     <h1>{this.props.answer.content}</h1>
@@ -112,6 +120,21 @@ class Answer extends React.Component {
                                 {this.state.pertinency} 
                             </Avatar>
                         </Grid>
+                        {this.state.isLoggedIn && (
+                        <Grid item xs={1} 
+                            container spacing={5}
+                            direction="column"
+                            justify="center"
+                            alignItems="center">
+                            <IconButton
+                                onClick={()=>{
+                                    this._reportAnswer()
+                                }}
+                            >
+                                <ReportRoundedIcon fontSize='large'></ReportRoundedIcon>
+                            </IconButton>
+                        </Grid>
+                        )}
                     </Grid>
                 </Card>
             </Paper>

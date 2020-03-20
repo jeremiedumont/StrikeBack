@@ -18,6 +18,7 @@ import Home from './components/home';
 import RemarkDetails from './components/remarkDetails';
 import AddRemark from './components/addRemark';
 import Login from './components/login';
+import SignUp from './components/signUp';
 
 import history from './history'
 
@@ -40,6 +41,7 @@ export default function App() {
             <Route path='/' exact render={(props) => <Home {...props}></Home>}/>
             <Route path='/fullRemark:id' render={(props) => <RemarkDetails {...props}></RemarkDetails>}/>
             <Route path='/addRemark' render={(props) => <AddRemark {...props}></AddRemark>}/>
+            <Route path='/signup' render={(props) => <SignUp {...props}></SignUp>}/>
             <Route path='/login' render={(props) => <Login {...props}></Login>}/>
           </Switch>
 

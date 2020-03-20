@@ -100,6 +100,7 @@ export async function getAnswersSortedByPertinency(order,skip,number) {
 
 //POST
 export async function addAnswer(userId,remarkId,content) {
+  console.log("addAnswer -> (userId,remarkId,content",userId,remarkId,content)
   const fetchUri = baseURL  + 'answers/add';
   return fetch(fetchUri, {
       method: 'POST',

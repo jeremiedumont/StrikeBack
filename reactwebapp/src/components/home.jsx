@@ -23,7 +23,7 @@ const Home = (props) => {
         <div style={styles.container}>
             {remarks.map((remark, index) => (
                 <div key={index} style={styles.remark}>
-                    <Remark remark={remark}></Remark>
+                    <Remark remark={remark} isClickable='true'></Remark>
                 </div>
             ))}
         </div>

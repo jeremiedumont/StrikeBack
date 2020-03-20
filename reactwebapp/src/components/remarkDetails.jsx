@@ -1,11 +1,14 @@
 import React from 'react'
 
-import {getAnswersByRemarkId} from '../DAOs/answersDAO'
+import {getAnswersByRemarkId, addAnswer} from '../DAOs/answersDAO'
 import {getRemarkById} from '../DAOs/remarksDAO'
 import Remark from './remark'
 import Answer from './answer'
+import AddAnswer from './addAnswer'
 
-export default class RemarkDetails extends React.Component {
+import { connect } from 'react-redux'
+
+class RemarkDetails extends React.Component {
     constructor(props){ //remark
         super(props);
         this.state = {
@@ -44,7 +47,7 @@ export default class RemarkDetails extends React.Component {
         return (            
             <div style={styles.details}>
                 { !this.state.isLoading && (
-                    <Remark remark={this.state.remark}></Remark>
+                    <Remark remark={this.state.remark} isClickable='false'></Remark>
                 )}
                 <div style={styles.answers}>
                     {this.state.answers.map((answer, index) => (
@@ -55,6 +58,8 @@ export default class RemarkDetails extends React.Component {
                     ))
                     }
                 </div>
+                {this.props.isLoggedIn && <AddAnswer remarkId={this.state.remark._id}></AddAnswer>}
+                
             </div>
         )
     }
@@ -73,3 +78,10 @@ const styles = {
         padding: 1
       }
 }
+
+const mapStateToProps = (state) => ({
+    isLoggedIn: state.authenticationReducer.isLoggedIn,
+    token: state.authenticationReducer.token
+})
+
+export default connect(mapStateToProps)(RemarkDetails)

@@ -29,7 +29,8 @@ const reportRouter = require('./routes/report');
 const notificationRouter = require('./routes/notification');
 
 app.use('',function (req,res,next) {
-    console.log("\n-----QUERY-----")
+    console.log("\n-------PATH: " + req.path)
+    console.log("-------QUERY-------")
     console.log(req.query)
     console.log("-----BODY-----")
     console.log(req.body)

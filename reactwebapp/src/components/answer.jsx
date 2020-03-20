@@ -9,21 +9,21 @@ import {
     IconButton,
     Avatar 
 } from '@material-ui/core';
-
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
 import '../styles/answer.css'
-
 
 import {getUserById} from '../DAOs/usersDAO'
 import {incrementUp, incrementDown} from '../DAOs/answersDAO'
 
-export default class Answer extends React.Component {
+import history from '../history'
+import { connect, useSelector, useDispatch } from 'react-redux'
+
+class Answer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            isLoggedIn: false,
+            isLoggedIn: this.props.isLoggedIn,
             user: {
                 _id: this.props.answer.userId,
                 pseudo: "",
@@ -118,3 +118,10 @@ export default class Answer extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    isLoggedIn: state.authenticationReducer.isLoggedIn,
+    token: state.authenticationReducer.token
+})
+
+export default connect(mapStateToProps)(Answer)

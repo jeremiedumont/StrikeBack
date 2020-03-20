@@ -113,8 +113,8 @@ export async function addRemark(token, title, text, image) {
 }
 
 //PUT
-export async function incrementHeard(id) {
-  const fetchUri = baseURL + 'remarks/heard?id=' + id;
+export async function incrementHeard(id,token) {
+  const fetchUri = baseURL + 'remarks/heard?id=' + id + '&token=' + token;
   console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
     method: 'PUT',
@@ -133,8 +133,8 @@ export async function incrementHeard(id) {
     });
 }
 
-export async function decrementHeard(id) {
-  const fetchUri = baseURL + 'remarks/heard/decrement?id=' + id;
+export async function decrementHeard(id,token) {
+  const fetchUri = baseURL + 'remarks/heard/decrement?id=' + id + '&token=' + token;
   console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
     method: 'PUT',

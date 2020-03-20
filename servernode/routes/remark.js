@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+let User = require('../models/user.model');
 const Remark = require('../models/remark.model');
 let AuthToken = require('../models/authToken.model');
 var aws = require('aws-sdk');
@@ -110,7 +111,7 @@ router.route('/add').post((req, res) =>{
 
 //
 router.put('/heard', (req,res,next) => {
-    AuthToken.findById(req.query.token )
+    AuthToken.findById(req.query.token)
     .then((token) => {
         User.findById(token.userId)
         .then(

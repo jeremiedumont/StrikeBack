@@ -49,7 +49,11 @@ router.route('/login').post((req, res) => {
             res.status(401).json('Error : Wrong pseudo')
         } else if (user.password != req.body.password) {
             res.status(401).json('Error : Wrong password')
-        } else {
+        } else { // si il a déjà un token on le supprime et on crée un nouveau, sinon on crée un nouveau
+
+            AuthToken.findOneAndDelete({userId: user._id})
+            .catch(err => res.status(400).json('Error: ' + err))
+
             const newToken = new AuthToken({userId: user._id})
             newToken.save()
             .then((token) => res.status(200).json({

@@ -19,13 +19,15 @@ import {
 
 import {getUserById} from '../DAOs/usersDAO';
 import {incrementHeard, decrementHeard} from '../DAOs/remarksDAO';
+import history from '../history'
+import { connect, useSelector, useDispatch } from 'react-redux'
 
 
-export default class Remark extends React.Component {
-    constructor(props){ //remarkId
+class Remark extends React.Component {
+    constructor(props){ //remarkId      
         super(props);        
         this.state = {
-            isLoggedIn: false,
+            isLoggedIn: this.props.isLoggedIn,
             url : '/fullRemark' + this.props.remark._id,
             user: {
                 _id: this.props.remark.userId,
@@ -38,7 +40,7 @@ export default class Remark extends React.Component {
             heard:this.props.remark.heard,
             isHeard: false, //attention on peut arnaquer
             answers: [],
-            isClicked: false
+            isClickable: this.props.isClickable
         }
 
         getUserById(this.state.user._id)
@@ -54,20 +56,22 @@ export default class Remark extends React.Component {
 
     _handleClick() {
         console.log('Click')
-        this.setState({
-            isClicked: !this.state.isClicked
-        })
+        if (this.props.isClickable) {
+            history.push(this.state.url)
+        } else {
+            console.log('You cannot go anywhere from here sorry.')
+        }
     }
 
     _heardAction() {
         if (this.state.isHeard) {
-            decrementHeard(this.props.remark._id)
+            decrementHeard(this.props.remark._id, this.props.token)
             this.setState({
                 heard: this.state.heard - 1,
                 isHeard: false
             })
         } else {
-            incrementHeard(this.props.remark._id)
+            incrementHeard(this.props.remark._id, this.props.token)
             this.setState({
                 heard: this.state.heard + 1,
                 isHeard: true
@@ -76,7 +80,7 @@ export default class Remark extends React.Component {
     }
 
     _reportRemark() {
-        console.log('We should report the remark.')
+        console.error('We should report the remark.')
     }
 
     _colorPicker() {
@@ -107,7 +111,7 @@ export default class Remark extends React.Component {
                             alignItems='center'
                         >
                             <Grid item xs={9} md={10}>
-                                <CardActionArea href={this.state.url}>
+                                <CardActionArea onClick={() => this._handleClick()}>
                                     <CardContent>
                                         <Grid container spacing={2}
                                             direction="row"
@@ -132,9 +136,7 @@ export default class Remark extends React.Component {
                                             alignItems="flex-start"
                                         >
                                             <Grid item xs={12}>
-                                                <h1 className='title' 
-                                                    onClick={() => {this._handleClick()}}
-                                                >
+                                                <h1 className='title'>
                                                     {this.props.remark.title}
                                                 </h1>
                                             </Grid>
@@ -196,3 +198,10 @@ export default class Remark extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    isLoggedIn: state.authenticationReducer.isLoggedIn,
+    token: state.authenticationReducer.token
+})
+
+export default connect(mapStateToProps)(Remark)

@@ -44,11 +44,7 @@ export default function App() {
             <Route path='/signup' render={(props) => <SignUp {...props}></SignUp>}/>
             <Route path='/login' render={(props) => <Login {...props}></Login>}/>
           </Switch>
-
-          <footer className="App-footer">
-            This is our wonderful footer
-          </footer>
-
+          
         </div>
       </Router>
     </MuiThemeProvider>

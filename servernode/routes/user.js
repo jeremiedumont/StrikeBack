@@ -33,11 +33,12 @@ router.route('/signup').post((req, res) =>{
     const password = req.body.password;
     const color = req.body.color;
     const email = req.body.email;
+    const hash = bcrypt.hashSync(password, saltRounds);
     //const admin = req.body.admin; //pas top safety
-    const newUser = new User({pseudo : pseudo, email : email, color : color, password : password})
+    const newUser = new User({pseudo : pseudo, email : email, color : color, password : hash})
 
     newUser.save()
-    .then(() => res.status(200).json('User added'))
+    .then(() => res.status(200).json("login success"))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -47,8 +48,18 @@ router.route('/login').post((req, res) => {
     .then(user => {
         if (user == null) {
             res.status(401).json('Error : Wrong pseudo')
-        } else if (user.password != req.body.password) {
-            res.status(401).json('Error : Wrong password')
+            
+        }
+        else if(!req.body.autologin){
+            if (!(bcrypt.compareSync(req.body.password, user.password))) {
+                res.status(401).json('Error : Wrong password')
+                const password = 
+            }
+        }
+        else if (req.body.autologin){
+            if (req.body.password != user.password) {
+                res.status(401).json('Error : Wrong password')
+            }
         } else { // si il a déjà un token on le supprime et on crée un nouveau, sinon on crée un nouveau
 
             AuthToken.findOneAndDelete({userId: user._id})
@@ -59,6 +70,7 @@ router.route('/login').post((req, res) => {
             .then((token) => res.status(200).json({
                 _id: user._id,
                 pseudo: user.pseudo,
+                password : user.password,
                 email: user.email,
                 creationDate: user.creationDate,
                 color: user.color,
@@ -90,8 +102,8 @@ router.route('/delete').delete((req, res) => {
 router.route('/updatePassword').put((req, res) => {
     User.findById(req.body.userId)
         .then(user => {
-            if (user.password == req.body.oldPassword) {
-                user.password = req.body.newPassword;
+            if (bcrypt.compareSync(req.body.password, user.password)) {
+                user.password = bcrypt.hashSync(req.body.newPassword, saltRounds);
             } else {
                 res.status(401).json('The old password is wrong.')
             }

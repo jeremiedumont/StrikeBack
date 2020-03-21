@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose')
-
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 require('dotenv').config();
 
 const app = express();

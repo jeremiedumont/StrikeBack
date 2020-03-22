@@ -47,7 +47,7 @@ class RemarkDetails extends React.Component {
         return (            
             <div style={styles.details}>
                 { !this.state.isLoading && (
-                    <Remark remark={this.state.remark} isClickable='false'></Remark>
+                    <Remark remark={this.state.remark} isClickable={false}></Remark>
                 )}
                 <div style={styles.answers}>
                     {this.state.answers.map((answer, index) => (

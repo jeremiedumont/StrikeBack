@@ -25,26 +25,34 @@ import { connect, useSelector, useDispatch } from 'react-redux'
 
 
 class Remark extends React.Component {
-    constructor(props){ //remarkId      
+    constructor(props){
+        console.log("CONSTRUCTOR OF A REMARK")
+        console.log(props)      
         super(props);        
         this.state = {
-            isLoggedIn: this.props.isLoggedIn,
-            url : '/fullRemark' + this.props.remark._id,
             user: {
-                _id: this.props.remark.userId,
+                _id: '', //this.props.remark.userId
                 pseudo: "",
                 admin: false,
                 email: "",
                 creationDate: Date.now(),
                 color: ""
             },
-            heard:this.props.remark.heard,
+            title: this.props.remark.title,
+            text: this.props.remark.text,
+            heard: this.props.remark.heard,
+            image: this.props.remark.image,
+            date: this.props.remark.date,
             isHeard: false, //attention on peut arnaquer
-            answers: [],
-            isClickable: this.props.isClickable
+            answers: []
         }
-
-        getUserById(this.state.user._id)
+    }
+    
+    componentDidMount() {
+        this.setState({
+            heard: this.props.remark.heard
+        })
+        getUserById(this.props.remark.userId)
         .then( res => {
             //console.log("Remark -> constructor -> this.state.user._id", this.state.user._id,this.props.remark)
             return res
@@ -53,12 +61,24 @@ class Remark extends React.Component {
                 user: user
             })
         })
-    }    
+    } 
+
+   componentWillReceiveProps(nextprops){
+       console.log("Receive props")
+       console.log(nextprops)
+       this.setState({
+        heard: nextprops.remark.heard,
+        title: nextprops.remark.title,
+        text: nextprops.remark.text,
+        image: nextprops.remark.image,
+        date: nextprops.remark.date
+    })
+   }
 
     _handleClick() {
         console.log('Click')
         if (this.props.isClickable) {
-            history.push(this.state.url)
+            history.push('/fullRemark' + this.props.remark._id)
         } else {
             console.log('You cannot go anywhere from here sorry.')
         }
@@ -94,15 +114,14 @@ class Remark extends React.Component {
     }
 
     render() {
-        console.log('Render of a Remark.')
         var isFilledWithImage = false
         
-        const image = this.props.remark.image
+        const image = this.state.image
         if (image !== 'none') {
             isFilledWithImage = true
         }
 
-        const date = moment(this.props.remark.date).format('DD/MM/YYYY, hh:mm a')
+        const date = moment(this.state.date).format('DD/MM/YYYY, hh:mm a')
         return (
                 <Paper elevation={10}>
                    <Card>
@@ -139,7 +158,7 @@ class Remark extends React.Component {
                                         >
                                             <Grid item xs={12}>
                                                 <h1 className='title'>
-                                                    {this.props.remark.title}
+                                                    {this.state.title}
                                                 </h1>
                                             </Grid>
                                             
@@ -153,14 +172,14 @@ class Remark extends React.Component {
                                             )}
 
                                             <Grid item xs={12} >
-                                                <h3 className='remark'>{this.props.remark.text}</h3>
+                                                <h3 className='remark'>{this.state.text}</h3>
                                             </Grid>
                                         </Grid>    
                                     </CardContent>
                                 </CardActionArea>
                             
                             </Grid>
-                            {this.state.isLoggedIn && (
+                            {this.props.isLoggedIn && (
                                 <Grid item xs={3} md={2}
                                     container
                                     spacing={5} 
@@ -191,6 +210,19 @@ class Remark extends React.Component {
                                     </Grid>
 
                                 </Grid>                        
+                            )}
+                            {!this.props.isLoggedIn && (
+                            <Grid item xs={3} md={2}
+                                container
+                                spacing={5} 
+                                direction="column"
+                                alignItems='center'
+                                justify='center'
+                            >
+                                <Grid>
+                                    <p>{this.state.heard}</p> 
+                                </Grid>
+                            </Grid>
                             )}
                         </Grid>
                     </Card>

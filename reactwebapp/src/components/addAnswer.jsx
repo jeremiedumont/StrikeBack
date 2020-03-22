@@ -26,8 +26,10 @@ const AddAnswer = (props) => {
         if (props.isLoggedIn) {
             console.log('You will submit')
             addAnswer(props.token,props.remarkId,content)
+            .then(history.push('/')) //ajouter l'answer dans la vue, on peut faire des answers globales avec redux mais c'est pas fou
+            .catch(err => console.error(err))
         } else {
-            alert("You must be logged in to submit a answer on Strike Back.")
+            alert("You must be logged in to submit an answer on Strike Back.")
         }
     }
 

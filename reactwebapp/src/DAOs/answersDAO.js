@@ -99,9 +99,9 @@ export async function getAnswersSortedByPertinency(order,skip,number) {
 }
 
 //POST
-export async function addAnswer(userId,remarkId,content) {
-  console.log("addAnswer -> (userId,remarkId,content",userId,remarkId,content)
-  const fetchUri = baseURL  + 'answers/add';
+export async function addAnswer(token,remarkId,content) {
+  console.log("addAnswer -> (userId,remarkId,content",token,remarkId,content)
+  const fetchUri = baseURL  + 'answers/add?token=' + token;
   return fetch(fetchUri, {
       method: 'POST',
       headers: {
@@ -109,7 +109,6 @@ export async function addAnswer(userId,remarkId,content) {
           'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: userId,
         remarkId: remarkId,
         content: content          
       }),

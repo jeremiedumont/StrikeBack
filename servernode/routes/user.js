@@ -1,4 +1,7 @@
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 let User = require('../models/user.model');
 let AuthToken = require('../models/authToken.model');
 
@@ -38,12 +41,13 @@ router.route('/signup').post((req, res) =>{
     const newUser = new User({pseudo : pseudo, email : email, color : color, password : hash})
 
     newUser.save()
-    .then(() => res.status(200).json("login success"))
+    .then(() => res.status(200).json("SignUp success"))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 //Route used for login
 router.route('/login').post((req, res) => {
+    var validationLogin = false
     User.findOne({ pseudo : req.body.pseudo })
     .then(user => {
         if (user == null) {
@@ -53,14 +57,18 @@ router.route('/login').post((req, res) => {
         else if(!req.body.autologin){
             if (!(bcrypt.compareSync(req.body.password, user.password))) {
                 res.status(401).json('Error : Wrong password')
-                const password = 
+            } else {
+                validationLogin = true
             }
         }
         else if (req.body.autologin){
             if (req.body.password != user.password) {
                 res.status(401).json('Error : Wrong password')
+            } else {
+                validationLogin = true
             }
-        } else { // si il a déjà un token on le supprime et on crée un nouveau, sinon on crée un nouveau
+        } 
+        if (validationLogin) { // si il a déjà un token on le supprime et on crée un nouveau, sinon on crée un nouveau
 
             AuthToken.findOneAndDelete({userId: user._id})
             .catch(err => res.status(400).json('Error: ' + err))
@@ -102,7 +110,7 @@ router.route('/delete').delete((req, res) => {
 router.route('/updatePassword').put((req, res) => {
     User.findById(req.body.userId)
         .then(user => {
-            if (bcrypt.compareSync(req.body.password, user.password)) {
+            if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
                 user.password = bcrypt.hashSync(req.body.newPassword, saltRounds);
             } else {
                 res.status(401).json('The old password is wrong.')

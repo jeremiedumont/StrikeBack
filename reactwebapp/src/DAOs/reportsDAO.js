@@ -1,6 +1,6 @@
 import baseURL from './urls'
 
-export function addReport(postId, type){
+export function addReport(postId, type, token){
     console.log("postId = " + postId + ", type = " + type)
     const fetchUri = baseURL  + 'reports/add';
     return fetch(fetchUri, {

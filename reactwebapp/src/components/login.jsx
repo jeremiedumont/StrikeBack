@@ -39,6 +39,7 @@ const Login = () => {
                     })
 
                 } else {
+                    console.log(res)
                     res.json().then(resJson => {
                         alert(resJson)
                     })

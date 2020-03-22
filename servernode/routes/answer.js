@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Answer = require('../models/answer.model')
+const User = require('../models/user.model')
 const Remark = require('../models/remark.model')
 const Notification = require('../models/notification.model')
 let AuthToken = require('../models/authToken.model');
@@ -129,17 +130,23 @@ router.route('/add').post((req, res) => {
 router.put('/up', (req, res, next) => {
     AuthToken.findById(req.query.token)
         .then(
-            Answer.findOneAndUpdate(
-                {
-                    _id: req.query.id
-                },
-                {
-                    $inc: { ups: 1, pertinency: 1 }
-                },
-                { useFindAndModify: false } //to avoid deprecation warning
-            )
-                .then(() => res.status(200).json('Answer up.'))
-                .catch(err => res.status(400).json('Error:' + err))
+            User.findOneAndUpdate(
+                {_id : token.userId}, 
+                {$push : {ups : req.query.id}}, 
+                {useFindAndModify: false})
+                    .then(
+                        Answer.findOneAndUpdate(
+                            {
+                                _id: req.query.id
+                            },
+                            {
+                                $inc: { ups: 1, pertinency: 1 }
+                            },
+                            { useFindAndModify: false } //to avoid deprecation warning
+                        )
+                            .then(() => res.status(200).json('Answer up.'))
+                            .catch(err => res.status(400).json('Error:' + err))
+                    )
         )
         .catch(err => {
             res.status(401).json('Authentication Error: ' + err)
@@ -150,17 +157,24 @@ router.put('/up', (req, res, next) => {
 router.put('/down', (req, res, next) => {
     AuthToken.findById(req.query.token)
         .then(() => {
-            Answer.findOneAndUpdate(
-                {
-                    _id: req.query.id
-                },
-                {
-                    $inc: { downs: 1, pertinency: -1 }
-                },
-                { useFindAndModify: false } //to avoid deprecation warning
-            )
-                .then(() => res.status(200).json('Answer down.'))
-                .catch(err => res.status(400).json('Error:' + err))
+            User.findOneAndUpdate(
+                {_id : token.userId}, 
+                {$push : {downs : req.query.id}}, 
+                {useFindAndModify: false})
+                .then(
+                    Answer.findOneAndUpdate(
+                        {
+                            _id: req.query.id
+                        },
+                        {
+                            $inc: { downs: 1, pertinency: -1 }
+                        },
+                        { useFindAndModify: false } //to avoid deprecation warning
+                    )
+                        .then(() => res.status(200).json('Answer down.'))
+                        .catch(err => res.status(400).json('Error:' + err))
+                )
+            
         })
         .catch(err => {
             res.status(401).json('Authentication Error: ' + err)

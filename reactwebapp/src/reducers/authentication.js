@@ -7,7 +7,11 @@ const AuthenticationReducer = (
             case 'LOG_IN':
                 return {
                     isLoggedIn: true,
-                    token: action.token
+                    token: action.token,
+                    // heards : action.heards,
+                    // ups : action.ups,
+                    // downs : action.downs,
+                    // reports : action.reports
                 }
             case 'LOG_OUT':
                 return {

@@ -3,8 +3,6 @@ const router = express.Router();
 let User = require('../models/user.model');
 const Remark = require('../models/remark.model');
 let AuthToken = require('../models/authToken.model');
-var aws = require('aws-sdk');
-var config = require('../config');
 var uuid = require('uuid'); //je sais pas trop ce que c'est
 
 ////GET REQUESTS
@@ -72,26 +70,6 @@ router.get('/sorted/heard', (req,res,next) => {
     .catch(err => res.status(400).json('Error:' + err))
 });
 
-router.route('/getSignedUrl').get((req, res, next) => {
-    var s3 = new aws.S3();
-    s3.config.update({accessKeyId: config.accessKeyId, secretAccessKey: config.secretAccessKey});
-
-    var params = {
-        Bucket: 'strikeback-s3', // your bucket name
-        Key:  uuid.v4(), // this generates a unique identifier
-        Expires: 100, // number of seconds in which image must be posted
-        ContentType: 'image/jpeg' // must match "Content-Type" header of Alamofire PUT request
-    };
-    s3.getSignedUrl('putObject', params, function(err, signedURL) {
-        if (err) {
-            console.log(err);
-            return next(err);
-        } else {
-            return res.json({postURL: signedURL, getURL: signedURL.split("?")[0]});
-        }
-    });
-});
-
 ////POST REQUESTS
 
 //http://localhost:5000/remarks/add
@@ -122,20 +100,26 @@ router.route('/add').post((req, res) =>{
 router.put('/heard', (req,res,next) => {
     AuthToken.findById(req.query.token)
     .then((token) => {
-        User.findById(token.userId)
-        .then(
-            Remark.findOneAndUpdate(
-            { 
-                _id: req.query.id
-            },
-            {
-                $inc : {heard : 1}
-            },
-            {useFindAndModify:false} //to avoid deprecation warning
+        // User.findById(token.userId)
+        // .then(
+        // )
+        User.findOneAndUpdate(
+            {_id : token.userId}, 
+            {$push : {heards : req.query.id}}, 
+            {useFindAndModify: false})
+            .then(
+                Remark.findOneAndUpdate(
+                    { 
+                        _id: req.query.id
+                    },
+                    {
+                        $inc : {heard : 1}
+                    },
+                    {useFindAndModify:false} //to avoid deprecation warning
+                    )
+                    .then(() => res.status(200).json('Remark heard one more time.'))
+                    .catch(err => res.status(400).json('Error:' + err))
             )
-            .then(() => res.status(200).json('Remark heard one more time.'))
-            .catch(err => res.status(400).json('Error:' + err))
-        )
 	})
     .catch(err => {
         res.status(401).json('Authentication Error: ' + err)
@@ -145,7 +129,10 @@ router.put('/heard', (req,res,next) => {
 router.put('/heard/decrement', (req,res,next) => {
     AuthToken.findById(req.query.token )
     .then((token) => {
-        User.findById(token.userId)
+        User.findOneAndUpdate(
+            {_id : token.userId}, 
+            {$pull : {heards : req.query.id}}, 
+            {useFindAndModify: false})
         .then(
             Remark.findOneAndUpdate(
             { 

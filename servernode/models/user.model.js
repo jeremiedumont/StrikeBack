@@ -34,8 +34,19 @@ const userSchema = new Schema({
         type : String,
         minlength : 6,
         required : true
+    },
+    ups : {
+        type : Array
+    },
+    downs : {
+        type : Array
+    },
+    heards : {
+        type : Array
+    },
+    reports : {
+        type : Array
     }
-
 
 },{versionKey:false});
 

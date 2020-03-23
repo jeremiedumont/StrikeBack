@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+//import { addUp, addDown, addReport as addStateReport } from '../actions'
 
 import {
     Grid,
@@ -7,7 +8,7 @@ import {
     Card,
     CardContent,
     IconButton,
-    Avatar 
+    Avatar
 } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -17,7 +18,6 @@ import '../styles/answer.css'
 import {getUserById} from '../DAOs/usersDAO'
 import {addReport} from '../DAOs/reportsDAO'
 import {incrementUp, incrementDown} from '../DAOs/answersDAO'
-
 import history from '../history'
 import { connect, useSelector, useDispatch } from 'react-redux'
 
@@ -35,6 +35,8 @@ class Answer extends React.Component {
         }
     }
 
+   
+
     componentDidMount(){
         getUserById(this.state.user._id)
         .then(user => {
@@ -50,24 +52,37 @@ class Answer extends React.Component {
     _reportAnswer(){
         console.log("we should report this answer")
         console.log(this.props.answer._id)
-        addReport(this.props.answer._id, "Answer")
+        var action = { type: 'ADD_REPORT', postId : this.props.answer._id}
+        this.props.dispatch(action)
+        addReport(this.props.answer._id, "Answer", this.props.token)
     }
 
     _handleUp(){
         console.log('Click UP')
-        incrementUp(this.props.answer._id)
+        //this.props.addUp(this.props.answer._id)
+        var action = { type: 'ADD_UP', postId : this.props.answer._id}
+        this.props.dispatch(action)
+        incrementUp(this.props.answer._id, this.props.token)
         this.setState({
             pertinency: this.state.pertinency + 1
         })
+
+        console.log(this.props.ups)
     }
 
     _handleDown() {
         console.log('Click DOWN')
-        incrementDown(this.props.answer._id)
+        var action = { type: 'ADD_DOWN', postId : this.props.answer._id}
+        this.props.dispatch(action)
+        incrementDown(this.props.answer._id, this.props.token)
         this.setState({
             pertinency: this.state.pertinency - 1
         })
     }
+
+     _alreadyChecked(){
+         return this.props.ups.includes(this.props.answer._id)
+     }
 
     render() {
 
@@ -88,13 +103,14 @@ class Answer extends React.Component {
                         </Grid>
                         {this.state.isLoggedIn && (
                             <Grid
-                                item xs={1} 
+                                item xs={1}
                                 container spacing={5}
                                 direction="column"
                                 justify="center"
                                 alignItems="center"
                             >
                                     <IconButton
+                                        disabled={this.props.ups.includes(this.props.answer._id)}
                                         color='primary'
                                         onClick={()=>{this._handleUp()}}
                                         variant="contained"
@@ -102,6 +118,7 @@ class Answer extends React.Component {
                                         <ArrowUpwardIcon />
                                     </IconButton>
                                     <IconButton
+                                    disabled={this.props.downs.includes(this.props.answer._id)}
                                         color='primary'
                                         onClick={()=>{this._handleDown()}}
                                         variant="contained"
@@ -110,23 +127,24 @@ class Answer extends React.Component {
                                     </IconButton>
                             </Grid>
                         )}
-                        <Grid item xs={1} 
+                        <Grid item xs={1}
                             container spacing={5}
                             direction="column"
                             justify="center"
                             alignItems="center"
                         >
                             <Avatar>
-                                {this.state.pertinency} 
+                                {this.state.pertinency}
                             </Avatar>
                         </Grid>
                         {this.state.isLoggedIn && (
-                        <Grid item xs={1} 
+                        <Grid item xs={1}
                             container spacing={5}
                             direction="column"
                             justify="center"
                             alignItems="center">
                             <IconButton
+                            disabled={this.props.reports.includes(this.props.answer._id)}
                                 onClick={()=>{
                                     this._reportAnswer()
                                 }}
@@ -144,7 +162,19 @@ class Answer extends React.Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: state.authenticationReducer.isLoggedIn,
-    token: state.authenticationReducer.token
+    token: state.authenticationReducer.token,
+    ups : state.postReducer.ups,
+    downs : state.postReducer.downs,
+    reports : state.postReducer.reports
 })
+
+// const mapDispatchToProps =  {
+//     //return {
+//       // implicitly forwarding arguments
+//     //   addUp: (...postId) =>
+//     //     dispatch(addUp(postId))
+//     addUp
+//     //}
+//   }
 
 export default connect(mapStateToProps)(Answer)

@@ -55,8 +55,9 @@ router.route('/login').post((req, res) => {
             
         }
         else if(!req.body.autologin){
+            console.log(bcrypt.hashSync(req.body.password, saltRounds))
             if (!(bcrypt.compareSync(req.body.password, user.password))) {
-                res.status(401).json('Error : Wrong password')
+                res.status(401).json('Error : Wrong password hihi')
             } else {
                 validationLogin = true
             }
@@ -74,6 +75,7 @@ router.route('/login').post((req, res) => {
             .catch(err => res.status(400).json('Error: ' + err))
 
             const newToken = new AuthToken({userId: user._id})
+            console.log(user.ups)
             newToken.save()
             .then((token) => res.status(200).json({
                 _id: user._id,
@@ -82,7 +84,11 @@ router.route('/login').post((req, res) => {
                 email: user.email,
                 creationDate: user.creationDate,
                 color: user.color,
-                authToken: token._id
+                authToken: token._id,
+                ups : user.ups,
+                downs : user.downs,
+                heards : user.heards,
+                reports : user.reports
             }))
             .catch(err => res.status(400).json('Error: ' + err));
         }

@@ -25,9 +25,7 @@ import { connect, useSelector, useDispatch } from 'react-redux'
 
 
 class Remark extends React.Component {
-    constructor(props){
-        console.log("CONSTRUCTOR OF A REMARK")
-        console.log(props)      
+    constructor(props){  
         super(props);        
         this.state = {
             user: {
@@ -64,8 +62,6 @@ class Remark extends React.Component {
     } 
 
    componentWillReceiveProps(nextprops){
-       console.log("Receive props")
-       console.log(nextprops)
        this.setState({
         heard: nextprops.remark.heard,
         title: nextprops.remark.title,

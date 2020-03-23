@@ -58,7 +58,8 @@ const AddRemark = (props) => {
             const url = await _uploadFile(image)
             console.log("File uploaded")
             console.log(image)
-            addRemark(props.token,title, text, url)
+            const idRemark = await addRemark(props.token,title, text, url)
+            history.push('/fullRemark' + idRemark)
         } else {
             alert("You must be logged in to submit a remark on Strike Back.")
         }

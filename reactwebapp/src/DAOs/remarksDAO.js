@@ -23,6 +23,25 @@ export async function getRemarkById(id) {
     });
 }
 
+export async function getNumberOfRemarks() {
+  const fetchUri = baseURL + 'remarks/count';
+  console.log('On envoie la request: ' + fetchUri)
+  return fetch(fetchUri, {
+    method: 'GET',
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
+}
+
 export async function getAllRemarksOfOneUser(id) {
   const fetchUri = baseURL + 'remarks/findByUserId/?id=' + id;
   console.log('On envoie la request: ' + fetchUri)

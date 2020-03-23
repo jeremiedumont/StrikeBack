@@ -123,8 +123,8 @@ export async function addAnswer(token,remarkId,content) {
 }
 
 //PUT 
-export async function incrementUp(id) {
-  const fetchUri = baseURL  + 'answers/up?id=' + id;
+export async function incrementUp(id, token) {
+  const fetchUri = baseURL  + 'answers/up?id=' + id + "&token=" + token;
   console.log('On envoie la request: '+ fetchUri)
   return fetch(fetchUri, {
       method: 'PUT',
@@ -143,8 +143,8 @@ export async function incrementUp(id) {
     });
 }
 
-export async function incrementDown(id) {
-  const fetchUri = baseURL  + 'answers/down?id=' + id;
+export async function incrementDown(id, token) {
+  const fetchUri = baseURL  + 'answers/down?id=' + id + "&token=" + token;
   console.log('On envoie la request: '+ fetchUri)
   return fetch(fetchUri, {
       method: 'PUT',

@@ -75,6 +75,7 @@ router.route('/login').post((req, res) => {
             .catch(err => res.status(400).json('Error: ' + err))
 
             const newToken = new AuthToken({userId: user._id})
+            console.log(user.ups)
             newToken.save()
             .then((token) => res.status(200).json({
                 _id: user._id,

@@ -13,10 +13,10 @@ router.route('/').get((req, res) => {
 //Incrementing the number of reports of a post
 router.route('/add').put((req, res) =>{
     AuthToken.findById(req.query.token)
-        .then(() => {
+        .then((token) => {
             User.findOneAndUpdate(
                 {_id : token.userId}, 
-                {$push : {reports : req.query.id}}, 
+                {$push : {reports : req.body.postId}}, 
                 {useFindAndModify: false})
                 .then(
                     Report.count({postId: req.body.postId, type : req.body.type}, function (err, count){ 

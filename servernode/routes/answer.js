@@ -129,7 +129,7 @@ router.route('/add').post((req, res) => {
 //
 router.put('/up', (req, res, next) => {
     AuthToken.findById(req.query.token)
-        .then(
+        .then((token) => {
             User.findOneAndUpdate(
                 {_id : token.userId}, 
                 {$push : {ups : req.query.id}}, 
@@ -147,16 +147,17 @@ router.put('/up', (req, res, next) => {
                             .then(() => res.status(200).json('Answer up.'))
                             .catch(err => res.status(400).json('Error:' + err))
                     )
-        )
-        .catch(err => {
-            res.status(401).json('Authentication Error: ' + err)
+                    .catch(err => {
+                        res.status(401).json('Authentication Error: ' + err)
+                    })
         })
+            
 });
 
 //
 router.put('/down', (req, res, next) => {
     AuthToken.findById(req.query.token)
-        .then(() => {
+        .then((token) => {
             User.findOneAndUpdate(
                 {_id : token.userId}, 
                 {$push : {downs : req.query.id}}, 

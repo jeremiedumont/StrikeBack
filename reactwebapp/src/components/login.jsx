@@ -32,7 +32,7 @@ const Login = () => {
                 if (res.status == 200) {
                     res.json().then(resJson => {
                         console.log("_handleSubmit -> resJson.authToken", resJson.authToken)
-                        dispatch(login(resJson.authToken))
+                        dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports))
                         localStorage.setItem('token',resJson.authToken);
                         //window.location.
                         history.push('/')

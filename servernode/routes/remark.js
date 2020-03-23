@@ -18,6 +18,15 @@ router.get('/', (req,res,next) => {
     .catch(err => res.status(400).json('Error:' + err))
 });
 
+router.get('/count', (req,res,next) => {
+    Remark.countDocuments()
+    .then((total) => {
+        console.log(total)
+        res.status(200).json(total)
+    })
+    .catch(err => res.status(400).json('Error:' + err))
+});
+
 //http://localhost:5000/remarks/findByUserId?token=5e500b859febd9351c7bdac2
 router.get('/findByUserId', (req,res,next) => {
     AuthToken.findById(req.query.token)

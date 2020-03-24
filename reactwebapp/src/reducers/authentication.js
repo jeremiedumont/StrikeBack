@@ -8,12 +8,12 @@ const AuthenticationReducer = (
                 return {
                     isLoggedIn: true,
                     token: action.token,
-                    // heards : action.heards,
-                    // ups : action.ups,
-                    // downs : action.downs,
-                    // reports : action.reports
+                    isAdmin: action.isAdmin
                 }
             case 'LOG_OUT':
+                localStorage.removeItem('pseudo')
+                localStorage.removeItem('pwd')
+                localStorage.removeItem('token')
                 return {
                     isLoggedIn: false,
                     token: null

@@ -36,16 +36,24 @@ const userSchema = new Schema({
         required : true
     },
     ups : {
-        type : Array
+        type : Array,
+        default: [],
+        required : false
     },
     downs : {
-        type : Array
+        type : Array,
+        default: [],
+        required : false
     },
     heards : {
-        type : Array
+        type : Array,
+        default: [],
+        required : false
     },
     reports : {
-        type : Array
+        type : Array,
+        default: [],
+        required : false
     }
 
 },{versionKey:false});

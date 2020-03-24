@@ -67,7 +67,7 @@ export async function signUp(pseudo,password,color,email) {
     });
 }
 
-export async function login(pseudo,password) {
+export async function login(pseudo,password,autoLogin) {
   const fetchUri = baseURL  + 'users/login';
   return fetch(fetchUri, {
       method: 'POST',
@@ -78,7 +78,7 @@ export async function login(pseudo,password) {
       body: JSON.stringify({
         pseudo: pseudo,
         password: password,
-        autologin: false // attention à l'autologin          
+        autologin: autoLogin          
       }),
   }).then((response) => {
     return response

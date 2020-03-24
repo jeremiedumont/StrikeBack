@@ -27,14 +27,13 @@ const Login = () => {
     const [token, setToken] = useState('')
 
     const _handleSubmit = () => {
-        loginDAO(pseudo, password)
+        loginDAO(pseudo, password, false)
             .then((res) => {
                 if (res.status == 200) {
                     res.json().then(resJson => {
-                        console.log("_handleSubmit -> resJson.authToken", resJson.authToken)
-                        dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports))
-                        localStorage.setItem('token',resJson.authToken);
-                        //window.location.
+                        dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports, resJson.admin))
+                        localStorage.setItem('pseudo',resJson.pseudo)
+                        localStorage.setItem('pwd',resJson.password)
                         history.push('/')
                     })
 
@@ -44,8 +43,7 @@ const Login = () => {
                         alert(resJson)
                     })
                 }
-            }
-            )
+            })
     }
 
     const dispatch = useDispatch()

@@ -1,11 +1,12 @@
-export const login = (token, heards, ups, downs, reports) => {
+export const login = (token, heards, ups, downs, reports, admin) => {
     return {
         type: 'LOG_IN',
         token: token,
         heards : heards,
         ups : ups,
         downs : downs, 
-        reports : reports
+        reports : reports,
+        isAdmin : admin
     }
 }
 

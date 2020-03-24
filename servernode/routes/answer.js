@@ -131,27 +131,27 @@ router.put('/up', (req, res, next) => {
     AuthToken.findById(req.query.token)
         .then((token) => {
             User.findOneAndUpdate(
-                {_id : token.userId}, 
-                {$push : {ups : req.query.id}}, 
-                {useFindAndModify: false})
-                    .then(
-                        Answer.findOneAndUpdate(
-                            {
-                                _id: req.query.id
-                            },
-                            {
-                                $inc: { ups: 1, pertinency: 1 }
-                            },
-                            { useFindAndModify: false } //to avoid deprecation warning
-                        )
-                            .then(() => res.status(200).json('Answer up.'))
-                            .catch(err => res.status(400).json('Error:' + err))
+                { _id: token.userId },
+                { $push: { ups: req.query.id } },
+                { useFindAndModify: false })
+                .then(
+                    Answer.findOneAndUpdate(
+                        {
+                            _id: req.query.id
+                        },
+                        {
+                            $inc: { ups: 1, pertinency: 1 }
+                        },
+                        { useFindAndModify: false } //to avoid deprecation warning
                     )
-                    .catch(err => {
-                        res.status(401).json('Authentication Error: ' + err)
-                    })
+                        .then(() => res.status(200).json('Answer up.'))
+                        .catch(err => res.status(400).json('Error:' + err))
+                )
+                .catch(err => {
+                    res.status(401).json('Authentication Error: ' + err)
+                })
         })
-            
+
 });
 
 //
@@ -159,9 +159,9 @@ router.put('/down', (req, res, next) => {
     AuthToken.findById(req.query.token)
         .then((token) => {
             User.findOneAndUpdate(
-                {_id : token.userId}, 
-                {$push : {downs : req.query.id}}, 
-                {useFindAndModify: false})
+                { _id: token.userId },
+                { $push: { downs: req.query.id } },
+                { useFindAndModify: false })
                 .then(
                     Answer.findOneAndUpdate(
                         {
@@ -175,7 +175,7 @@ router.put('/down', (req, res, next) => {
                         .then(() => res.status(200).json('Answer down.'))
                         .catch(err => res.status(400).json('Error:' + err))
                 )
-            
+
         })
         .catch(err => {
             res.status(401).json('Authentication Error: ' + err)
@@ -190,18 +190,18 @@ router.delete('/delete', (req, res, next) => {
     AuthToken.findById(req.query.token)
         .then((token) => {
             User.findById(token.userId)
-                .then((err, user) => {
+                .then((user) => {
                     if (user.admin) {
                         Answer.findOneAndDelete({
                             _id: req.query.id
                         })
-                            .then((answer) => res.status(200).json("The following answer has been deleted by an administrator: " + answer))
+                            .then(() => res.status(200).json("Answer deleted by an administrator: "))
                             .catch(err => res.status(400).json('Error:' + err))
                     } else {
                         res.status(403).json('Permission Error:' + err)
                     }
-                })
-        })
+                }).catch(err => res.status(401).json('Token Error:' + err))
+        }).catch(err => res.status(401).json('Authentication Error:' + err))
 
 });
 

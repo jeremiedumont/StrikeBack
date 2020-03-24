@@ -98,7 +98,7 @@ class Remark extends React.Component {
 
     _reportRemark() {
         console.log('We should report the remark.')
-        addReport(this.props.remark._id, "Remark")
+        addReport(this.props.remark._id, "Remark", this.props.token)
     }
 
     _colorPicker() {

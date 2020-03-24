@@ -84,6 +84,7 @@ router.route('/login').post((req, res) => {
                 email: user.email,
                 creationDate: user.creationDate,
                 color: user.color,
+                admin: user.admin,                
                 authToken: token._id,
                 ups : user.ups,
                 downs : user.downs,

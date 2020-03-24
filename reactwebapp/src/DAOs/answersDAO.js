@@ -163,8 +163,8 @@ export async function incrementDown(id, token) {
     });
 }
 
-export async function deleteAnswer(id) {
-  const fetchUri = baseURL  + 'answers/delete?id=' + id;
+export async function deleteAnswer(token, id) {
+  const fetchUri = baseURL  + 'answers/delete?id=' + id + '&token=' + token;
   console.log('On envoie la request: '+ fetchUri)
   return fetch(fetchUri, {
       method: 'DELETE',

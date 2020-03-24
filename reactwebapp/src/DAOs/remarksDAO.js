@@ -173,8 +173,8 @@ export async function decrementHeard(id,token) {
 }
 
 //DELETE
-export async function deleteRemark(id) {
-  const fetchUri = baseURL + 'remarks/delete?id=' + id;
+export async function deleteRemark(token, id) {
+  const fetchUri = baseURL + 'remarks/delete?id=' + id + '&token=' + token;
   console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
     method: 'DELETE',

@@ -9,20 +9,23 @@ import {
 } from '@material-ui/core'
 
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 
 //ICONS
+import AddIcon from '@material-ui/icons/Add';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import '../styles/navbar.css'
 import { connect, useDispatch } from 'react-redux'
 
 import history from '../history'
-import {logout } from '../actions'
+import { logout } from '../actions'
 
 const NavBar = (props) => {
     //var [isLogged, setIsLogged] = useState(useSelector(state => state.isLoggedIn))
     const dispatch = useDispatch()
+
     const _logOut = () => {
         dispatch(logout())
         history.push('/')
@@ -38,7 +41,7 @@ const NavBar = (props) => {
                     justify="flex-start"
                     alignItems="center"
                 >
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         <Typography
                             variant="h4"
                             onClick={() => history.push('/')}
@@ -48,48 +51,72 @@ const NavBar = (props) => {
                         </Typography>
                     </Grid>
 
-                    
+
 
                     {!props.isLogged
                         &&
                         <Fragment>
-                        <Grid item xs={2}>
-                        
-                            
-                            <Button
-                                href='/signup'
-                                color="inherit"
-                                startIcon={<AccountCircleIcon />}
-                            >
-                                Sign Up
-                        </Button>
-                        
-                    </Grid>
-                        <Grid item xs={2}>
-                            <Button
-                                href='/login'
-                                color="inherit"
-                                startIcon={<AccountCircleIcon />}
-                            >
-                                Login
-                        </Button>
-                    </Grid>
-                    </Fragment>}
-                    {props.isLogged
-                            &&
-                        <Grid item xs={4}>
-                            
+                            <Grid item xs={2}>
+
+
                                 <Button
-                                    onClick={_logOut}
+                                    href='/signup'
                                     color="inherit"
                                     startIcon={<AccountCircleIcon />}
                                 >
-                                    Log Out
+                                    Sign Up
+                                </Button>
+
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button
+                                    href='/login'
+                                    color="inherit"
+                                    startIcon={<AccountCircleIcon />}
+                                >
+                                    Login
+                                </Button>
+                            </Grid>
+                        </Fragment>
+                    }
+                    {props.isLogged
+                        &&
+                        <>
+                        <Grid item xs={props.isAdmin ? 2 : 3}>
+                            <Button
+                                onClick={_logOut}
+                                color="inherit"
+                                startIcon={<ExitToAppIcon/>}
+                            >
+                                Log Out
+                            </Button>
+                        </Grid>
+
+                        <Grid item xs={props.isAdmin ? 2 : 3}>
+                            <Button
+                                onClick={() => history.push('/myactivities')}
+                                color="inherit"
+                                startIcon={<AccountCircleIcon />}
+                            >
+                                My Activities
+                            </Button>
+                        </Grid>
+                        </>
+                    }
+                    {props.isAdmin
+                        &&
+                        <Grid item xs={2}>
+                            <Button
+                                onClick={() => history.push('/admin')}
+                                color="inherit"
+                                startIcon={<SupervisorAccountIcon />}
+                            >
+                                Administrator
                             </Button>
                         </Grid>
                     }
-
-                    <Grid item xs={4}>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={1}>
                         <Fab
                             color="secondary"
                             aria-label="add"
@@ -108,8 +135,8 @@ const NavBar = (props) => {
 
 const mapStateToProps = (state) => ({
     isLogged: state.authenticationReducer.isLoggedIn,
-    token: state.authenticationReducer.token
+    token: state.authenticationReducer.token,
+    isAdmin: state.authenticationReducer.isAdmin
 })
 
 export default connect(mapStateToProps)(NavBar)
-//export default NavBar

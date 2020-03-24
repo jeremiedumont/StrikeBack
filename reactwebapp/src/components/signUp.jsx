@@ -4,19 +4,17 @@ import history from '../history'
 
 import {
     Grid,
-    Paper,
     Card,
     Button,
-    IconButton,
     TextField,
     Typography,
 
 } from '@material-ui/core';
 
-import { signUp as signUpDAO } from '../DAOs/usersDAO';
+import { signUp as signUpDAO, login as loginDAO } from '../DAOs/usersDAO';
 
 import { connect, useSelector, useDispatch } from 'react-redux'
-import { login, logout } from '../actions'
+import { login } from '../actions'
 
 const SignUp = () => {
     const [pseudo, setPseudo] = useState('')
@@ -27,17 +25,30 @@ const SignUp = () => {
     const [email, setEmail] = useState('')
 
     const _handleSubmit = () => {
-        if(password == confirmPassword){
+        if (password == confirmPassword) {
             signUpDAO(pseudo, password, "PinkColor", email)
-            .then((res) => {
-                    alert("User added")
-                        //dispatch(login(resJson.authToken))
-                        //localStorage.setItem('token',resJson.authToken);
-                        //window.location.
-                        history.push('/')
-            }
-            ).catch(err => console.log(err))
-        }else{
+                .then(() => {
+                    //alert("You signed up successfully !")
+                    loginDAO(pseudo, password, false)
+                        .then((res) => {
+                            if (res.status == 200) {
+                                res.json().then(resJson => {
+                                    dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports, resJson.admin))
+                                    localStorage.setItem('pseudo', resJson.pseudo)
+                                    localStorage.setItem('pwd', resJson.password)
+                                })
+                            } else {
+                                console.log(res)
+                                res.json().then(resJson => {
+                                    alert(resJson)
+                                })
+                            }
+                        })
+                    history.push('/')
+                    //history.push('/login')
+                }
+                ).catch(err => console.log(err))
+        } else {
             alert("Passwords do not match. Please try again !")
         }
     }

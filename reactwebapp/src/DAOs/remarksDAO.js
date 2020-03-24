@@ -1,102 +1,107 @@
 import baseURL from './urls'
-import firebase from "firebase/app";
+import uuid from 'react-uuid'
+
 import "@firebase/storage";
+import { storage } from "../firebase/firebase"
 
-export async function getRemarkById(id){
-  const fetchUri = baseURL  + 'remarks/?id=' + id;
-    console.log('On envoie la request: '+ fetchUri)
-    return fetch(fetchUri, {
-        method: 'GET',
-        headers: {
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-        }
-    }).then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson;
-      })
-      .catch((error) => {
-        console.error(error);
-        return false;
-      });
+export async function getRemarkById(id) {
+  const fetchUri = baseURL + 'remarks/?id=' + id;
+  console.log('On envoie la request: ' + fetchUri)
+  return fetch(fetchUri, {
+    method: 'GET',
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
 }
 
-export async function getAllRemarksOfOneUser(id){
-  const fetchUri = baseURL  + 'remarks/findByUserId/?id=' + id;
-    console.log('On envoie la request: '+ fetchUri)
-    return fetch(fetchUri, {
-        method: 'GET',
-        headers: {
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-        }
-    }).then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson;
-      })
-      .catch((error) => {
-        console.error(error);
-        return false;
-      });
+export async function getAllRemarksOfOneUser(id) {
+  const fetchUri = baseURL + 'remarks/findByUserId/?id=' + id;
+  console.log('On envoie la request: ' + fetchUri)
+  return fetch(fetchUri, {
+    method: 'GET',
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
 }
 
-export async function getRemarksSortedByDate(order,skip,number) {
-    const fetchUri = baseURL  + 'remarks/sorted/date' + '?order=' + order + '&skip=' + skip + '&number=' + number;
-    console.log('On envoie la request: '+ fetchUri)
-    return fetch(fetchUri, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-    }).then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson;
-      })
-      .catch((error) => {
-        console.error(error);
-        return false;
-      });
+export async function getRemarksSortedByDate(order, skip, number) {
+  const fetchUri = baseURL + 'remarks/sorted/date' + '?order=' + order + '&skip=' + skip + '&number=' + number;
+  console.log('On envoie la request: ' + fetchUri)
+  return fetch(fetchUri, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
 }
 
-export async function getRemarksSortedByHeard(order,skip,number) {
-    const fetchUri = baseURL  + 'remarks/sorted/heard' + '?order=' + order + '&skip=' + skip + '&number=' + number;
-    return fetch(fetchUri, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }/*,
+export async function getRemarksSortedByHeard(order, skip, number) {
+  const fetchUri = baseURL + 'remarks/sorted/heard' + '?order=' + order + '&skip=' + skip + '&number=' + number;
+  return fetch(fetchUri, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }/*,
         body: JSON.stringify({
             email: e,
             password: p
         }),*/
-    }).then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson;
-      })
-      .catch((error) => {
-        console.error(error);
-        return false;
-      });
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
 }
 
 //POST
-export async function addRemark(userId,title,text,image) {
-  const fetchUri = baseURL  + 'remarks/add';
+export async function addRemark(token, title, text, image) {
+  const fetchUri = baseURL + 'remarks/add?token='+token;
+  if (image == null || image == ''){
+    image = "none"
+  }
+  console.log("token = " + token + ",title = " + title + ",text = " + text + ",image = " + image)
   return fetch(fetchUri, {
-      method: 'POST',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: userId,
-        title: title,
-        text: text,
-        image: image
-          
-      }),
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title: title,
+      text: text,
+      image: image
+
+    }),
   }).then((response) => response.json())
     .then((responseJson) => {
       return responseJson;
@@ -108,15 +113,15 @@ export async function addRemark(userId,title,text,image) {
 }
 
 //PUT
-export async function incrementHeard(id) {
-  const fetchUri = baseURL  + 'remarks/heard?id=' + id;
-  console.log('On envoie la request: '+ fetchUri)
+export async function incrementHeard(id,token) {
+  const fetchUri = baseURL + 'remarks/heard?id=' + id + '&token=' + token;
+  console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
-      method: 'PUT',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      }
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }
   }).then((response) => response.json())
     .then((responseJson) => {
       return responseJson;
@@ -128,15 +133,15 @@ export async function incrementHeard(id) {
     });
 }
 
-export async function decrementHeard(id) {
-  const fetchUri = baseURL  + 'remarks/heard/decrement?id=' + id;
-  console.log('On envoie la request: '+ fetchUri)
+export async function decrementHeard(id,token) {
+  const fetchUri = baseURL + 'remarks/heard/decrement?id=' + id + '&token=' + token;
+  console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
-      method: 'PUT',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      }
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }
   }).then((response) => response.json())
     .then((responseJson) => {
       return responseJson;
@@ -150,14 +155,14 @@ export async function decrementHeard(id) {
 
 //DELETE
 export async function deleteRemark(id) {
-  const fetchUri = baseURL  + 'remarks/delete?id=' + id;
-  console.log('On envoie la request: '+ fetchUri)
+  const fetchUri = baseURL + 'remarks/delete?id=' + id;
+  console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
-      method: 'DELETE',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      }
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }
   }).then((response) => response.json())
     .then((responseJson) => {
       return responseJson;
@@ -170,10 +175,10 @@ export async function deleteRemark(id) {
 }
 
 // --- FIREBASE ---
- /*const src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"
+/*const src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"
 
- const src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"
- */
+const src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"
+*/
 
 /*
   // Your web app's Firebase configuration
@@ -190,32 +195,20 @@ export async function deleteRemark(id) {
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
-  export function uploadImageToFireBase() {
-    const { image } = image;
-    const uploadTask = storage.ref(`images/${image.name}`).put(image);
-    uploadTask.on(
-      "state_changed",
-      snapshot => {
-        // progress function ...
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-      },
-      error => {
-        // Error function ...
-        console.log(error);
-      },
-      () => {
-        // complete function ...
-        firebase.storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
-          .then(url => {
-            this.setState({ url });
-          });
-      }
-    );
-  }
 */
+export async function uploadImageToFireBase(imageAsFile) {
+  if (imageAsFile == null || imageAsFile === '') {
+    console.error(`Not an image, the image file is a ${typeof (imageAsFile)}`)
+  } else {
+    console.log('Start of the uploading...')
+    console.log(imageAsFile)
+    const metadata = { contentType: 'image/jpeg' }
+    const imageName = uuid() + '.jpeg'
+    const imageRef = storage.ref(`/images/${imageName}`)
+    const uploadTask = await imageRef.put(imageAsFile, metadata)
+    const url = await imageRef.getDownloadURL().catch((error) => console.error(error))
+    return url
+
+  }
+  console.log('FINI')
+}

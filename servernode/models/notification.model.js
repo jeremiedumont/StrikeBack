@@ -13,7 +13,7 @@ const NotificationSchema = new Schema({
     },
     numberNotifs: {
         type: Number,
-        default: 0
+        default: 1
     } 
 },
 {versionKey: false})

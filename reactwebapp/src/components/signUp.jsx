@@ -1,7 +1,4 @@
-import 
-    React,
-    { useState, bindActionCreators } 
-from 'react';
+import React, { useState, bindActionCreators } from 'react';
 
 import history from '../history'
 
@@ -16,36 +13,33 @@ import {
 
 } from '@material-ui/core';
 
-import { login as loginDAO } from '../DAOs/usersDAO';
+import { signUp as signUpDAO } from '../DAOs/usersDAO';
 
 import { connect, useSelector, useDispatch } from 'react-redux'
 import { login, logout } from '../actions'
 
-const Login = () => {
+const SignUp = () => {
     const [pseudo, setPseudo] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [token, setToken] = useState('')
+    //const [color, setColor] = useState('')
+    const [email, setEmail] = useState('')
 
     const _handleSubmit = () => {
-        loginDAO(pseudo, password)
+        if(password == confirmPassword){
+            signUpDAO(pseudo, password, "PinkColor", email)
             .then((res) => {
-                if (res.status == 200) {
-                    res.json().then(resJson => {
-                        console.log("_handleSubmit -> resJson.authToken", resJson.authToken)
-                        dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports))
-                        localStorage.setItem('token',resJson.authToken);
+                    alert("User added")
+                        //dispatch(login(resJson.authToken))
+                        //localStorage.setItem('token',resJson.authToken);
                         //window.location.
                         history.push('/')
-                    })
-
-                } else {
-                    console.log(res)
-                    res.json().then(resJson => {
-                        alert(resJson)
-                    })
-                }
             }
-            )
+            ).catch(err => console.log(err))
+        }else{
+            alert("Passwords do not match. Please try again !")
+        }
     }
 
     const dispatch = useDispatch()
@@ -53,7 +47,7 @@ const Login = () => {
     return (
         <Card style={{ margin: 20, padding: 20 }}>
             <Typography variant="h4" gutterBottom>
-                Login
+                Sign Up
             </Typography>
 
             <Grid container spacing={3}>
@@ -79,6 +73,31 @@ const Login = () => {
                         helperText="6 characters minimum"
                     />
                 </Grid>
+
+                <Grid item xs={12}>
+                    <TextField
+                        required
+                        onChange={(e) => {
+                            setConfirmPassword(e.target.value)
+                        }}
+                        id="confirmpassword"
+                        type="password"
+                        label="Confirm Password"
+                        helperText="6 characters minimum"
+                    />
+                </Grid>
+
+
+                <Grid item xs={12}>
+                    <TextField
+                        required id="email"
+                        label="Email"
+                        onChange={(e) => {
+                            setEmail(e.target.value)
+                        }}
+                    />
+                </Grid>
+
                 <Grid item xs={12}>
 
                     <Button
@@ -87,7 +106,7 @@ const Login = () => {
                         color="secondary"
                         component="span"
                     >
-                        Login
+                        Sign Up
                         </Button>
 
                 </Grid>
@@ -102,4 +121,4 @@ const Login = () => {
 })
 
 export default connect(mapStateToProps)(Login)*/
-export default Login
+export default SignUp

@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose')
-
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
@@ -26,10 +25,11 @@ const answerRouter = require('./routes/answer');
 const remarkRouter = require('./routes/remark');
 const userRouter = require('./routes/user');
 const reportRouter = require('./routes/report');
-//const notificationRouter = require('./routes/notification');
+const notificationRouter = require('./routes/notification');
 
 app.use('',function (req,res,next) {
-    console.log("\n-----QUERY-----")
+    console.log("\n-------PATH: " + req.path)
+    console.log("-------QUERY-------")
     console.log(req.query)
     console.log("-----BODY-----")
     console.log(req.body)
@@ -40,7 +40,7 @@ app.use('/answers', answerRouter);
 app.use('/remarks', remarkRouter);
 app.use('/users', userRouter);
 app.use('/reports', reportRouter);
-//app.use('/notifications', notificationRouter);
+app.use('/notifications', notificationRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port : ${port}`);

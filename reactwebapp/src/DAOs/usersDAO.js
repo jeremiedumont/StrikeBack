@@ -77,7 +77,8 @@ export async function login(pseudo,password) {
       },
       body: JSON.stringify({
         pseudo: pseudo,
-        password: password          
+        password: password,
+        autologin: false // attention à l'autologin          
       }),
   }).then((response) => {
     return response

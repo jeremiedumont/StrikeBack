@@ -99,8 +99,9 @@ export async function getAnswersSortedByPertinency(order,skip,number) {
 }
 
 //POST
-export async function addAnswer(userId,remarkId,content) {
-  const fetchUri = baseURL  + 'answers/add';
+export async function addAnswer(token,remarkId,content) {
+  console.log("addAnswer -> (userId,remarkId,content",token,remarkId,content)
+  const fetchUri = baseURL  + 'answers/add?token=' + token;
   return fetch(fetchUri, {
       method: 'POST',
       headers: {
@@ -108,7 +109,6 @@ export async function addAnswer(userId,remarkId,content) {
           'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: userId,
         remarkId: remarkId,
         content: content          
       }),
@@ -123,8 +123,8 @@ export async function addAnswer(userId,remarkId,content) {
 }
 
 //PUT 
-export async function incrementUp(id) {
-  const fetchUri = baseURL  + 'answers/up?id=' + id;
+export async function incrementUp(id, token) {
+  const fetchUri = baseURL  + 'answers/up?id=' + id + "&token=" + token;
   console.log('On envoie la request: '+ fetchUri)
   return fetch(fetchUri, {
       method: 'PUT',
@@ -143,8 +143,8 @@ export async function incrementUp(id) {
     });
 }
 
-export async function incrementDown(id) {
-  const fetchUri = baseURL  + 'answers/down?id=' + id;
+export async function incrementDown(id, token) {
+  const fetchUri = baseURL  + 'answers/down?id=' + id + "&token=" + token;
   console.log('On envoie la request: '+ fetchUri)
   return fetch(fetchUri, {
       method: 'PUT',

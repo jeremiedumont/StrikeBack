@@ -11,17 +11,18 @@ import SwiftUI
 
 struct LoginView: View {
    
-    @Environment(\.presentationMode) var presentation
-    @State private var email = ""
+    //@Environment(\.presentationMode) var presentation
+    @State private var pseudo = ""
     @State private var password = ""
-    
+    @Binding var isActiveLogin : Bool
+    @Binding var showMenu : Bool
   
     var body: some View {
         VStack() {
            
             Spacer()
             VStack(alignment: .center, spacing: 15) {
-                TextField("Username", text: self.$email)
+                TextField("Username", text: self.$pseudo)
                     .padding()
                     .background(Color.themeTextField)
                     .cornerRadius(20.0)
@@ -35,14 +36,15 @@ struct LoginView: View {
             }.padding([.leading, .trailing], 27.5)
             
             Button(action: {
-                if(!(UserDAO.login(pseudo: self.email, password: self.password, autologin: false))){
+                if(!(UserDAO.login(pseudo: self.pseudo, password: self.password, autologin: false))){
                     print("Error ! Login impossible")
                 }else{
                     print("You are logged in")
-                    self.presentation.wrappedValue.dismiss()
+                    self.isActiveLogin = false
+                    self.showMenu = false
                 }
             }) {
-                Text("Sign In")
+                Text("Login")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()

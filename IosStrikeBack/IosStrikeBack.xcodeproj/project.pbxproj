@@ -47,6 +47,8 @@
 		C9821F96241BD61B0069B44D /* RemarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9821F93241BD61B0069B44D /* RemarkView.swift */; };
 		C9821F99241BD68F0069B44D /* TextView in Frameworks */ = {isa = PBXBuildFile; productRef = C9821F98241BD68F0069B44D /* TextView */; };
 		C9880C8E241BFABC00DE0EF0 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9880C8D241BFABC00DE0EF0 /* Color.xcassets */; };
+		C9DDAD7D242927FC003FFD2B /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDAD7C242927FC003FFD2B /* ReportDAO.swift */; };
+		C9EADC312427D143001AE6E8 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EADC302427D143001AE6E8 /* CurrentUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +121,8 @@
 		C9821F92241BD61B0069B44D /* RemarkDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemarkDetailsView.swift; sourceTree = "<group>"; };
 		C9821F93241BD61B0069B44D /* RemarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemarkView.swift; sourceTree = "<group>"; };
 		C9880C8D241BFABC00DE0EF0 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		C9DDAD7C242927FC003FFD2B /* ReportDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDAO.swift; sourceTree = "<group>"; };
+		C9EADC302427D143001AE6E8 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +223,8 @@
 				C94D2E96241CE56200C521B6 /* Notification.swift */,
 				C94D2E98241CE8FF00C521B6 /* NotificationDAO.swift */,
 				C94D2E9A241CF18E00C521B6 /* NotifView.swift */,
+				C9EADC302427D143001AE6E8 /* CurrentUser.swift */,
+				C9DDAD7C242927FC003FFD2B /* ReportDAO.swift */,
 			);
 			path = IosStrikeBack;
 			sourceTree = "<group>";
@@ -401,6 +407,7 @@
 				C9821F3C241BCBCF0069B44D /* SceneDelegate.swift in Sources */,
 				C9821F66241BCE400069B44D /* AnswerView.swift in Sources */,
 				C9821F6D241BCE540069B44D /* MyRemarks.swift in Sources */,
+				C9DDAD7D242927FC003FFD2B /* ReportDAO.swift in Sources */,
 				C94D2E9B241CF18E00C521B6 /* NotifView.swift in Sources */,
 				C9821F76241BCE640069B44D /* RemarkSet.swift in Sources */,
 				C9821F68241BCE400069B44D /* Answer.swift in Sources */,
@@ -408,6 +415,7 @@
 				C9821F77241BCE640069B44D /* User.swift in Sources */,
 				C9821F94241BD61B0069B44D /* SignupView.swift in Sources */,
 				C9821F6C241BCE540069B44D /* ImagePickerCordinator.swift in Sources */,
+				C9EADC312427D143001AE6E8 /* CurrentUser.swift in Sources */,
 				C9821F84241BD5E60069B44D /* MyActivities.swift in Sources */,
 				C9821F74241BCE640069B44D /* RemarkDAO.swift in Sources */,
 				C9821F85241BD5E60069B44D /* LoginView.swift in Sources */,

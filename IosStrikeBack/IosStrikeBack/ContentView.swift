@@ -27,7 +27,7 @@ struct ContentView: View {
         return NavigationView {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    MainView()
+                    MainView(showMenu : self.$showMenu)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .disabled(self.showMenu ? true : false)
                     if self.showMenu {
@@ -54,11 +54,27 @@ struct ContentView: View {
 }
 
 struct MainView: View {
-    var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
+    var currentUser : CurrentUser? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var isActive = false
     @State var spin = true
+    @State var pageNumber = 0
+    @State var type = "Date"
+    @State var order = 1
+    @State var number = 10
+    @State var render = 1
+    @Binding var showMenu : Bool
+    @State var numberRemTot = RemarkDAO.getRemarksCount()
     @ObservedObject var mytab = RemarkSet(tab : RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10))
     
+    func getRemarks(){
+        if(self.showMenu){
+            if(self.type == "Date"){
+                self.mytab.tabRemark = RemarkDAO.getSortedRemarksByDate(order: self.order, skip: self.pageNumber*self.number, number: self.number)
+            }else{
+                self.mytab.tabRemark = RemarkDAO.getSortedRemarksByHeard(order: self.order, skip: self.pageNumber*self.number, number: self.number)
+            }
+        }
+    }
     
     var body: some View {
         //NavigationView(alignment: .leading){
@@ -74,12 +90,16 @@ struct MainView: View {
                     Text("Date ")
                     VStack{
                         Button(action : {
-                            self.mytab.tabRemark = RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10)
+                            self.order = 1
+                            self.type = "Date"
+                            self.getRemarks()
                         }){
                             Image(systemName: "chevron.up")
                         }
                         Button(action : {
-                            self.mytab.tabRemark = RemarkDAO.getSortedRemarksByDate(order: -1, skip: 0, number: 10)
+                            self.order = -1
+                            self.type = "Date"
+                            self.getRemarks()
                         }){
                             Image(systemName: "chevron.down")
                         }
@@ -89,12 +109,16 @@ struct MainView: View {
                     Text("Pertinency ")
                     VStack{
                         Button(action : {
-                            self.mytab.tabRemark = RemarkDAO.getSortedRemarksByHeard(order: 1, skip: 0, number: 10)
+                            self.order = 1
+                            self.type = "Heard"
+                            self.getRemarks()
                         }){
                             Image(systemName: "chevron.up")
                         }
                         Button(action : {
-                            self.mytab.tabRemark = RemarkDAO.getSortedRemarksByHeard(order: -1, skip: 0, number: 10)
+                            self.order = -1
+                            self.type = "Heard"
+                            self.getRemarks()
                         }){
                             Image(systemName: "chevron.down")
                         }
@@ -106,6 +130,28 @@ struct MainView: View {
                     .background(Color(red: 0, green : 245/255, blue : 245/255).opacity(0.1))
                     //.background(Color(red: 209/255, green : 56/255, blue : 102/255).opacity(0.8))
                     //.shadow(color : Color.purple.opacity(0.4), radius: 5, x: 0, y: 10)
+                HStack{
+                    if (pageNumber > 0){
+                        Button(action : {
+                            self.pageNumber -= 1
+                            self.getRemarks()
+                        }){
+                            Image(systemName: "chevron.left")
+                        }
+                    }
+                    
+                    Text("Page " + String(pageNumber+1) + "/" + String(Int(ceil(Double(numberRemTot)/Double(number)))))
+                    
+                    if((pageNumber+1)*number < numberRemTot){
+                        Button(action : {
+                            self.pageNumber += 1
+                            self.getRemarks()
+                        }){
+                            Image(systemName: "chevron.right")
+                        }
+                    }
+                    
+                }
                 Spacer()
                 if( currentUser != nil){
                     Button(action : {
@@ -126,11 +172,43 @@ struct MainView: View {
                ScrollView{
                    VStack(spacing: 20){
                        ForEach(mytab.tabRemark){ remark in
-                           NavigationLink(destination : RemarkDetailsView(remark: remark)){
-                              
-                               RemarkView(remark : remark, canheard: true)
-                           
-                           }
+                        HStack{
+                               NavigationLink(destination : RemarkDetailsView(remark: remark)){
+                                  
+                                   RemarkView(remark : remark, canheard: true)
+                               
+                               }
+                            HStack{
+                                VStack{
+                                    if(self.currentUser != nil){
+                                        Button(action : {
+                                            RemarkDAO.addHeard(remarkId: remark.postId)
+                                            self.currentUser?.heards?.append(remark.postId)
+                                            //self.render += 1
+                                        }){
+                                            Image(systemName: "chevron.up")
+                                        }.disabled(((self.currentUser?.heards?.contains(remark.postId))!))
+                                    }
+                                        Text(String(remark.heard))
+                                    
+                                }
+                                if(self.currentUser != nil){
+                                    VStack{
+                                        Button(action : {
+                                            if(ReportDAO.addReport(postId: remark.postId, type: "Remark")){
+                                                self.currentUser?.reports?.append(remark.postId)
+                                                //self.render += 1
+                                            }else{
+                                                print("Return false fuck")
+                                            }
+                                        }){
+                                        Image(systemName: "exclamationmark.triangle")
+                                            }//.foregroundColor(Color(UIColor(named: "RedColor")!))
+                                            .disabled(((self.currentUser?.reports?.contains(remark.postId))!))
+                                    }
+                                }
+                            }
+                        }
                        }
                    }
                }

@@ -10,18 +10,18 @@ import SwiftUI
 
 struct SignupView: View {
     
-    /*@ObservedObject private var user : User = User(pseudo: "", color: "#000000", email: "", creationDate: Date())
-    @Binding var confirm : String = "" */
-    @Environment(\.presentationMode) var presentation
-    @State var pseudo : String
-    @State var email : String
-    @State var password :String
-    @State var password_conf :String
     @Binding var showMenu : Bool
-    var color : String
-    var creationDate: Date
+    @Binding var isActiveLogin : Bool
+    @Binding var isActiveSignup : Bool
+    @State var pseudo : String = ""
+    @State var email : String = ""
+    @State var password :String = ""
+    @State var password_conf :String = ""
+    
+    var color : String = "none"
+    var creationDate: Date = Date()
 
-    //init(pseudo : String, email : String, password : )
+    
     
     var body: some View {
    
@@ -61,7 +61,8 @@ struct SignupView: View {
                             if isSignUp {
                                 print("Account has been signed up.")
                                 
-                                self.presentation.wrappedValue.dismiss()
+                                self.isActiveSignup = false
+                                self.isActiveLogin = true
                                 
                             } else {
                                 print("Not signed up.")
@@ -79,15 +80,7 @@ struct SignupView: View {
                             .cornerRadius(15.0)
                             .shadow(radius: 10.0, x: 20, y: 10)
                     }.padding(.top, 50)
-                    
-                    HStack(spacing: 0) {
-                        Text("Don't have an account? ")
-                        Button(action: {}) {
-                            Text("Sign Up")
-                                .foregroundColor(.black)
-                        }
-                    }.padding()
-                    
+                
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: Alignment.center)
                 .background(

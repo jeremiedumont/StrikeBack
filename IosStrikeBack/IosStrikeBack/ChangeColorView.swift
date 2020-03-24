@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ChangeColorView: View {
     @Binding var isActiveColor : Bool
+    //@Binding var selection : Int?
     var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
 
     var body: some View {
@@ -21,6 +22,8 @@ struct ChangeColorView: View {
                VStack{
                     Button(action : {
                         UserDAO.updateColor(userId: self.currentUser!.userId, color: "RedColor")
+                        self.currentUser?.color="RedColor"
+                        self.isActiveColor = false
                     }){
                         Text(currentUser!.pseudo)
                     }
@@ -29,6 +32,8 @@ struct ChangeColorView: View {
                 VStack{
                 Button(action : {
                     UserDAO.updateColor(userId: self.currentUser!.userId, color: "BlueColor")
+                    self.currentUser?.color="BlueColor"
+                    self.isActiveColor = false
                 }){
                     Text(currentUser!.pseudo)
                 }
@@ -36,6 +41,8 @@ struct ChangeColorView: View {
                 VStack{
                 Button(action : {
                     UserDAO.updateColor(userId: self.currentUser!.userId, color: "GreenColor")
+                    self.currentUser?.color="GreenColor"
+                    self.isActiveColor = false
                 }){
                     Text(currentUser!.pseudo)
                 }
@@ -43,10 +50,22 @@ struct ChangeColorView: View {
                 VStack{
                 Button(action : {
                     UserDAO.updateColor(userId: self.currentUser!.userId, color: "PinkColor")
+                    self.currentUser?.color="PinkColor"
+                    self.isActiveColor = false
                 }){
                     Text(currentUser!.pseudo)
                 }
                 }.foregroundColor(Color(UIColor(named: "PinkColor")!))
+                VStack{
+                    Button(action : {
+                        UserDAO.updateColor(userId: self.currentUser!.userId, color: "OrangeColor")
+                        self.currentUser?.color="OrangeColor"
+                        self.isActiveColor = false
+                    }){
+                        Text(currentUser!.pseudo)
+                    }
+                }.foregroundColor(Color(UIColor(named: "OrangeColor")!))
+
 
             }
     

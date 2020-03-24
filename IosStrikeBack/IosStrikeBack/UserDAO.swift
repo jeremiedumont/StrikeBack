@@ -27,6 +27,7 @@ public class UserDAO {
         
         let semaphore = DispatchSemaphore(value :0)
         var res : Bool = false
+        print("COLOR" + color)
         //----------------------------------------------------------
         //___________verifier si ca marche de cette facon___________
         //__________________________________________________________
@@ -60,10 +61,8 @@ public class UserDAO {
         semaphore.wait()
         return res
     }
-    
-    static func login (pseudo : String, password : String, autologin : Bool) -> Bool{
-        // Prepare URL
-        let url = URL(string: UserDAO.rootURL + "login")
+    /*static func login (authToken : String) -> Bool{
+        let url = URL(string: UserDAO.rootURL + "autologin")
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
@@ -74,7 +73,7 @@ public class UserDAO {
         //----------------------------------------------------------
         //___________verifier si ca marche de cette facon___________
         //__________________________________________________________
-        let json: [String: Any] = ["pseudo": pseudo,"password": password]
+       // let json: [String: Any] = ["pseudo": pseudo,"password": password]
         // Set HTTP Request Body
         do {
             request.httpBody = try? JSONSerialization.data(withJSONObject: json)
@@ -99,11 +98,62 @@ public class UserDAO {
                                    res = true
                                 if(!autologin){
                                     let defaults = UserDefaults.standard
+                                    
                                     defaults.set(pseudo, forKey: "pseudo")
                                     defaults.set(password, forKey: "password")
                                 }
                                 
                                }catch let error {
+                                   print(error)
+                               }
+                           }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        return res
+    }*/
+    static func login (pseudo : String, password : String, autologin : Bool) -> Bool{
+        // Prepare URL
+        let url = URL(string: UserDAO.rootURL + "login")
+        guard let requestUrl = url else { fatalError() }
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "POST"
+        
+        let semaphore = DispatchSemaphore(value :0)
+        var res : Bool = false
+        //----------------------------------------------------------
+        //___________verifier si ca marche de cette facon___________
+        //__________________________________________________________
+        let json: [String: Any] = ["pseudo": pseudo,"password": password,"autologin": autologin]
+        // Set HTTP Request Body
+        do {
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json)
+        } catch let error {
+            print(error)
+        }
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
+        // Perform HTTP Request
+         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+             // Check for Error
+                           if let error = error {
+                               print("Error took place \(error)")
+                               return
+                           }
+                           // Convert HTTP Response Data to a String
+                           if let data = data{
+                               do{
+                                    (UIApplication.shared.delegate as! AppDelegate).currentUser = try JSONDecoder().decode(CurrentUser.self, from: data)
+                                res = true
+                                if(!autologin){
+                                    let defaults = UserDefaults.standard
+                                    defaults.set(pseudo, forKey: "pseudo")
+                                    defaults.set(currentUser!.password, forKey: "password")
+                                }
+                               }catch let error {
+                                print("errorddeded")
                                    print(error)
                                }
                            }
@@ -160,6 +210,9 @@ public class UserDAO {
     
     static func updatePassword (userId : String, oldPassword : String,  newPassword : String) -> Bool{
         // Prepare URL
+           // print("ON EST BIEN LA")
+           // print("votre ancien password" + oldPassword)
+           // print("votre nouveau password" + newPassword)
             guard let token = currentUser?.authToken else{return false}
                let url = URL(string: UserDAO.rootURL + "updatePassword?token="+token)
                guard let requestUrl = url else { fatalError() }
@@ -169,6 +222,7 @@ public class UserDAO {
                
                let semaphore = DispatchSemaphore(value :0)
                var res : Bool = false
+               let code : Int = 0
                //----------------------------------------------------------
                //___________verifier si ca marche de cette facon___________
                //__________________________________________________________
@@ -189,7 +243,18 @@ public class UserDAO {
                    }
                        
                        let resp = response as? HTTPURLResponse
-                       res = (resp?.statusCode == 200)
+                        if let code = resp?.statusCode{
+                        
+                        }
+                    if(resp?.statusCode == 200){
+                        res = true
+                        let defaults = UserDefaults.standard
+                        defaults.removeObject(forKey: "pseudo")
+                        defaults.removeObject(forKey: "password")
+                    }
+                    /*if let status = resp?.statusCode{
+                        print(status)
+                    }*/
                        
                    if let data = data{
                        if let jsonString = String(data: data, encoding: .utf8){
@@ -200,6 +265,8 @@ public class UserDAO {
                }
                task.resume()
                semaphore.wait()
+               print("Code " )
+               print(code)
                return res
        }
     

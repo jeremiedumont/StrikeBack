@@ -23,6 +23,7 @@ class User : ObservableObject, Identifiable, Decodable{
      @Published var color : String
      @Published var email : String
      @Published var userId : String
+    
     var creationDate: Date
     var authToken : String?
     

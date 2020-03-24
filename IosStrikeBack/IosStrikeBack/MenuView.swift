@@ -59,23 +59,25 @@ struct MenuView: View {
                     
                 }.padding(.top, 30)
                 
-                HStack {
-                    NavigationLink(destination: ContentView()) {
+                
+                    Button(action : {
+                        let defaults = UserDefaults.standard
+                        defaults.removeObject(forKey: "pseudo")
+                        defaults.removeObject(forKey: "password")
+                        
+                        (UIApplication.shared.delegate as! AppDelegate).currentUser = nil
+                        self.showMenu.toggle()
+                    }){
                         Image(systemName: "trash")
                             .foregroundColor(.gray)
                             .imageScale(.large)
                         Text("Logout")
                             .foregroundColor(.gray)
                             .font(.headline)
-                    }
+                    }.padding(.top, 30)
                     
-                }.simultaneousGesture(TapGesture().onEnded{
-                    let defaults = UserDefaults.standard
-                    defaults.removeObject(forKey: "pseudo")
-                    defaults.removeObject(forKey: "password")
                     
-                    (UIApplication.shared.delegate as! AppDelegate).currentUser = nil
-                }).padding(.top, 30)
+                
             }
             else{
                 Spacer()

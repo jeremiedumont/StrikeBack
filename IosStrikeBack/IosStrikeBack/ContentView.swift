@@ -67,13 +67,13 @@ struct MainView: View {
     @ObservedObject var mytab = RemarkSet(tab : RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10))
     
     func getRemarks(){
-        if(self.showMenu){
+       
             if(self.type == "Date"){
                 self.mytab.tabRemark = RemarkDAO.getSortedRemarksByDate(order: self.order, skip: self.pageNumber*self.number, number: self.number)
             }else{
                 self.mytab.tabRemark = RemarkDAO.getSortedRemarksByHeard(order: self.order, skip: self.pageNumber*self.number, number: self.number)
             }
-        }
+        
     }
     
     var body: some View {
@@ -184,7 +184,8 @@ struct MainView: View {
                                         Button(action : {
                                             RemarkDAO.addHeard(remarkId: remark.postId)
                                             self.currentUser?.heards?.append(remark.postId)
-                                            //self.render += 1
+                                            self.number += 1
+                                            self.number -= 1
                                         }){
                                             Image(systemName: "chevron.up")
                                         }.disabled(((self.currentUser?.heards?.contains(remark.postId))!))
@@ -197,7 +198,8 @@ struct MainView: View {
                                         Button(action : {
                                             if(ReportDAO.addReport(postId: remark.postId, type: "Remark")){
                                                 self.currentUser?.reports?.append(remark.postId)
-                                                //self.render += 1
+                                                self.number += 1
+                                                self.number -= 1
                                             }else{
                                                 print("Return false fuck")
                                             }
@@ -205,16 +207,18 @@ struct MainView: View {
                                         Image(systemName: "exclamationmark.triangle")
                                             }//.foregroundColor(Color(UIColor(named: "RedColor")!))
                                             .disabled(((self.currentUser?.reports?.contains(remark.postId))!))
+                                        
+                                        
                                     }
                                 }
                             }
                         }
                        }
-                   }
+                   }.padding()
                }
               
                 
-            }
+        }
         //}
     }
 }

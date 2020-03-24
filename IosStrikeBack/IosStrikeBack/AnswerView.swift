@@ -53,7 +53,7 @@ struct AnswerView: View{
         }
         if(currentUser != nil && caninteract){
             VStack{
-                
+                    Spacer()
                     Button(action:{
                         if(AnswerDAO.addUp(answerId: self.answer.answerId)){
                             self.answer.ups += 1
@@ -65,6 +65,7 @@ struct AnswerView: View{
                         
                     }.disabled(((currentUser?.ups?.contains(self.answer.answerId))!))
                 
+                    Spacer()
                 
                     Button(action:{
                         if(AnswerDAO.addDown(answerId: self.answer.answerId)){
@@ -77,7 +78,7 @@ struct AnswerView: View{
                         
                         
                     }.disabled(((currentUser?.downs?.contains(self.answer.answerId))!))
-                
+                    Spacer()
             }
             Spacer()
             VStack{
@@ -97,7 +98,7 @@ struct AnswerView: View{
                     }){
                     Image(systemName: "exclamationmark.triangle")
                     }.disabled(((self.currentUser?.reports?.contains(self.answer.answerId))!))
-                //.foregroundColor(Color(UIColor(named: "RedColor")!))
+                .foregroundColor(Color(UIColor(named: "RedColor")!))
             }
         }
     }

@@ -27,7 +27,7 @@ struct ContentView: View {
         return NavigationView {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    MainView(showMenu : self.$showMenu)
+                    MainView(reloadRemarks: !self.showMenu)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .disabled(self.showMenu ? true : false)
                     if self.showMenu {
@@ -62,9 +62,18 @@ struct MainView: View {
     @State var order = 1
     @State var number = 10
     @State var render = 1
-    @Binding var showMenu : Bool
     @State var numberRemTot = RemarkDAO.getRemarksCount()
-    @ObservedObject var mytab = RemarkSet(tab : RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10))
+    @ObservedObject var mytab : RemarkSet
+    
+    init(reloadRemarks : Bool){
+        if(reloadRemarks){
+            mytab = RemarkSet(tab : RemarkDAO.getSortedRemarksByDate(order: 1, skip: 0, number: 10))
+            (UIApplication.shared.delegate as! AppDelegate).tabRemarks = mytab.tabRemark
+        }
+        else{
+            mytab = RemarkSet(tab : (UIApplication.shared.delegate as! AppDelegate).tabRemarks)
+        }
+    }
     
     func getRemarks(){
        

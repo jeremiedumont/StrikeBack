@@ -18,12 +18,18 @@ struct RemarkView: View{
     var currentUser =  (UIApplication.shared.delegate as! AppDelegate).currentUser
     let formatter = DateFormatter()
     var userRemark : User
+    var pseudoColor : UIColor
     init(remark : Remark, canheard : Bool){
         self.remark = remark
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         self.canheard = canheard
         userRemark = UserDAO.getUserById(userId : remark.userId)!
+        if(userRemark.color == "none"){
+            pseudoColor = UIColor(red: 0.5, green: 0.4, blue: 0.6, alpha: 1)
+        }else{
+            pseudoColor = UIColor(named: userRemark.color)!
+        }
     }
     
     var body: some View {
@@ -36,7 +42,7 @@ struct RemarkView: View{
                         .font(.system(size: 15))
                     Text(UserDAO.getUserById(userId : remark.userId)!.pseudo)
                         .fontWeight(.light)
-                        .foregroundColor(Color(UIColor(red: 0.5, green: 0.4, blue: 0.6, alpha: 1)))
+                        .foregroundColor(Color(pseudoColor))
                         .font(.system(size: 15))
                     Spacer()
                     Text(self.formatter.string(from :remark.date))
@@ -75,7 +81,7 @@ struct RemarkView: View{
                 .background(Color.init(red: 245/255, green: 245/255, blue: 245/255))
             .cornerRadius(20)*/
             //if(canheard && currentUser != nil){
-                HStack{
+                /*HStack{
                     VStack{
                         if(canheard && currentUser != nil){
                             Button(action : {
@@ -92,12 +98,11 @@ struct RemarkView: View{
                             Button(action : {
                                            //-----------------A FAIRE-----------------------Creer l'action de report---------------------------------------
                             }){
-                            Image(systemName: "alarm")
-                            }
-                            Text("Report")
+                            Image(systemName: "exclamationmark.triangle")
+                                }.foregroundColor(Color(UIColor(named: "RedColor")!))
                         }
                     }
-                }
+                }*/
             //}
             
             

@@ -47,7 +47,7 @@ struct RemarkDetailsView: View {
                                 CreateAnswerView(newAnswer: self.newAnswer, isActive : self.$isActive)
                               }
                            
-                          }
+                            }.padding()
                        }
         
             

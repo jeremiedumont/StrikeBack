@@ -10,8 +10,10 @@ import SwiftUI
 
 struct MyProfilView: View {
     let formatter = DateFormatter()
-    @State var isActiveColor : Bool = false;
-    @State var isActivePassword : Bool = false;
+    @State var isActiveColor : Bool = false
+    @State var isActivePassword : Bool = false
+    @State var selection: Int? = nil
+    @State var isDismissPassword : Bool = false
     var nbRemark : String
     var nbAnswer : String
     init(){
@@ -24,47 +26,53 @@ struct MyProfilView: View {
     
     var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     var body: some View {
+        NavigationView{
         VStack{
             VStack{
                 
-                Text("Votre Profil").bold()
+                
                 VStack{
-                    if(currentUser!.color != ""){
+                    HStack{
+                    if(currentUser!.color != "none"){
                     Text(""+currentUser!.pseudo).foregroundColor(Color(UIColor(named: currentUser!.color)!))
+                        .font(.largeTitle)
                     }
                     else{
-                        Text(""+currentUser!.pseudo)
+                        Text(""+currentUser!.pseudo).font(.largeTitle)
                         
                     }
-                }
-                Button(action : {
-                    self.isActiveColor.toggle()
-                }){
-                    Text("Changer la couleur d'affichage de votre pseudo")
-                }.sheet(isPresented : self.$isActiveColor){
-                    ChangeColorView(isActiveColor : self.$isActiveColor)
+                        Button(action : {
+                            self.isActiveColor.toggle()
+                        }){
+                           Image(systemName: "square.and.pencil")
+                            .foregroundColor(.gray)
+                            .imageScale(.large)
+                        }.sheet(isPresented : self.$isActiveColor){
+                          ChangeColorView(isActiveColor : self.$isActiveColor)
+                        }
+                    }
+                    Text("Email : "+currentUser!.email)
+                    Button(action : {
+                        self.isActivePassword.toggle()
+                    }){
+                        Text("Changer son mot de passe")
+                    }.sheet(isPresented : self.$isActivePassword){
+                        ChangePasswordView(isActivePassword : self.$isActivePassword)
+                    }
                 }
             }
             Spacer()
             VStack{
-                Text(self.formatter.string(from : currentUser!.creationDate))
-                Text(""+currentUser!.email)
-                Button(action : {
-                    self.isActivePassword.toggle()
-                }){
-                    Text("Changer son mot de passe")
-                }.sheet(isPresented : self.$isActivePassword){
-                    ChangePasswordView(isActivePassword : self.$isActivePassword)
-                }
-            
-            }
-            VStack{
                     Text("Vous avez posté " + nbRemark + " remarques")
                     Text("Vous avez répondu à " + nbAnswer  + " remarques")
+                Spacer()
+                Text("Date d'inscription : " + self.formatter.string(from : currentUser!.creationDate))
                 
             }
             Spacer()
         }
-        
+            
+        }.navigationBarTitle("Mon Profil")
+
     }
 }

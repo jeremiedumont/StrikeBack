@@ -12,7 +12,9 @@ import SwiftUI
 
 struct MenuView: View {
     @Binding var showMenu : Bool
+    @State var isActiveLogin : Bool = false
     @State var showView : Bool  = false
+    @State var isActiveSignup : Bool = false
     var body: some View {
         
         VStack() {
@@ -57,47 +59,60 @@ struct MenuView: View {
                     
                 }.padding(.top, 30)
                 
-                HStack {
-                    NavigationLink(destination: ContentView()) {
+                
+                    Button(action : {
+                        let defaults = UserDefaults.standard
+                        defaults.removeObject(forKey: "pseudo")
+                        defaults.removeObject(forKey: "password")
+                        
+                        (UIApplication.shared.delegate as! AppDelegate).currentUser = nil
+                        self.showMenu.toggle()
+                    }){
                         Image(systemName: "trash")
                             .foregroundColor(.gray)
                             .imageScale(.large)
                         Text("Logout")
                             .foregroundColor(.gray)
                             .font(.headline)
-                    }
+                    }.padding(.top, 30)
                     
-                }.simultaneousGesture(TapGesture().onEnded{
-                    let defaults = UserDefaults.standard
-                    defaults.removeObject(forKey: "pseudo")
-                    defaults.removeObject(forKey: "password")
-                    (UIApplication.shared.delegate as! AppDelegate).currentUser = nil
-                }).padding(.top, 30)
+                    
+                
             }
             else{
                 Spacer()
             
             HStack {
-                NavigationLink(destination: LoginView()) {
+                Button(action : {
+                    self.isActiveLogin.toggle()
+                }){
                     Image(systemName: "person")
-                        .foregroundColor(.gray)
-                        .imageScale(.large)
-                    Text("Se connecter")
-                        .foregroundColor(.gray)
-                        .font(.headline)
+                   .foregroundColor(.gray)
+                   .imageScale(.large)
+                   Text("Se connecter")
+                   .foregroundColor(.gray)
+                   .font(.headline)
+                }.sheet(isPresented : self.$isActiveLogin){
+                    LoginView(isActiveLogin: self.$isActiveLogin, showMenu: self.$showMenu)
                 }
-                
+               
             }
             .padding(.top, 30)
             HStack {
-                NavigationLink(destination: SignupView(pseudo : "",email:"",password :"",password_conf : "",showMenu : self.$showMenu, color : "#000000", creationDate: Date())) {
+                Button(action : {
+                    self.isActiveSignup.toggle()
+                }){
                     Image(systemName: "person")
                         .foregroundColor(.gray)
                         .imageScale(.large)
                     Text("S'inscrire")
                         .foregroundColor(.gray)
                         .font(.headline)
+                }.sheet(isPresented : self.$isActiveSignup){
+                    SignupView(showMenu : self.$showMenu, isActiveLogin : self.$isActiveLogin, isActiveSignup : self.$isActiveSignup)
+                    
                 }
+                
                 
             }.simultaneousGesture(TapGesture().onEnded{
                 self.showView.toggle()

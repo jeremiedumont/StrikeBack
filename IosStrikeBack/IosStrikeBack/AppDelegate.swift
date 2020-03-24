@@ -17,7 +17,8 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-    var currentUser : User? = nil
+    var currentUser : CurrentUser? = nil
+    var tabRemarks : [Remark] = []
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var validlogin = true
         var pseudo : String?
         var password : String?
+
         if let stringOne = defaults.string(forKey: "pseudo") {
             print("pseudo = " + stringOne) // Some String Value
             pseudo = stringOne
@@ -45,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             validlogin = false
         }
         if(validlogin){
+            
             if let pseudo = pseudo, let password = password {
             UserDAO.login(pseudo: pseudo, password: password, autologin: true)
             }else{

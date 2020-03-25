@@ -30,6 +30,26 @@ router.route('/findById').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/findByToken').get((req, res) => {
+    AuthToken.findById(req.query.token)
+        .then((token) => {
+            User.findOne({ 
+                _id: token.userId 
+            })
+            .then(user => res.json(
+                {
+                    "_id": user._id,
+                    "pseudo": user.pseudo,
+                    "admin": user.admin,
+                    "email": user.email, 
+                    "creationDate": user.creationDate,
+                    "color": user.color
+                }
+            ))
+            .catch(err => res.status(400).json('Error: ' + err));
+        }).catch(err => res.status(401).json('Authentication Error: ' + err))
+});
+
 //Route used for signup
 router.route('/signup').post((req, res) =>{
     const pseudo = req.body.pseudo;
@@ -84,6 +104,7 @@ router.route('/login').post((req, res) => {
                 email: user.email,
                 creationDate: user.creationDate,
                 color: user.color,
+                admin: user.admin,                
                 authToken: token._id,
                 ups : user.ups,
                 downs : user.downs,

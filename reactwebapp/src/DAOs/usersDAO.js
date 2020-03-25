@@ -15,10 +15,28 @@ export function getUserById(id) {
         return responseJson;
       })
       .catch((error) => {
-        console.log('on est en error')
         console.error(error);
         return false;
       });
+}
+
+export function getUserByToken(token) {
+  const fetchUri = baseURL  + 'users/findByToken?token=' + token;
+  console.log('On envoie la request...'+ fetchUri)
+  return fetch(fetchUri, {
+      method: 'GET',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      }
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
 }
 
 export function getAllUsers() {
@@ -35,7 +53,6 @@ export function getAllUsers() {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
       console.error(error);
       return false;
     });
@@ -67,7 +84,7 @@ export async function signUp(pseudo,password,color,email) {
     });
 }
 
-export async function login(pseudo,password) {
+export async function login(pseudo,password,autoLogin) {
   const fetchUri = baseURL  + 'users/login';
   return fetch(fetchUri, {
       method: 'POST',
@@ -78,7 +95,7 @@ export async function login(pseudo,password) {
       body: JSON.stringify({
         pseudo: pseudo,
         password: password,
-        autologin: false // attention à l'autologin          
+        autologin: autoLogin          
       }),
   }).then((response) => {
     return response

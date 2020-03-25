@@ -23,8 +23,45 @@ export async function getRemarkById(id) {
     });
 }
 
-export async function getAllRemarksOfOneUser(id) {
-  const fetchUri = baseURL + 'remarks/findByUserId/?id=' + id;
+export async function findRemarkWithText(search) {
+  const fetchUri = baseURL + 'remarks/find?search=' + search;
+  return fetch(fetchUri, {
+    method: 'GET',
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
+}
+
+export async function getNumberOfRemarks() {
+  const fetchUri = baseURL + 'remarks/count';
+  console.log('On envoie la request: ' + fetchUri)
+  return fetch(fetchUri, {
+    method: 'GET',
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json())
+    .then((responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return false;
+    });
+}
+
+export async function getAllRemarksOfOneUser(token) {
+  const fetchUri = baseURL + 'remarks/findByUserId/?token=' + token;
   console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
     method: 'GET',
@@ -127,7 +164,7 @@ export async function incrementHeard(id,token) {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
+      
       console.error(error);
       return false;
     });
@@ -147,15 +184,15 @@ export async function decrementHeard(id,token) {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
+      
       console.error(error);
       return false;
     });
 }
 
 //DELETE
-export async function deleteRemark(id) {
-  const fetchUri = baseURL + 'remarks/delete?id=' + id;
+export async function deleteRemark(token, id) {
+  const fetchUri = baseURL + 'remarks/delete?id=' + id + '&token=' + token;
   console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
     method: 'DELETE',
@@ -168,7 +205,7 @@ export async function deleteRemark(id) {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
+      
       console.error(error);
       return false;
     });

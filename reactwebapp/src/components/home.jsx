@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Remark from './remark'
-import { getRemarksSortedByDate, getRemarksSortedByHeard, getNumberOfRemarks } from '../DAOs/remarksDAO'
+import { findRemarkWithText, getRemarksSortedByDate, getRemarksSortedByHeard, getNumberOfRemarks } from '../DAOs/remarksDAO'
 
 import {
     Button,
-    IconButton
+    IconButton,
+    TextField,
+    FormHelperText
 } from '@material-ui/core';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -38,9 +40,10 @@ const Home = () => {
     const [pageParameters, setPageParameters] = useState({ type: 'date', order: -1, skip: 0, number: 10 })
     const [pageNumber, setPageNumber] = useState(1)
     const [numberTotalRemarks, setNumberTotalRemarks] = useState(0)
+    const [searchText, setSearchText] = useState('')
+    const [searchMatch,setSearchMatch] = useState(true)
 
     useEffect(() => {
-        //console.log('useEffect')
         async function fetchData() {
             const numberTotalRemarks = await getNumberOfRemarks()
             setNumberTotalRemarks(numberTotalRemarks)
@@ -48,11 +51,28 @@ const Home = () => {
             setRemarks(response)
         }
         fetchData()
-        
+
     },
-    [pageParameters]
+        [pageParameters]
     )
-    
+
+    useEffect(() => {
+        async function fetchData(search) {
+            const remarks = await findRemarkWithText(search)
+            if (remarks.length != 0) {
+                setSearchMatch(true)
+                setRemarks(remarks)
+            } else {
+                setSearchMatch(false)
+            }
+        }
+        if (searchText != '' ) {
+            fetchData(searchText)
+        }
+    },
+        [searchText]
+    )
+
     const _getRemarks = async (type, order, skip, number) => {
         if (type === 'date') {
             return getRemarksSortedByDate(order, skip, number)
@@ -61,7 +81,7 @@ const Home = () => {
         }
     }
 
-    const _filter = async  (type) => {
+    const _filter = async (type) => {
         const oldSkip = pageParameters.skip
         const oldNumber = pageParameters.number
         switch (type) {
@@ -112,10 +132,6 @@ const Home = () => {
             default:
                 console.log('Choose an action type.')
         }
- 
-        // const res = await _getRemarks(pageParameters.type, pageParameters.order, pageParameters.skip, pageParameters.number)
-        // setRemarks(res)
-        // console.log(remarks)
     }
     const _chooseIcon = (filter) => {
         if (filter.status === 'up') {
@@ -159,7 +175,7 @@ const Home = () => {
 
     const _isPageSelectorDisabled = (selector) => {
         if (selector === 'right') {
-            if ( pageParameters.skip + pageParameters.number >= numberTotalRemarks ) {
+            if (pageParameters.skip + pageParameters.number >= numberTotalRemarks) {
                 return true
             } else {
                 return false
@@ -173,11 +189,32 @@ const Home = () => {
         } else {
             return true
         }
-        
+
+    }
+
+    const _handleChangeSearchText = (event) => {
+        const text = event.target.value
+        if (text != '') {
+            setSearchText(text)
+        } else {
+            setSearchMatch(true)
+        }
     }
 
     return (
         <div style={styles.container}>
+            <div style={styles.search}>
+                <TextField
+                    fullWidth
+                    size='medium'
+                    id='textArea'
+                    label='Search a remark'
+                    variant='filled'
+                    onChange={(e)=> _handleChangeSearchText(e)}
+                    error={!searchMatch}
+                    helperText={!searchMatch && "No match on this search."}
+                />
+            </div>
             <div style={styles.filters}>
                 <span style={styles.button}>
                     <Button
@@ -207,13 +244,13 @@ const Home = () => {
             <div style={styles.pageSelectors}>
                 <span>
                     <IconButton disabled={_isPageSelectorDisabled('left')} color="secondary" onClick={() => _pageSelector('left')}>
-                        <ArrowLeftIcon fontSize="large"/>
+                        <ArrowLeftIcon fontSize="large" />
                     </IconButton>
                 </span>
-                    <span>Page {pageNumber}/{Math.ceil(numberTotalRemarks/pageParameters.number)}</span>
+                <span>Page {pageNumber}/{Math.ceil(numberTotalRemarks / pageParameters.number)}</span>
                 <span>
                     <IconButton disabled={_isPageSelectorDisabled('right')} color="secondary" onClick={() => _pageSelector('right')}>
-                        <ArrowRightIcon fontSize="large"/>
+                        <ArrowRightIcon fontSize="large" />
                     </IconButton>
                 </span>
             </div>
@@ -226,13 +263,13 @@ const Home = () => {
                 (<div style={styles.pageSelectors}>
                     <span>
                         <IconButton disabled={_isPageSelectorDisabled('left')} color="secondary" onClick={() => _pageSelector('left')}>
-                            <ArrowLeftIcon fontSize="large"/>
+                            <ArrowLeftIcon fontSize="large" />
                         </IconButton>
                     </span>
-                <span>Page {pageNumber}/{Math.ceil(numberTotalRemarks/pageParameters.number)}</span>
+                    <span>Page {pageNumber}/{Math.ceil(numberTotalRemarks / pageParameters.number)}</span>
                     <span>
                         <IconButton disabled={_isPageSelectorDisabled('right')} color="secondary" onClick={() => _pageSelector('right')}>
-                            <ArrowRightIcon fontSize="large"/>
+                            <ArrowRightIcon fontSize="large" />
                         </IconButton>
                     </span>
                 </div>)
@@ -248,6 +285,9 @@ let styles = {
     },
     remark: {
         margin: 20,
+    },
+    search: {
+        marginBottom: 30
     },
     filters: {
         marginBottom: 10

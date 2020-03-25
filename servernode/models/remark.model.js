@@ -34,5 +34,12 @@ const RemarkSchema = new Schema({
 },
 {versionKey: false})
 
+RemarkSchema.index(
+    {
+      title: "text",
+      text: "text"
+    }
+  )
+
 
 module.exports = mongoose.model('remarks', RemarkSchema);

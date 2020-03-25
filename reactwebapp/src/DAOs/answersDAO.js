@@ -15,7 +15,7 @@ export async function getAnswerById(id) {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
+      
       console.error(error);
       return false;
     });
@@ -35,14 +35,14 @@ export async function getAnswersByRemarkId(id) {
         return responseJson;
       })
       .catch((error) => {
-        console.log('on est en error')
+        
         console.error(error);
         return false;
       });
 }
 
-export async function getAllRemarksOfOneUser(id){
-  const fetchUri = baseURL  + 'answers/findByUserId/?id=' + id;
+export async function getAllAnswersOfOneUser(token){
+  const fetchUri = baseURL  + 'answers/findByUserId/?token=' + token;
     console.log('On envoie la request: '+ fetchUri)
     return fetch(fetchUri, {
         method: 'GET',
@@ -114,6 +114,7 @@ export async function addAnswer(token,remarkId,content) {
       }),
   }).then((response) => response.json())
     .then((responseJson) => {
+      console.log('new answer: ', responseJson)
       return responseJson;
     })
     .catch((error) => {
@@ -137,7 +138,7 @@ export async function incrementUp(id, token) {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
+      
       console.error(error);
       return false;
     });
@@ -157,7 +158,7 @@ export async function incrementDown(id, token) {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
+      
       console.error(error);
       return false;
     });
@@ -177,7 +178,7 @@ export async function deleteAnswer(token, id) {
       return responseJson;
     })
     .catch((error) => {
-      console.log('on est en error')
+      
       console.error(error);
       return false;
     });

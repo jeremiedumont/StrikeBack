@@ -29,6 +29,12 @@ class RemarkDetails extends React.Component {
         })
     }
 
+    _refreshDisplay = (answer) => {
+        var newAnswers = [...this.state.answers]
+        newAnswers.push(answer)
+        this.setState({answers: newAnswers})
+    }
+
     componentDidMount() {
         getRemarkById(this.props.match.params.id)
         .then( res => {
@@ -58,7 +64,7 @@ class RemarkDetails extends React.Component {
                     ))
                     }
                 </div>
-                {this.props.isLoggedIn && <AddAnswer remarkId={this.state.remark._id}></AddAnswer>}
+                {this.props.isLoggedIn && <AddAnswer refreshDisplay={this._refreshDisplay} remarkId={this.state.remark._id}></AddAnswer>}
                 
             </div>
         )

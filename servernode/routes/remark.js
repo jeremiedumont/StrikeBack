@@ -16,6 +16,13 @@ router.get('/', (req, res, next) => {
         .catch(err => res.status(400).json('Error:' + err))
 });
 
+router.get('/find', (req, res, next) => {
+    Remark.find({ $text: { $search: req.query.search } })
+        .then((remarks) => res.status(200).json(remarks))
+        .catch(err => res.status(400).json('Error:' + err))
+});
+
+
 router.get('/count', (req, res, next) => {
     Remark.countDocuments()
         .then((total) => {

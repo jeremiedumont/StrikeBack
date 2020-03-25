@@ -95,7 +95,7 @@ router.route('/add').post((req, res) => {
                                     const userIdOfThePoster = remark.userId
                                     const newNotif = new Notification({ postId: remarkId, userId: userIdOfThePoster })
                                     newNotif.save()
-                                        .then(() => res.status(200).json('Notification created.'))
+                                        .then(() => res.status(200).json(answer))
                                         .catch(err => res.status(400).json('Error:' + err))
                                 })
                                 .catch(err => res.status(400).json('Error:' + err))
@@ -109,7 +109,7 @@ router.route('/add').post((req, res) => {
                                 },
                                 { useFindAndModify: false } //to avoid deprecation warning
                             )
-                                .then(() => res.status(200).json('Notification updated.'))
+                                .then(() => res.status(200).json(answer))
                                 .catch(err => res.status(400).json('Error:' + err))
                         }
 

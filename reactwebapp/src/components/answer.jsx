@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 //import { addUp, addDown, addReport as addStateReport } from '../actions'
 
@@ -10,19 +11,19 @@ import {
     IconButton,
     Avatar
 } from '@material-ui/core';
+
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ReportRoundedIcon from '@material-ui/icons/ReportRounded';
 import '../styles/answer.css'
 
-import {getUserById} from '../DAOs/usersDAO'
-import {addReport} from '../DAOs/reportsDAO'
-import {incrementUp, incrementDown} from '../DAOs/answersDAO'
-import history from '../history'
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { getUserById } from '../DAOs/usersDAO'
+import { addReport } from '../DAOs/reportsDAO'
+import { incrementUp, incrementDown } from '../DAOs/answersDAO'
+
 
 class Answer extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isLoggedIn: this.props.isLoggedIn,
@@ -35,32 +36,30 @@ class Answer extends React.Component {
         }
     }
 
-   
-
-    componentDidMount(){
+    componentDidMount() {
         getUserById(this.state.user._id)
-        .then(user => {
-            this.setState({
-                user: {
-                    pseudo: user.pseudo,
-                    color: user.color
-                }
+            .then(user => {
+                this.setState({
+                    user: {
+                        pseudo: user.pseudo,
+                        color: user.color
+                    }
+                })
             })
-        })
     }
 
-    _reportAnswer(){
+    _reportAnswer() {
         console.log("we should report this answer")
         console.log(this.props.answer._id)
-        var action = { type: 'ADD_REPORT', postId : this.props.answer._id}
+        var action = { type: 'ADD_REPORT', postId: this.props.answer._id }
         this.props.dispatch(action)
         addReport(this.props.answer._id, "Answer", this.props.token)
     }
 
-    _handleUp(){
+    _handleUp() {
         console.log('Click UP')
         //this.props.addUp(this.props.answer._id)
-        var action = { type: 'ADD_UP', postId : this.props.answer._id}
+        var action = { type: 'ADD_UP', postId: this.props.answer._id }
         this.props.dispatch(action)
         incrementUp(this.props.answer._id, this.props.token)
         this.setState({
@@ -72,7 +71,7 @@ class Answer extends React.Component {
 
     _handleDown() {
         console.log('Click DOWN')
-        var action = { type: 'ADD_DOWN', postId : this.props.answer._id}
+        var action = { type: 'ADD_DOWN', postId: this.props.answer._id }
         this.props.dispatch(action)
         incrementDown(this.props.answer._id, this.props.token)
         this.setState({
@@ -80,18 +79,21 @@ class Answer extends React.Component {
         })
     }
 
-     _alreadyChecked(){
-         return this.props.ups.includes(this.props.answer._id)
-     }
+    _alreadyChecked() {
+        return this.props.ups.includes(this.props.answer._id)
+    }
 
     render() {
 
         const date = moment(this.props.answer.date).format('DD/MM/YYYY')
-        return(
+        return (
             <Paper elevation={5} >
                 <Card variant="outlined">
-                    <Grid container spacing={2} className="Answer-content">
-                        <Grid item xs={this.state.isLoggedIn ? 9 : 10 }>
+                    <Grid container className="Answer-content"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        <Grid item xs={this.state.isLoggedIn ? 8 : 9}>
                             <CardContent>
                                 <div>
                                     <h1>{this.props.answer.content}</h1>
@@ -101,57 +103,58 @@ class Answer extends React.Component {
                                 </div>
                             </CardContent>
                         </Grid>
-                        {this.state.isLoggedIn && (
-                            <Grid
-                                item xs={1}
-                                container spacing={5}
-                                direction="column"
-                                justify="center"
-                                alignItems="center"
-                            >
-                                    <IconButton
-                                        disabled={this.props.ups.includes(this.props.answer._id)}
-                                        color='primary'
-                                        onClick={()=>{this._handleUp()}}
-                                        variant="contained"
-                                    >
-                                        <ArrowUpwardIcon />
-                                    </IconButton>
-                                    <IconButton
-                                    disabled={this.props.downs.includes(this.props.answer._id)}
-                                        color='primary'
-                                        onClick={()=>{this._handleDown()}}
-                                        variant="contained"
-                                    >
-                                        <ArrowDownwardIcon />
-                                    </IconButton>
-                            </Grid>
-                        )}
-                        <Grid item xs={1}
-                            container spacing={5}
+
+                        <Grid item xs={2} container 
                             direction="column"
                             justify="center"
                             alignItems="center"
                         >
-                            <Avatar>
-                                {this.state.pertinency}
-                            </Avatar>
+                            {this.state.isLoggedIn &&
+                                <Grid item xs={4}>
+                                    <IconButton
+                                        style={{padding:'8px'}}
+                                        disabled={this.props.ups.includes(this.props.answer._id)}
+                                        color='primary'
+                                        onClick={() => { this._handleUp() }}
+                                        variant="contained"
+                                    >
+                                        <ArrowUpwardIcon />
+                                    </IconButton>
+                                </Grid>
+                            }
+
+                            <Grid item xs={4}>
+                                <Avatar>
+                                    {this.state.pertinency}
+                                </Avatar>
+                            </Grid>
+
+                            {this.state.isLoggedIn &&
+                                <Grid item xs={4}>
+                                    <IconButton
+                                        style={{padding:'8px'}}
+                                        disabled={this.props.downs.includes(this.props.answer._id)}
+                                        color='primary'
+                                        onClick={() => { this._handleDown() }}
+                                        variant="contained"
+                                    >
+                                        <ArrowDownwardIcon />
+                                    </IconButton>
+                                </Grid>
+                            }
                         </Grid>
+
                         {this.state.isLoggedIn && (
-                        <Grid item xs={1}
-                            container spacing={5}
-                            direction="column"
-                            justify="center"
-                            alignItems="center">
-                            <IconButton
-                            disabled={this.props.reports.includes(this.props.answer._id)}
-                                onClick={()=>{
-                                    this._reportAnswer()
-                                }}
-                            >
-                                <ReportRoundedIcon fontSize='large'></ReportRoundedIcon>
-                            </IconButton>
-                        </Grid>
+                            <Grid item xs={1}>
+                                <IconButton
+                                    disabled={this.props.reports.includes(this.props.answer._id)}
+                                    onClick={() => {
+                                        this._reportAnswer()
+                                    }}
+                                >
+                                    <ReportRoundedIcon fontSize='large'></ReportRoundedIcon>
+                                </IconButton>
+                            </Grid>
                         )}
                     </Grid>
                 </Card>
@@ -163,9 +166,9 @@ class Answer extends React.Component {
 const mapStateToProps = (state) => ({
     isLoggedIn: state.authenticationReducer.isLoggedIn,
     token: state.authenticationReducer.token,
-    ups : state.postReducer.ups,
-    downs : state.postReducer.downs,
-    reports : state.postReducer.reports
+    ups: state.postReducer.ups,
+    downs: state.postReducer.downs,
+    reports: state.postReducer.reports
 })
 
 // const mapDispatchToProps =  {

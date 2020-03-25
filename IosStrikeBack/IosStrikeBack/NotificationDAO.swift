@@ -34,7 +34,6 @@ public class NotificationDAO{
             }
                 
                 let resp = response as? HTTPURLResponse
-            print("code d'erreur")
             print(resp?.statusCode)
                 res = (resp?.statusCode == 200)
                 

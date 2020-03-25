@@ -36,11 +36,10 @@ struct AnswerView: View{
                 HStack{
                     Text(userAnswer.pseudo)
                         .foregroundColor(Color(pseudoColor))
+                        .bold()
                     Spacer()
                     Text(self.formatter.string(from: answer.date))
-                        
                 }.font(.system(size: 13))
-                
             }.padding()
             .frame(minWidth: 0.0, maxWidth: .infinity, alignment: .leading)
             .foregroundColor(Color.white)
@@ -60,40 +59,31 @@ struct AnswerView: View{
                             self.currentUser?.ups?.append(self.answer.answerId)
                         }
                     }){
-                        
-                            Image(systemName: "plus.circle")
-                        
+                        Image(systemName: "plus.circle")
                     }.disabled(((currentUser?.ups?.contains(self.answer.answerId))!))
-                
                     Spacer()
-                
                     Button(action:{
                         if(AnswerDAO.addDown(answerId: self.answer.answerId)){
                             self.answer.downs += 1
                             self.currentUser?.downs?.append(self.answer.answerId)
                         }
                     }){
-                        
                             Image(systemName: "minus.circle")
-                        
-                        
                     }.disabled(((currentUser?.downs?.contains(self.answer.answerId))!))
                     Spacer()
             }
             Spacer()
             VStack{
-                
                     Button(action : {
                         self.answer.downs += 1//Just to set the state of the view in order to re-render
                         self.answer.downs -= 1//Cancelling what we did the previous line
                         self.currentUser?.reports?.append(self.answer.answerId)
-                        print(self.answer.answerId)
+                        /*print(self.answer.answerId)
                         print(self.currentUser?.reports)
-                        print(((self.currentUser?.reports?.contains(self.answer.answerId))!))
+                        print(((self.currentUser?.reports?.contains(self.answer.answerId))!))*/
                         if(ReportDAO.addReport(postId: self.answer.answerId, type: "Answer")){
-                                
                         }else{
-                            print("OUI C BIEN")
+                           //print("OUI C BIEN")
                         }
                     }){
                     Image(systemName: "exclamationmark.triangle")

@@ -49,6 +49,7 @@
 		C9880C8E241BFABC00DE0EF0 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9880C8D241BFABC00DE0EF0 /* Color.xcassets */; };
 		C9DDAD7D242927FC003FFD2B /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DDAD7C242927FC003FFD2B /* ReportDAO.swift */; };
 		C9EADC312427D143001AE6E8 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EADC302427D143001AE6E8 /* CurrentUser.swift */; };
+		C9ED741E242BC1C5002A7F57 /* NotifSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ED741D242BC1C5002A7F57 /* NotifSet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		C9880C8D241BFABC00DE0EF0 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		C9DDAD7C242927FC003FFD2B /* ReportDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDAO.swift; sourceTree = "<group>"; };
 		C9EADC302427D143001AE6E8 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		C9ED741D242BC1C5002A7F57 /* NotifSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifSet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +227,7 @@
 				C94D2E9A241CF18E00C521B6 /* NotifView.swift */,
 				C9EADC302427D143001AE6E8 /* CurrentUser.swift */,
 				C9DDAD7C242927FC003FFD2B /* ReportDAO.swift */,
+				C9ED741D242BC1C5002A7F57 /* NotifSet.swift */,
 			);
 			path = IosStrikeBack;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				C94D2E97241CE56200C521B6 /* Notification.swift in Sources */,
 				C9821F90241BD6060069B44D /* CreateRemarkView.swift in Sources */,
 				C94D2E99241CE8FF00C521B6 /* NotificationDAO.swift in Sources */,
+				C9ED741E242BC1C5002A7F57 /* NotifSet.swift in Sources */,
 				C9821F67241BCE400069B44D /* AnswerSet.swift in Sources */,
 				C9821F8F241BD6060069B44D /* ChangeColorView.swift in Sources */,
 				C9821F88241BD5E60069B44D /* MyProfilView.swift in Sources */,

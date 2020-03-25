@@ -17,12 +17,9 @@ struct SignupView: View {
     @State var email : String = ""
     @State var password :String = ""
     @State var password_conf :String = ""
-    
     var color : String = "none"
     var creationDate: Date = Date()
 
-    
-    
     var body: some View {
    
                 VStack() {
@@ -53,8 +50,6 @@ struct SignupView: View {
                             .cornerRadius(20.0)
                             .shadow(radius: 10.0, x: 20, y: 10)
                     }.padding([.leading, .trailing], 27.5)
-                    
-        
                     Button(action: {
                         if(self.password == self.password_conf && self.password.count >= 6 && !(self.password.contains(" "))){
                             let isSignUp: Bool = UserDAO.signup(pseudo: self.pseudo, password: self.password, email: self.email, color: self.color)
@@ -86,11 +81,7 @@ struct SignupView: View {
                 .background(
                     LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom)
                         .edgesIgnoringSafeArea(.all))
-               
             }
-            
-
-        
 }
 
 

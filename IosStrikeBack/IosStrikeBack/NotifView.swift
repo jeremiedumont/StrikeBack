@@ -29,15 +29,7 @@ struct NotifView: View {
             .cornerRadius(15)
                 .shadow(color : Color.gray.opacity(0.4), radius: 5, x: 0, y: 5)
             
-            Button(action:{
-                if(!NotificationDAO.deleteNotification(id : self.notif.not.notifId)){
-                    print("notif deleted")
-                }
-            }){
-                
-                    Image(systemName: "delete.left")
-                
-            }
+            
         }
     }
 }

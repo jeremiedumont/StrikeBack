@@ -12,13 +12,10 @@ import TextView
 struct CreateAnswerView: View {
     @ObservedObject var newAnswer : Answer
     @Binding var isActive : Bool
-     var user = (UIApplication.shared.delegate as! AppDelegate).currentUser
+    @ObservedObject var mytab : AnswerSet
+    var user = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var input = ""
     @State var isEditing = false
-    
-
-    
-    
      var body: some View {
            NavigationView{
             VStack{
@@ -27,7 +24,9 @@ struct CreateAnswerView: View {
                     if(!(AnswerDAO.addAnswer(ans: self.newAnswer))){
                      print("erreur lors de l'ajout")
                  }
-                    self.isActive = false
+                   
+                    self.mytab.tabAnswer.append(self.newAnswer)
+                     self.isActive = false
                     
                 }){
                     Text("Submit")
@@ -43,10 +42,7 @@ struct CreateAnswerView: View {
                     placeholderColor: Color.gray,
                     backgroundColor: UIColor(red: 244/255, green: 252/255, blue: 250/255, alpha: 1)
                     )
-                }
-             
-           
-            
+                }      
            }
        }
     }

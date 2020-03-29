@@ -62,15 +62,11 @@ struct ChangePasswordView: View {
                                .cornerRadius(15.0)
                                .shadow(radius: 10.0, x: 20, y: 10)
                        }.padding(.top, 50)
-                   
-            
-                
                    Spacer()
                }
                .background(
                    LinearGradient(gradient: Gradient(colors: [.purple, .blue]), startPoint: .top, endPoint: .bottom)
                        .edgesIgnoringSafeArea(.all))
-               
            }
     }
 

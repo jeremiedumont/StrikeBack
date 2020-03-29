@@ -10,9 +10,7 @@ import SwiftUI
 
 struct ChangeColorView: View {
     @Binding var isActiveColor : Bool
-    //@Binding var selection : Int?
     var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
-
     var body: some View {
         VStack{
             HStack{
@@ -65,10 +63,7 @@ struct ChangeColorView: View {
                         Text(currentUser!.pseudo)
                     }
                 }.foregroundColor(Color(UIColor(named: "OrangeColor")!))
-
-
             }
-    
         }
     }
 }

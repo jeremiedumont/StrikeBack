@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct CreateRemarkView: View {
+    var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @ObservedObject private var remark : Remark = Remark(postId : "", userId : "", title : "", text : "", image : UIImage(), date : Date(), heard : 0)
      @Binding var isActive : Bool
+    @ObservedObject var mytab : RemarkSet
      @State private var showImagePicker : Bool = false
      @State private var image : UIImage? = nil
      var imageData : Data?
@@ -51,7 +53,6 @@ struct CreateRemarkView: View {
                    Section(header: Text("text")){
                     TextField("text", text: $remark.text)
                    }
-                   
                    Section{
                        Button(action:{
                         if let myimage = self.image{
@@ -63,8 +64,9 @@ struct CreateRemarkView: View {
                         if(!(RemarkDAO.addRemark(rem: self.remark))){
                             print("erreur lors de l'ajout")
                         }
-                           self.isActive = false
-                           //self.presentation.wrappedValue.dismiss()
+                        self.remark.userId = self.currentUser!.userId
+                        self.isActive = false
+                        self.mytab.tabRemark.append(self.remark)
                        }){
                            Text("Submit")
                        }

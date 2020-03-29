@@ -6,7 +6,6 @@
 //  Copyright © 2020 user164174. All rights reserved.
 //
 import SwiftUI
-
 struct ContentView: View {
     //var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @State var showMenu = false
@@ -64,6 +63,7 @@ struct MainView: View {
     @State var render = 1
     @State var numberRemTot = RemarkDAO.getRemarksCount()
     @ObservedObject var mytab : RemarkSet
+    @State var research = ""
     
     init(reloadRemarks : Bool){
         if(reloadRemarks){
@@ -139,47 +139,64 @@ struct MainView: View {
                     .background(Color(red: 0, green : 245/255, blue : 245/255).opacity(0.1))
                     //.background(Color(red: 209/255, green : 56/255, blue : 102/255).opacity(0.8))
                     //.shadow(color : Color.purple.opacity(0.4), radius: 5, x: 0, y: 10)
-                HStack{
-                    if (pageNumber > 0){
-                        Button(action : {
-                            self.pageNumber -= 1
-                            self.getRemarks()
-                        }){
-                            Image(systemName: "chevron.left")
-                        }
-                    }
-                    
-                    Text("Page " + String(pageNumber+1) + "/" + String(Int(ceil(Double(numberRemTot)/Double(number)))))
-                    
-                    if((pageNumber+1)*number < numberRemTot){
-                        Button(action : {
-                            self.pageNumber += 1
-                            self.getRemarks()
-                        }){
-                            Image(systemName: "chevron.right")
-                        }
-                    }
-                    
-                }
-                Spacer()
-                if( currentUser != nil){
-                    Button(action : {
-                        self.isActive.toggle()
-                    }){
-                        Text("New")
-                    }.sheet(isPresented : self.$isActive){
-                        CreateRemarkView(isActive : self.$isActive)
-                    }
-                 
-                }
-                /*
-                NavigationLink(destination : CreateView()){
-                    Text("New")
-                }.buttonStyle(PlainButtonStyle())
-                  */
-                
                ScrollView{
+                VStack{
+                    HStack{
+                    Spacer()
+                                   if (pageNumber > 0){
+                                       Button(action : {
+                                           self.pageNumber -= 1
+                                           self.getRemarks()
+                                       }){
+                                           Image(systemName: "chevron.left")
+                                       }
+                                   }
+                                   
+                                   Text("Page " + String(pageNumber+1) + "/" + String(Int(ceil(Double(numberRemTot)/Double(number)))))
+                                   
+                                   if((pageNumber+1)*number < numberRemTot){
+                                       Button(action : {
+                                           self.pageNumber += 1
+                                           self.getRemarks()
+                                       }){
+                                           Image(systemName: "chevron.right")
+                                       }
+                                   }
+                                   Spacer()
+                    if( currentUser != nil){
+                        Button(action : {
+                            self.isActive.toggle()
+                        }){
+                         Image(systemName: "plus.circle.fill")                                        .resizable()
+                             .frame(width: 40, height: 40)
+
+                         
+                        }.sheet(isPresented : self.$isActive){
+                            CreateRemarkView(isActive : self.$isActive, mytab : self.mytab)
+                        }
+                     
+                    }
+                                   
+                               }
+                    HStack{
+                        Spacer()
+                        TextField("Research", text: self.$research)
+                        .padding()
+                        .background(Color.themeTextField)
+                        .cornerRadius(20.0)
+                        Button(action:{
+                            print(self.research)
+                                self.mytab.tabRemark = RemarkDAO.getResearch(research: self.research)
+                            
+                        }){
+                            Text("Search")
+                        }.padding()
+                    }
+                }
                    VStack(spacing: 20){
+                    
+                                   
+                    
                        ForEach(mytab.tabRemark){ remark in
                         HStack{
                                NavigationLink(destination : RemarkDetailsView(remark: remark)){
@@ -195,6 +212,7 @@ struct MainView: View {
                                             self.currentUser?.heards?.append(remark.postId)
                                             self.number += 1
                                             self.number -= 1
+                                            remark.heard += 1
                                         }){
                                             Image(systemName: "chevron.up")
                                         }.disabled(((self.currentUser?.heards?.contains(remark.postId))!))
@@ -209,6 +227,7 @@ struct MainView: View {
                                                 self.currentUser?.reports?.append(remark.postId)
                                                 self.number += 1
                                                 self.number -= 1
+                                                
                                             }else{
                                                 print("Return false fuck")
                                             }
@@ -216,7 +235,7 @@ struct MainView: View {
                                         Image(systemName: "exclamationmark.triangle")
                                             }//.foregroundColor(Color(UIColor(named: "RedColor")!))
                                             .disabled(((self.currentUser?.reports?.contains(remark.postId))!))
-                                        
+                                            .foregroundColor(Color.red)
                                         
                                     }
                                 }

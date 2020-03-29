@@ -44,11 +44,11 @@ struct RemarkView: View{
                         .fontWeight(.light)
                         .foregroundColor(Color(pseudoColor))
                         .font(.system(size: 15))
+                        .bold()
                     Spacer()
                     Text(self.formatter.string(from :remark.date))
                         .italic()
-                        .font(.system(size: 15))
-                    
+                        .font(.system(size: 15))                    
                 }
                 Text(remark.title)
                 .bold()
@@ -57,17 +57,7 @@ struct RemarkView: View{
                 if(remark.image != nil){
                     Image(uiImage: remark.image!).renderingMode(.original).resizable().scaledToFit()
                 }
-                /*HStack{
-                    if(remark.image != nil){
-                        Image(uiImage: remark.image!).renderingMode(.original).resizable().scaledToFit()
-                    }
-                    VStack{
-                        */
-                        Text(remark.text)
-                    //}
-                //	}
-               
-                
+                Text(remark.text)
             }.padding()
             .frame(minWidth: 0.0, maxWidth: .infinity, alignment: .leading)
             .foregroundColor(Color.white)

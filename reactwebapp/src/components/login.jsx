@@ -1,16 +1,14 @@
 import 
     React,
-    { useState, bindActionCreators } 
+    { useState } 
 from 'react';
 
 import history from '../history'
 
 import {
     Grid,
-    Paper,
     Card,
     Button,
-    IconButton,
     TextField,
     Typography,
 
@@ -18,18 +16,17 @@ import {
 
 import { login as loginDAO } from '../DAOs/usersDAO';
 
-import { connect, useSelector, useDispatch } from 'react-redux'
-import { login, logout } from '../actions'
+import { useDispatch } from 'react-redux'
+import { login } from '../actions'
 
 const Login = () => {
     const [pseudo, setPseudo] = useState('')
     const [password, setPassword] = useState('')
-    const [token, setToken] = useState('')
 
     const _handleSubmit = () => {
         loginDAO(pseudo, password, false)
             .then((res) => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     res.json().then(resJson => {
                         dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports, resJson.admin))
                         localStorage.setItem('pseudo',resJson.pseudo)
@@ -38,7 +35,6 @@ const Login = () => {
                     })
 
                 } else {
-                    console.log(res)
                     res.json().then(resJson => {
                         alert(resJson)
                     })

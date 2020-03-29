@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import {
     Grid,
@@ -11,7 +11,6 @@ import {
 
 import { connect } from 'react-redux'
 
-import history from '../history'
 import { addAnswer } from '../DAOs/answersDAO'
 
 const AddAnswer = (props) => {
@@ -24,11 +23,10 @@ const AddAnswer = (props) => {
 
     const _handlePublish = async () => {
         if (props.isLoggedIn) {
-            console.log('You will submit')
             addAnswer(props.token,props.remarkId,content)
-            //.then(history.push('/')) //ajouter l'answer dans la vue, on peut faire des answers globales avec redux mais c'est pas fou
             .then((newAnswer) => props.refreshDisplay(newAnswer))
             .catch(err => console.error(err))
+            setContent('')
         } else {
             alert("You must be logged in to submit an answer on Strike Back.")
         }

@@ -2,7 +2,6 @@ import baseURL from './urls'
 
 export async function getAllReports(token) {
   const fetchUri = baseURL  + 'reports/?token=' + token;
-  console.log('On envoie la request...'+ fetchUri)
   return fetch(fetchUri, {
       method: 'GET',
       headers: {
@@ -32,7 +31,6 @@ export async function addReport(postId, type, token){
       }),
   }).then((response) => response.json())
     .then((responseJson) => {
-        console.log("Success reporting")
       return responseJson;
     })
     .catch((error) => {
@@ -43,7 +41,6 @@ export async function addReport(postId, type, token){
 
 export async function dismissReport(token, postId)  {
   const fetchUri = baseURL + 'reports/dismissByPostId?token=' + token;
-  console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
     method: 'PUT',
     headers: {
@@ -65,7 +62,6 @@ export async function dismissReport(token, postId)  {
 
 export async function deleteReport(token, id)  {
   const fetchUri = baseURL + 'reports/delete?token=' + token + '&id=' + id;
-  console.log('On envoie la request: ' + fetchUri)
   return fetch(fetchUri, {
     method: 'DELETE',
     headers: {

@@ -14,15 +14,14 @@ import {
     Card,
     CardContent,
     CardActionArea,
-    IconButton,
-    CardMedia
+    IconButton
 } from '@material-ui/core';
 
 import { getUserById } from '../DAOs/usersDAO';
 import { incrementHeard, decrementHeard } from '../DAOs/remarksDAO';
 import { addReport } from '../DAOs/reportsDAO'
 import history from '../history'
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 
 
 class Remark extends React.Component {
@@ -30,7 +29,7 @@ class Remark extends React.Component {
         super(props);
         this.state = {
             user: {
-                _id: '', //this.props.remark.userId
+                _id: '',
                 pseudo: "",
                 admin: false,
                 email: "",
@@ -42,7 +41,6 @@ class Remark extends React.Component {
             heard: this.props.remark.heard,
             image: this.props.remark.image,
             date: this.props.remark.date,
-            isHeard: false, //attention on peut arnaquer
             answers: []
         }
     }
@@ -53,7 +51,6 @@ class Remark extends React.Component {
         })
         getUserById(this.props.remark.userId)
             .then(res => {
-                //console.log("Remark -> constructor -> this.state.user._id", this.state.user._id,this.props.remark)
                 return res
             }).then(user => {
                 this.setState({
@@ -62,18 +59,21 @@ class Remark extends React.Component {
             })
     }
 
-    componentWillReceiveProps(nextprops) {
+    // Nécessaire car dans le component parent l'adresse de la props ne change pas, donc les components sont identifiés comme étant les meme, à corriger dans une futur version.
+    UNSAFE_componentWillReceiveProps(nextprops) { // Note: la gestion dynamique du heard a été gérée avant l'implémentation de redux, d'où le code compliqué pour éviter un bug d'affichage.
+        if (this.state.heard !== nextprops.remark.heard) {
+            this.setState({ heard: nextprops.remark.heard })
+
+        } 
         this.setState({
-            heard: nextprops.remark.heard,
             title: nextprops.remark.title,
             text: nextprops.remark.text,
             image: nextprops.remark.image,
             date: nextprops.remark.date
         })
-    }
+    } //bug remarquable: appuyer sur heard puis sur report decrement la vue du heard   
 
     _handleClick() {
-        console.log('Click')
         if (this.props.isClickable) {
             history.push('/fullRemark' + this.props.remark._id)
         } else {
@@ -82,28 +82,32 @@ class Remark extends React.Component {
     }
 
     _heardAction() {
-        if (this.state.isHeard) {
+        var action = {type: '', postId: ''}
+        const oldHeard = this.state.heard
+        if (this.props.heards.includes(this.props.remark._id)) {
+            action = { type: 'DECREMENT_HEARD', postId: this.props.remark._id }
             decrementHeard(this.props.remark._id, this.props.token)
             this.setState({
-                heard: this.state.heard - 1,
-                isHeard: false
+                heard: oldHeard - 1
             })
         } else {
+            action = { type: 'INCREMENT_HEARD', postId: this.props.remark._id }
             incrementHeard(this.props.remark._id, this.props.token)
             this.setState({
-                heard: this.state.heard + 1,
-                isHeard: true
+                heard: oldHeard + 1
             })
         }
+        this.props.dispatch(action)
     }
 
     _reportRemark() {
-        console.log('We should report the remark.')
+        var action = { type: 'ADD_REPORT', postId: this.props.remark._id }
+        this.props.dispatch(action)
         addReport(this.props.remark._id, "Remark", this.props.token)
     }
 
     _colorPicker() {
-        if (this.state.isHeard) {
+        if (this.props.heards.includes(this.props.remark._id)) {
             return 'primary'
         } else {
             return 'default'
@@ -165,7 +169,7 @@ class Remark extends React.Component {
                                                     width: '40%',
                                                     height: 'auto'
                                                 }} />
-                                                
+
                                             </Grid>
                                         )}
 
@@ -202,7 +206,9 @@ class Remark extends React.Component {
                                     <IconButton
                                         onClick={() => {
                                             this._reportRemark()
-                                        }}>
+                                        }}
+                                        disabled={this.props.reports.includes(this.props.remark._id)}
+                                    >
                                         <ReportRoundedIcon fontSize='large'></ReportRoundedIcon>
                                     </IconButton>
                                 </Grid>
@@ -218,7 +224,8 @@ class Remark extends React.Component {
                                 justify='center'
                             >
                                 <Grid>
-                                    <p>{this.state.heard}</p>
+                                    <HearingIcon />
+                                    <span>{this.state.heard}</span>
                                 </Grid>
                             </Grid>
                         )}
@@ -232,7 +239,9 @@ class Remark extends React.Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: state.authenticationReducer.isLoggedIn,
-    token: state.authenticationReducer.token
+    token: state.authenticationReducer.token,
+    heards: state.postReducer.heards,
+    reports: state.postReducer.reports
 })
 
 export default connect(mapStateToProps)(Remark)

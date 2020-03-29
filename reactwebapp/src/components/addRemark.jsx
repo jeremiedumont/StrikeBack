@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import {
     Grid,
-    Paper,
     Card,
     Button,
-    IconButton,
     TextField,
     Typography,
 
@@ -29,10 +27,7 @@ const AddRemark = (props) => {
     const [isPublishable, setIsPublishable] = useState(true)
 
     const _handleImageChange = (file) => {
-        //console.log(file)
-        //console.log("_handleImageChange -> file", image)
         setImage(file)
-
     }
 
     const handleChangeTitle = (e) => {
@@ -46,18 +41,13 @@ const AddRemark = (props) => {
     const _uploadFile = async (imageToUpload) => {
         const url = await uploadImageToFireBase(imageToUpload)
         setIsPublishable(true)
-        console.log("_uploadFile -> url", url)
         return url
     }
 
     const _handlePublish = async () => {
-        console.log("isLogged="+props.isLogged)
         if (props.isLogged) {
-            console.log('You will submit')
             setIsPublishable(false)
             const url = await _uploadFile(image)
-            console.log("File uploaded")
-            console.log(image)
             const idRemark = await addRemark(props.token,title, text, url)
             history.push('/fullRemark' + idRemark)
         } else {

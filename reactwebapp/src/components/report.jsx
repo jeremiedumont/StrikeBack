@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import moment from 'moment'
+import React, { useState, useEffect } from 'react';
 
 import {
     Grid,
@@ -11,17 +10,15 @@ import {
     makeStyles
 } from '@material-ui/core';
 
-import '../styles/answer.css'
-import '../styles/remark.css'
+import '../styles/answer.css';
+import '../styles/remark.css';
 
-import { getUserById } from '../DAOs/usersDAO'
-import { dismissReport, deleteReport } from '../DAOs/reportsDAO'
-import { getRemarkById, deleteRemark } from '../DAOs/remarksDAO'
-import { getAnswerById, deleteAnswer } from '../DAOs/answersDAO'
+import { getUserById } from '../DAOs/usersDAO';
+import { dismissReport, deleteReport } from '../DAOs/reportsDAO';
+import { getRemarkById, deleteRemark } from '../DAOs/remarksDAO';
+import { getAnswerById, deleteAnswer } from '../DAOs/answersDAO';
 
-import history from '../history'
-import { connect, useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react';
+import { connect } from 'react-redux';
 
 const Report = (props) => {
 
@@ -54,16 +51,16 @@ const Report = (props) => {
 
     useEffect(() => {
         setTitle(null)
-        async function fetchData(type) {
-            if (type === 'Answer') {
+        async function fetchData(report) {
+            if (report.type === 'Answer') {
                 setclassName('Answer-content')
-                const answer = await getAnswerById(props.report.postId)
+                const answer = await getAnswerById(report.postId)
                 setContent(answer.content)
                 const user = await getUserById(answer.userId)
                 setUser(user)
-            } else if (type === 'Remark') {
+            } else if (report.type === 'Remark') {
                 setclassName('Remark-content')
-                const remark = await getRemarkById(props.report.postId)
+                const remark = await getRemarkById(report.postId)
                 setTitle(remark.title)
                 setContent(remark.text)
                 const user = await getUserById(remark.userId)
@@ -71,8 +68,8 @@ const Report = (props) => {
             }
         }
 
-        fetchData(props.report.type)
-    }, [props.report.postId])
+        fetchData(props.report)
+    }, [props.report])
 
     const _deletePost = () => {
         if (props.report.type === 'Answer') {
@@ -95,10 +92,6 @@ const Report = (props) => {
 
     const _handleDeleteClick = () => {
         handleOpenModal('delete')
-    }
-
-    const _handleDismissClick = () => {
-        handleOpenModal('dismiss')
     }
 
     return (
@@ -135,10 +128,11 @@ const Report = (props) => {
                         >
                             <Grid item xs={2}>
                                 <h2>{props.report.numberReportings} Reports</h2>
-                                <h5>{props.report.type} written by {user.pseudo}</h5>
+                                
                             </Grid>
 
                             <Grid item xs={7}>
+                                <span style={{fontWeight:'bold'}}>{props.report.type}</span><span> written by {user.pseudo}</span>
                                 {(title != null) && <h2>{title}</h2>}
                                 <h3>{content}</h3>
                             </Grid>

@@ -5,33 +5,13 @@ import { findRemarkWithText, getRemarksSortedByDate, getRemarksSortedByHeard, ge
 import {
     Button,
     IconButton,
-    TextField,
-    FormHelperText
+    TextField
 } from '@material-ui/core';
+
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-
-// class HomeClass extends React.Component {
-//     constructor(props){      
-//         super(props);        
-//         this.state = {
-//             remarks: [],
-//             date: { color: 'primary', status: 'down' },
-//             heard: { color: 'default', status: '' },
-//             pageParameters: { type: 'date', order: 1, skip: 0, number: 10 }
-//         }
-//     }
-
-//     _getRemarks = async (type, order, skip, number) => {
-//         if (type === 'date') {
-//             return getRemarksSortedByDate(order, skip, number)
-//         } else if (type === 'heard') {
-//             return getRemarksSortedByHeard(order, skip, number)
-//         }
-//     }
-// }
 
 const Home = () => {
     const [remarks, setRemarks] = useState([])
@@ -59,14 +39,14 @@ const Home = () => {
     useEffect(() => {
         async function fetchData(search) {
             const remarks = await findRemarkWithText(search)
-            if (remarks.length != 0) {
+            if (remarks.length !== 0) {
                 setSearchMatch(true)
                 setRemarks(remarks)
             } else {
                 setSearchMatch(false)
             }
         }
-        if (searchText != '' ) {
+        if (searchText !== '' ) {
             fetchData(searchText)
         }
     },
@@ -88,7 +68,6 @@ const Home = () => {
             case 'date':
                 if (date.status === 'up') {
                     setDate({ color: 'primary', status: 'down' })
-                    console.log('Filtered by date - down')
                     setPageParameters({
                         type: 'date',
                         order: -1,
@@ -97,7 +76,6 @@ const Home = () => {
                     })
                 } else {
                     setDate({ color: 'primary', status: 'up' })
-                    console.log('Filtered by date - up')
                     setPageParameters({
                         type: 'date',
                         order: 1,
@@ -110,7 +88,6 @@ const Home = () => {
             case 'heard':
                 if (heard.status === 'up') {
                     setHeard({ color: 'primary', status: 'down' })
-                    console.log('Filtered by heard - up to down')
                     setPageParameters({
                         type: 'heard',
                         order: 1,
@@ -119,7 +96,6 @@ const Home = () => {
                     })
                 } else { //si c'est down ou non selectionné
                     setHeard({ color: 'primary', status: 'up' })
-                    console.log('Filtered by heard - down to up')
                     setPageParameters({
                         type: 'heard',
                         order: -1,
@@ -130,7 +106,7 @@ const Home = () => {
                 setDate({ color: 'default', status: '' }) //no status --> no icon
                 break;
             default:
-                console.log('Choose an action type.')
+                console.error('Error in filter selection type.')
         }
     }
     const _chooseIcon = (filter) => {
@@ -194,7 +170,7 @@ const Home = () => {
 
     const _handleChangeSearchText = (event) => {
         const text = event.target.value
-        if (text != '') {
+        if (text !== '') {
             setSearchText(text)
         } else {
             setSearchMatch(true)

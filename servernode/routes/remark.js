@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 let User = require('../models/user.model');
 const Remark = require('../models/remark.model');
+const Answer = require('../models/answer.model');
+const Notification = require('../models/notification.model');
+const Report = require('../models/report.model');
 let AuthToken = require('../models/authToken.model');
 var uuid = require('uuid'); //je sais pas trop ce que c'est
 
@@ -186,21 +189,51 @@ router.put('/image', (req, res, next) => {
 
 //http://localhost:5000/remarks/delete?id=5e57d25f4b249c3a740985dd
 router.delete('/delete', (req, res, next) => {
+    var message = ''
     AuthToken.findById(req.query.token)
         .then((token) => {
             User.findById(token.userId)
                 .then((user) => {
                     if (user.admin) {
+                        //delete the remark
                         Remark.findOneAndDelete({
                             _id: req.query.id
                         })
-                            .then(() => res.status(200).json("The remark has been deleted."))
+                            .then(() => {
+                                message = message + "The remark has been deleted. "
+                                //delete answers linked to this remark
+                                Answer.deleteMany({
+                                    remarkId: req.query.id
+                                })
+                                    .then((answers) => {
+                                        message = message + "Answers associated with the remark have been deleted. "
+                                        //delete notifications linked to this remark
+                                        Notification.findOneAndDelete({
+                                            postId: req.query.id
+                                        })
+                                            .then(() => {
+                                                message = message + "The notification associated with the remark has been deleted."
+                                                //delete notifications linked to this remark
+                                                Report.findOneAndDelete({
+                                                    postId: req.query.id
+                                                })
+                                                    .then(() => {
+                                                        message = message + "The report associated with the remark has been deleted."
+                                                        res.status(200).json({ message: message, numberAnswersDeleted: answers.deletedCount })
+                                                    })
+                                                    .catch(err => res.status(400).json('Error:' + err))
+                                            })
+                                            .catch(err => res.status(400).json('Error:' + err))
+                                    })
+                                    .catch(err => res.status(400).json('Error:' + err))
+
+                            })
                             .catch(err => res.status(400).json('Error:' + err))
                     } else {
                         res.status(403).json('Permission Error:' + err)
                     }
                 }).catch(err => res.status(401).json('Token Error:' + err))
-        }).catch(err => {res.status(401).json('Authentication Error: ' + err) })
+        }).catch(err => { res.status(401).json('Authentication Error: ' + err) })
 });
 
 module.exports = router;

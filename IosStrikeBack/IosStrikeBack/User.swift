@@ -19,10 +19,10 @@ import Foundation
 import Foundation
 //pseudo, color, email, password, admin, creationDate
 class User : ObservableObject, Identifiable, Decodable{
-     @Published var pseudo : String
-     @Published var color : String
-     @Published var email : String
-     @Published var userId : String
+    @Published var pseudo : String
+    @Published var color : String
+    @Published var email : String
+    @Published var userId : String
     
     var creationDate: Date
     var authToken : String?
@@ -35,15 +35,15 @@ class User : ObservableObject, Identifiable, Decodable{
         self.userId = userId
     }
     
-   
+    
     
     private enum CodingKeys : String, CodingKey{
-       case pseudo = "pseudo"
-       case color = "color"
-       case email = "email"
-       case creationDate = "creationDate"
-       case userId = "_id"
-       case authToken = "authToken"
+        case pseudo = "pseudo"
+        case color = "color"
+        case email = "email"
+        case creationDate = "creationDate"
+        case userId = "_id"
+        case authToken = "authToken"
     }
     
     
@@ -55,9 +55,9 @@ class User : ObservableObject, Identifiable, Decodable{
         let isodate = try container.decode(String.self, forKey: .creationDate)
         self.userId = try container.decode(String.self, forKey: .userId)
         do{
-        if(try container.decode(String?.self, forKey: .authToken) != nil){
-            self.authToken = try container.decode((String?).self, forKey: .authToken)
-        }
+            if(try container.decode(String?.self, forKey: .authToken) != nil){
+                self.authToken = try container.decode((String?).self, forKey: .authToken)
+            }
         }catch let err{
             
         }

@@ -41,17 +41,17 @@ struct AnswerView: View{
                     Text(self.formatter.string(from: answer.date))
                 }.font(.system(size: 13))
             }.padding()
-            .frame(minWidth: 0.0, maxWidth: .infinity, alignment: .leading)
-            .foregroundColor(Color.white)
+                .frame(minWidth: 0.0, maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(Color.white)
                 .background(Color.orange)
-            .cornerRadius(15)
+                .cornerRadius(15)
                 .shadow(color : Color.gray.opacity(0.4), radius: 5, x: 0, y: 5)
-        VStack{
-            Text(String(answer.ups)).foregroundColor(Color.green)
-            Text(String(answer.downs)).foregroundColor(Color.red)
-        }
-        if(currentUser != nil && caninteract){
             VStack{
+                Text(String(answer.ups)).foregroundColor(Color.green)
+                Text(String(answer.downs)).foregroundColor(Color.red)
+            }
+            if(currentUser != nil && caninteract){
+                VStack{
                     Spacer()
                     Button(action:{
                         if(AnswerDAO.addUp(answerId: self.answer.answerId)){
@@ -68,29 +68,27 @@ struct AnswerView: View{
                             self.currentUser?.downs?.append(self.answer.answerId)
                         }
                     }){
-                            Image(systemName: "minus.circle")
+                        Image(systemName: "minus.circle")
                     }.disabled(((currentUser?.downs?.contains(self.answer.answerId))!))
                     Spacer()
-            }
-            Spacer()
-            VStack{
+                }
+                Spacer()
+                VStack{
                     Button(action : {
                         self.answer.downs += 1//Just to set the state of the view in order to re-render
                         self.answer.downs -= 1//Cancelling what we did the previous line
                         self.currentUser?.reports?.append(self.answer.answerId)
-                        /*print(self.answer.answerId)
-                        print(self.currentUser?.reports)
-                        print(((self.currentUser?.reports?.contains(self.answer.answerId))!))*/
+
                         if(ReportDAO.addReport(postId: self.answer.answerId, type: "Answer")){
                         }else{
-                           //print("OUI C BIEN")
+                            print("erreur lors de l'ajout")
                         }
                     }){
-                    Image(systemName: "exclamationmark.triangle")
+                        Image(systemName: "exclamationmark.triangle")
                     }.disabled(((self.currentUser?.reports?.contains(self.answer.answerId))!))
-                .foregroundColor(Color(UIColor(named: "RedColor")!))
+                        .foregroundColor(Color(UIColor(named: "RedColor")!))
+                }
             }
         }
-    }
     }
 }

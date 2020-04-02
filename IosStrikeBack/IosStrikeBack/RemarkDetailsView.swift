@@ -24,40 +24,40 @@ struct RemarkDetailsView: View {
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         if (user != nil){
-        newAnswer = Answer(remarkId: self.remark.postId, userId: user!.userId , downs: 0, content: " ", ups: 0, date: Date(), pertinency: 0, answerId: " ")
+            newAnswer = Answer(remarkId: self.remark.postId, userId: user!.userId , downs: 0, content: " ", ups: 0, date: Date(), pertinency: 0, answerId: " ")
         }
         else{
             newAnswer = Answer(remarkId: self.remark.postId, userId: " " , downs: 0, content: " ", ups: 0, date: Date(), pertinency: 0, answerId: " ")
-            }
-       
         }
-  
+        
+    }
+    
     var body: some View {
-            VStack{
-                
-                if( user != nil){
-                        VStack{
-                          Button(action : {
-                              self.isActive.toggle()
-                          }){
-                            Image(systemName: "plus.bubble.fill")
-                              Text("add answer")
-                          }.sheet(isPresented : self.$isActive){
-                            CreateAnswerView(newAnswer: self.newAnswer, isActive : self.$isActive, mytab : self.mytab)
-                          }
-                       
-                        }.padding()
+        VStack{
+            
+            if( user != nil){
+                VStack{
+                    Button(action : {
+                        self.isActive.toggle()
+                    }){
+                        Image(systemName: "plus.bubble.fill")
+                        Text("add answer")
+                    }.sheet(isPresented : self.$isActive){
+                        CreateAnswerView(newAnswer: self.newAnswer, isActive : self.$isActive, mytab : self.mytab)
+                    }
+                    
+                }.padding()
             }
             VStack{
                 HStack{
-                //Remark details
-                RemarkView(remark: remark, canheard: false)
+                    //Remark details
+                    RemarkView(remark: remark, canheard: false)
                 }
                 ScrollView{
                     VStack(spacing: 20){
                         ForEach(mytab.tabAnswer){ answer in
                             AnswerView(answer: answer, caninteract: true)
-                            .padding()
+                                .padding()
                         }
                     }
                 }

@@ -14,7 +14,6 @@ struct MyActivities : View{
     var myanswers : [(Answer, Remark)] = []
     var mytabs = ["My Remarks", "My answers"]
     @State private var selectedTab = 0
-    /*var tabRemarks = getAllUserRemarks(userId : String)*/
     init(){
         if let user = user{
             myremarks = RemarkSet(tab : RemarkDAO.getAllUserRemarks())
@@ -30,15 +29,15 @@ struct MyActivities : View{
         }
     }
     var body: some View {
-       VStack {
-           // 2
-           Picker("Numbers", selection: $selectedTab) {
-               ForEach(0 ..< mytabs.count) { index in
-                   Text(self.mytabs[index]).tag(index)
-               }
-           }
-           .pickerStyle(SegmentedPickerStyle())
-         
+        VStack {
+            // 2
+            Picker("Numbers", selection: $selectedTab) {
+                ForEach(0 ..< mytabs.count) { index in
+                    Text(self.mytabs[index]).tag(index)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
             //In Remarks tab
             if(selectedTab==0){
                 ScrollView{
@@ -46,35 +45,35 @@ struct MyActivities : View{
                         ForEach(0 ..< myremarks.tabRemark.count){ index in
                             //NavigationLink(destination : DetailView(person: person)){
                             NavigationLink(destination : RemarkDetailsView(remark: self.myremarks.tabRemark[index])){
-                               
+                                
                                 RemarkView(remark : self.myremarks.tabRemark[index], canheard: false)
-                            
+                                
                             }
                             Divider().frame(height: 20).padding()
                         }
                     }
                 }
             }
-            //In Answers tab
+                //In Answers tab
             else{
                 ScrollView{
                     ForEach(0 ..< myanswers.count){ index in
-
+                        
                         VStack{
                             NavigationLink(destination : RemarkDetailsView(remark: self.myanswers[index].1)){
-                               
+                                
                                 RemarkView(remark : self.myanswers[index].1, canheard: false)
                                 
                             }
                             NavigationLink(destination : RemarkDetailsView(remark: self.myanswers[index].1)){
-                               
+                                
                                 
                                 AnswerView(answer: self.myanswers[index].0, caninteract : false)
                                 
                             }
                             Divider().frame(height: 20).padding()
                         }
-                          
+                        
                     }
                 }
                 Spacer()

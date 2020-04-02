@@ -19,6 +19,7 @@ struct RemarkView: View{
     let formatter = DateFormatter()
     var userRemark : User
     var pseudoColor : UIColor
+    
     init(remark : Remark, canheard : Bool){
         self.remark = remark
         formatter.dateStyle = .short
@@ -36,7 +37,7 @@ struct RemarkView: View{
         //Remark details
         HStack{
             VStack{
-            //auteur et date
+                //auteur et date
                 HStack{
                     Text("Written by")
                         .font(.system(size: 15))
@@ -51,67 +52,19 @@ struct RemarkView: View{
                         .font(.system(size: 15))                    
                 }
                 Text(remark.title)
-                .bold()
-                .font(.title)
+                    .bold()
+                    .font(.title)
                 //TEXT et titre
                 if(remark.image != nil){
                     Image(uiImage: remark.image!).renderingMode(.original).resizable().scaledToFit()
                 }
                 Text(remark.text)
             }.padding()
-            .frame(minWidth: 0.0, maxWidth: .infinity, alignment: .leading)
-            .foregroundColor(Color.white)
+                .frame(minWidth: 0.0, maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(Color.white)
                 .background(Color(red: 0, green : 220/255, blue : 220/255))
-            .cornerRadius(15)
+                .cornerRadius(15)
                 .shadow(color : Color.gray.opacity(0.4), radius: 5, x: 0, y: 5)
-        
-       
-        /*    .padding(8)
-                .border(Color.black, width: 2)
-                .background(Color.init(red: 245/255, green: 245/255, blue: 245/255))
-            .cornerRadius(20)*/
-            //if(canheard && currentUser != nil){
-                /*HStack{
-                    VStack{
-                        if(canheard && currentUser != nil){
-                            Button(action : {
-                                RemarkDAO.addHeard(remarkId: self.remark.postId)
-                            }){
-                                Image(systemName: "chevron.up")
-                            }
-                        }
-                            Text(String(self.remark.heard))
-                        
-                    }
-                    if(canheard && currentUser != nil){
-                        VStack{
-                            Button(action : {
-                                           //-----------------A FAIRE-----------------------Creer l'action de report---------------------------------------
-                            }){
-                            Image(systemName: "exclamationmark.triangle")
-                                }.foregroundColor(Color(UIColor(named: "RedColor")!))
-                        }
-                    }
-                }*/
-            //}
-            
-            
-       }
-        
-        
-        
-            /*VStack{
-                Text(answer.content)
-                HStack{
-                    Text(UserDAO.getUserById(userId : answer.userId)!.pseudo)
-                    Spacer()
-                    Text(self.formatter.string(from: answer.date))
-                        
-                }.font(.system(size: 13))
-            }
-            .padding(8)
-            .border(Color.black, width: 2)
-            .background(Color.init(red: 245/255, green: 245/255, blue: 245/255))
-        .cornerRadius(20)*/
+        }
     }
 }

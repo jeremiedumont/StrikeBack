@@ -12,11 +12,20 @@ import Firebase
 public class RemarkDAO {
     
     let rootURL : String = "https://strike-back.herokuapp.com/remarks/"
-
+    
     //----------------------------------
     //---------- GET requests ----------
     //----------------------------------
-
+    
+    /*
+     Find X remarks sorted by date skipping the Y firsts remarks of the entire statement
+        GET request
+        Params:
+         order →  1 or -1 (from the older or from the latest)
+         skip → number of remarks to skip
+         number → number of remarks to get
+         https://strike-back.herokuapp.com/remarks/sorted/date?order=&skip=&number=
+     */
     static func getSortedRemarksByDate(order : Int, skip : Int, number : Int) -> [Remark]{
         // Prepare URL
         let preString = "https://strike-back.herokuapp.com/remarks/sorted/date"
@@ -27,27 +36,27 @@ public class RemarkDAO {
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
         let semaphore = DispatchSemaphore(value :0)
-         
+        
         // Perform HTTP Request
         var res : [Remark] = []
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
             
-                // Convert HTTP Response Data to a String
-                if let data = data{
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data{
+                
+                do{
+                    res = try JSONDecoder().decode([Remark].self, from: data)
                     
-                    do{
-                        res = try JSONDecoder().decode([Remark].self, from: data)
-                        
-                    }catch let error {
-                        print(error)
-                    }
+                }catch let error {
+                    print(error)
                 }
+            }
             semaphore.signal()
         }
         task.resume()
@@ -55,7 +64,16 @@ public class RemarkDAO {
         
         return res
     }
-
+    
+    /*
+     Find X remarks sorted by number of heard skipping the Y firsts remarks of the entire statement
+        GET request
+        Params:
+        order →  1 or -1 (from the older or from the latest)
+        skip → number of remarks to skip
+        number → number of remarks to get
+        https://strike-back.herokuapp.com/remarks/sorted/heard?order=&skip=&number=
+     */
     static func getSortedRemarksByHeard(order : Int, skip : Int, number : Int) -> [Remark]{
         // Prepare URL
         let preString = "https://strike-back.herokuapp.com/remarks/sorted/heard"
@@ -66,27 +84,27 @@ public class RemarkDAO {
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
         let semaphore = DispatchSemaphore(value :0)
-         
+        
         // Perform HTTP Request
         var res : [Remark] = []
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
             
-                // Convert HTTP Response Data to a String
-                if let data = data{
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data{
+                
+                do{
+                    res = try JSONDecoder().decode([Remark].self, from: data)
                     
-                    do{
-                        res = try JSONDecoder().decode([Remark].self, from: data)
-                        
-                    }catch let error {
-                        print(error)
-                    }
+                }catch let error {
+                    print(error)
                 }
+            }
             semaphore.signal()
         }
         task.resume()
@@ -94,7 +112,14 @@ public class RemarkDAO {
         
         return res
     }
+    /*
+     Find every remarks of a user with their id
+        GET request
+        Params:
+        id → id of a user
+        https://strike-back.herokuapp.com/remarks/findByUserId?id=
 
+     */
     static func getAllUserRemarks() -> [Remark] {
         // Prepare URL
         var currentUser =  (UIApplication.shared.delegate as! AppDelegate).currentUser
@@ -111,28 +136,28 @@ public class RemarkDAO {
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
         let semaphore = DispatchSemaphore(value :0)
-
+        
         // Perform HTTP Request
         var res : [Remark] = []
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
             
-                // Convert HTTP Response Data to a String
-                if let data = data{
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data{
+                
+                do{
+                    res = try JSONDecoder().decode([Remark].self, from: data)
+                    print("res = " + String(res.count))
                     
-                    do{
-                        res = try JSONDecoder().decode([Remark].self, from: data)
-                        print("res = " + String(res.count))
-                        
-                    }catch let error {
-                        print(error)
-                    }
+                }catch let error {
+                    print(error)
                 }
+            }
             semaphore.signal()
         }
         task.resume()
@@ -140,7 +165,13 @@ public class RemarkDAO {
         
         return res
     }
-
+    /*
+     Find a remark with the id
+        GET request
+        Params:
+        id → id of a remark
+        https://strike-back.herokuapp.com/remarks/?id=
+     */
     static func getRemark(remarkId : String) -> Remark?{
         // Prepare URL
         let preString = "https://strike-back.herokuapp.com/remarks/"
@@ -151,27 +182,27 @@ public class RemarkDAO {
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
         let semaphore = DispatchSemaphore(value :0)
-
+        
         // Perform HTTP Request
         var res : Remark? = nil
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
             
-                // Convert HTTP Response Data to a String
-                if let data = data{
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data{
+                
+                do{
+                    res = try JSONDecoder().decode(Remark.self, from: data)
                     
-                    do{
-                        res = try JSONDecoder().decode(Remark.self, from: data)
-                        
-                    }catch let error {
-                        print(error)
-                    }
+                }catch let error {
+                    print(error)
                 }
+            }
             semaphore.signal()
         }
         task.resume()
@@ -179,8 +210,15 @@ public class RemarkDAO {
         
         return res
     }
-    
-    //search remarks by string
+    /*
+    //research remarks by string ( search title or content )
+     
+    GET request
+    Params:
+    String → research of user
+    https://strike-back.herokuapp.com/remarks/find/?id=
+
+ */
     static func getResearch(research : String) -> [Remark]{
         // Prepare URL
         let preString = "https://strike-back.herokuapp.com/remarks/find"
@@ -191,25 +229,25 @@ public class RemarkDAO {
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
         let semaphore = DispatchSemaphore(value :0)
-
+        
         // Perform HTTP Request
         var res : [Remark] = []
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
             
-                // Convert HTTP Response Data to a String
-                if let data = data{
-                    
-                    do{
-                        res = try JSONDecoder().decode([Remark].self, from: data)
-                    }catch let error {
-                        print(error)
-                    }
+            // Convert HTTP Response Data to a String
+            if let data = data{
+                
+                do{
+                    res = try JSONDecoder().decode([Remark].self, from: data)
+                }catch let error {
+                    print(error)
                 }
+            }
             semaphore.signal()
         }
         task.resume()
@@ -230,28 +268,28 @@ public class RemarkDAO {
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
         let semaphore = DispatchSemaphore(value :0)
-
+        
         // Perform HTTP Request
         var res : Int = 0
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
             
-                // Convert HTTP Response Data to a String
-                if let data = data{
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data{
+                
+                do{
+                    res = try JSONDecoder().decode(Int.self, from: data)
+                    print("Number tot = " + String(res))
                     
-                    do{
-                        res = try JSONDecoder().decode(Int.self, from: data)
-                        print("Number tot = " + String(res))
-                        
-                    }catch let error {
-                        print(error)
-                    }
+                }catch let error {
+                    print(error)
                 }
+            }
             semaphore.signal()
         }
         task.resume()
@@ -259,11 +297,22 @@ public class RemarkDAO {
         
         return res
     }
-
+    
     //----------------------------------
     //---------- POST requests ---------
     //----------------------------------
+    
+    /*
+     Add a remark
+        POST request
+        Body:
+            userId
+            title
+            text
+            Image → not needed if no image
+        https://strike-back.herokuapp.com/remarks/add?token=
 
+     */
     static func addRemark (rem : Remark) -> Bool{
         var remId : String? = nil
         var currentUser =  (UIApplication.shared.delegate as! AppDelegate).currentUser
@@ -289,14 +338,14 @@ public class RemarkDAO {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         //print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
         // Perform HTTP Request
-         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("Error took place \(error)")
                 return
             }
-                
-                let resp = response as? HTTPURLResponse
-                res = (resp?.statusCode == 200)
+            
+            let resp = response as? HTTPURLResponse
+            res = (resp?.statusCode == 200)
             if let data = data{
                 if let jsonString = String(data: data, encoding: .utf8){
                     print(jsonString)
@@ -320,62 +369,56 @@ public class RemarkDAO {
             
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
-            print("POINT1")
-            
-            
             //uploadtaskt necessary to manage life cycle but not used for now
             let uploadTask = uploadref.putData(imagedata, metadata: metadata){ metadata, error in
-              //not used but possible
+                //not used but possible
                 guard let metadata = metadata else {
-                print("POINT2")
-                return
-              }
-                print("POINT3")
- 
-              uploadref.downloadURL { (url, error) in
-                guard let downloadURL = url else {
-                    print("POINT4")
-                  return
+                    return
                 }
-                print(downloadURL)
-                print("POINT5")
-                let stringimageurl = "https://strike-back.herokuapp.com/remarks/image?token=" + token
-                let url = URL(string: stringimageurl)
-                guard let requestUrl = url else { fatalError() }
-                // Prepare URL Request Object
-                var request = URLRequest(url: requestUrl)
-                request.httpMethod = "PUT"
-                guard let remId = remId else{fatalError()}
-                let json: [String: Any] = ["id": remId,"url": downloadURL.absoluteString ]
-                // Set HTTP Request Body
-                do {
-                    request.httpBody = try JSONSerialization.data(withJSONObject: json)
-                } catch let error {
-                    print(error)
-                }
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
-                // Perform HTTP Request
-                 let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                    if let error = error {
-                        print("Error took place \(error)")
+               
+                
+                uploadref.downloadURL { (url, error) in
+                    guard let downloadURL = url else {
                         return
                     }
+                    print(downloadURL)
+                    let stringimageurl = "https://strike-back.herokuapp.com/remarks/image?token=" + token
+                    let url = URL(string: stringimageurl)
+                    guard let requestUrl = url else { fatalError() }
+                    // Prepare URL Request Object
+                    var request = URLRequest(url: requestUrl)
+                    request.httpMethod = "PUT"
+                    guard let remId = remId else{fatalError()}
+                    let json: [String: Any] = ["id": remId,"url": downloadURL.absoluteString ]
+                    // Set HTTP Request Body
+                    do {
+                        request.httpBody = try JSONSerialization.data(withJSONObject: json)
+                    } catch let error {
+                        print(error)
+                    }
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    print("json : " , String(data : request.httpBody!, encoding: .utf8)!)
+                    // Perform HTTP Request
+                    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        if let error = error {
+                            print("Error took place \(error)")
+                            return
+                        }
                         
                         let resp = response as? HTTPURLResponse
                         res = (resp?.statusCode == 200)
                         
-                    if let data = data{
-                        if let jsonString = String(data: data, encoding: .utf8){
-                            print(jsonString)
+                        if let data = data{
+                            if let jsonString = String(data: data, encoding: .utf8){
+                                print(jsonString)
+                            }
                         }
+                        
                     }
-                   
+                    task.resume()
                 }
-                task.resume()
-              }
-
-            
+                
+                
             }
         }else{
             print("imagestring value is nil")
@@ -384,13 +427,20 @@ public class RemarkDAO {
         
         return res
     }
-
     
-
+    
+    
     //----------------------------------
     //---------- PUT requests ----------
     //----------------------------------
-
+    
+    /*
+     Increment the heard value of a remark
+        PUT request
+        Params:
+            id → id of the remark
+        https://strike-back.herokuapp.com/remarks/heard?id=
+     */
     static func addHeard(remarkId : String) -> Bool {
         // Prepare URL
         var currentUser =  (UIApplication.shared.delegate as! AppDelegate).currentUser
@@ -398,18 +448,18 @@ public class RemarkDAO {
         let preString = "https://strike-back.herokuapp.com/remarks/heard"
         let postString = "?id="+String(remarkId) + "&token=" + token
         let url = URL(string: preString+postString)
-
+        
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "PUT"
-
+        
         let semaphore = DispatchSemaphore(value :0)
-         
+        
         // Perform HTTP Request
         var res : Bool = false
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
+            
             // Check for Error
             if let error = error {
                 print("Error took place \(error)")
@@ -432,11 +482,19 @@ public class RemarkDAO {
     }
     
     
-
+    
     //----------------------------------
     //---------- DELETE requests -------
     //----------------------------------
     
+    /*
+     Delete a remark with their id
+     DELETE request
+        Params:
+            id → id of the remark
+        https://strike-back.herokuapp.com/remarks/delete?id=
+
+     */
     static func deleteRemark(remid : String) -> Bool{
         // Prepare URL
         var currentUser =  (UIApplication.shared.delegate as! AppDelegate).currentUser
@@ -447,7 +505,7 @@ public class RemarkDAO {
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "DELETE"
-         
+        
         // HTTP Request Parameters which will be sent in HTTP Request Body
         let postString = "id="+remid;
         // Set HTTP Request Body
@@ -455,20 +513,19 @@ public class RemarkDAO {
         var res : Bool = false
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                // Check for Error
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
-         
-                // Convert HTTP Response Data to a String
-                    let resp = response as? HTTPURLResponse
-                    res = (resp?.statusCode == 200)
-                
+            
+            // Check for Error
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            let resp = response as? HTTPURLResponse
+            res = (resp?.statusCode == 200)
         }
         task.resume()
         return res
     }
-
+    
 }

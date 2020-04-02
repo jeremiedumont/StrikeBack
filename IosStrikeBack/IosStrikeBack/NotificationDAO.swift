@@ -79,7 +79,6 @@ public class NotificationDAO{
                 if let data = data{
                     
                     do{
-                        print("COUCOU C MOI")
                         res = try JSONDecoder().decode([Notification].self, from: data)
                         
                     }catch let error {

@@ -13,6 +13,7 @@ servernode/config.js
 #Ios StrikeBack/Pods
 #REACT
 node_modules
+reactwebapp/src/firebase
 
 #Ios StrikeBack/Ios StrikeBack.xcworkspace/
 #Ios StrikeBack/Ios #StrikeBack.xcworkspace/xcuserdata/user164174.xcuserdatad/UserInterfaceState.xcuserstate

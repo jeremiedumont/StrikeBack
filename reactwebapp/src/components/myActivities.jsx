@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 
 import {
-    Grid,
     Card,
     Button,
     Paper,
@@ -42,15 +41,13 @@ const MyActivities = (props) => {
             setAnswers(newAnswers)
         }
         fetchData(props.token)
-    },[])
+    }, [props.token])
 
     const _handleMyRemarkClick = () => {
-        console.log('_handleMyREMARKClick')
         setDisplayAnswers(false)
         setDisplayRemarks(true)
     }
     const _handleMyAnswerClick = () => {
-        console.log('_handleMyANSWERClick')
         setDisplayRemarks(false)
         setDisplayAnswers(true)
     }
@@ -58,53 +55,60 @@ const MyActivities = (props) => {
     const date = moment(user.creationDate).startOf('day').fromNow().split('ago')[0];
     return (
         <>
-        {(displayAnswers || displayRemarks) &&
-            
-            <> 
-                <Paper elevation={10} style={{ margin: 20, padding: 20 }}>
-                    <Typography variant="h5" gutterBottom>
-                        Welcome on the section 'My activities' {user.pseudo}. <br/>It's been {date} that you are a member of Strike-Back.
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                        You posted {remarks.length} remarks and {answers.length} answers til now.
-                    </Typography>
+            {(displayAnswers || displayRemarks) &&
+
+                <>
+                    <Paper elevation={10} style={{ margin: 20, padding: 20 }}>
+                        <Typography variant="h5" gutterBottom>
+                            Welcome {user.pseudo}. <br />It's been {date} that you are a member of Strike-Back.
+                        </Typography>
+
+                        <Typography variant="h6" gutterBottom>
+                            You posted {remarks.length} remarks and {answers.length} answers until now.
+                        </Typography>
                     
-                </Paper>
-                <Card style={{ margin: 20, padding: 20 }}>
-                <ButtonGroup color="secondary" aria-label="outlined primary button group">
-                    <Button
-                        onClick={() => _handleMyRemarkClick()}
-                    >
-                        My remarks
+                        
+
+                    </Paper>
+                    <Card style={{ margin: 20, padding: 20 }}>
+                        <ButtonGroup color="secondary" aria-label="outlined primary button group">
+                        <Button
+                            onClick={() => history.push('/myactivities/notifications')}
+                        >
+                            My Notifications
+                        </Button>
+                            <Button
+                                onClick={() => _handleMyRemarkClick()}
+                            >
+                                My remarks
                     </Button>
-                    <Button
-                        onClick={() => _handleMyAnswerClick()}
-                    >
-                        My answers
+                            <Button
+                                onClick={() => _handleMyAnswerClick()}
+                            >
+                                My answers
                     </Button>
-                </ButtonGroup>
-                    {displayRemarks &&
-                        remarks.map((remark, index) => (
-                            <div key={index} style={styles.remark}>
-                                <Remark remark={remark} isClickable={true}></Remark>
-                            </div>
-                        ))
-                    }
-                    {displayAnswers &&
-                        answers.map((answer, index) => (
-                            <div 
-                                key={index} 
-                                style={styles.answer} 
-                                onClick={() => history.push('fullRemark' + answer.remarkId)}
-                                className='NavBar-Title' //TODO: specfic css file
+                        </ButtonGroup>
+                        {((remarks instanceof Array) && displayRemarks) &&
+                            remarks.map((remark, index) => (
+                                <div key={index} style={styles.remark}>
+                                    <Remark remark={remark} isClickable={true}></Remark>
+                                </div>
+                            ))
+                        }
+                        {displayAnswers &&
+                            answers.map((answer, index) => (
+                                <div
+                                    key={index}
+                                    style={styles.answer}
+                                    onClick={() => history.push('fullRemark' + answer.remarkId)}
                                 >
-                                <Answer answer={answer}></Answer>
-                            </div>
-                        ))
-                    }
-                </Card>
-            </>
-        }
+                                    <Answer answer={answer}></Answer>
+                                </div>
+                            ))
+                        }
+                    </Card>
+                </>
+            }
         </>
     )
 }
@@ -119,6 +123,7 @@ let styles = {
     },
     answer: {
         margin: 20,
+        cursor: 'pointer'
     },
 }
 

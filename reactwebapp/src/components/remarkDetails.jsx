@@ -1,12 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import {getAnswersByRemarkId, addAnswer} from '../DAOs/answersDAO'
-import {getRemarkById} from '../DAOs/remarksDAO'
 import Remark from './remark'
 import Answer from './answer'
 import AddAnswer from './addAnswer'
 
-import { connect } from 'react-redux'
+import {getAnswersByRemarkId} from '../DAOs/answersDAO'
+import {getRemarkById} from '../DAOs/remarksDAO'
 
 class RemarkDetails extends React.Component {
     constructor(props){ //remark
@@ -40,7 +40,6 @@ class RemarkDetails extends React.Component {
         .then( res => {
             return res
         }).then(newremark => {
-            //console.log("RemarkDetails -> componentDidMount -> remark", newremark)
             this.setState({
                 remark: newremark,
                 isLoading: false
@@ -49,7 +48,6 @@ class RemarkDetails extends React.Component {
     }
 
     render() {
-        console.log('Render of a remarkDetails.')
         return (            
             <div style={styles.details}>
                 { !this.state.isLoading && (

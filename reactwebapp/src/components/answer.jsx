@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import moment from 'moment'
 //import { addUp, addDown, addReport as addStateReport } from '../actions'
 
@@ -49,15 +49,12 @@ class Answer extends React.Component {
     }
 
     _reportAnswer() {
-        console.log("we should report this answer")
-        console.log(this.props.answer._id)
         var action = { type: 'ADD_REPORT', postId: this.props.answer._id }
         this.props.dispatch(action)
         addReport(this.props.answer._id, "Answer", this.props.token)
     }
 
     _handleUp() {
-        console.log('Click UP')
         //this.props.addUp(this.props.answer._id)
         var action = { type: 'ADD_UP', postId: this.props.answer._id }
         this.props.dispatch(action)
@@ -65,12 +62,9 @@ class Answer extends React.Component {
         this.setState({
             pertinency: this.state.pertinency + 1
         })
-
-        console.log(this.props.ups)
     }
 
     _handleDown() {
-        console.log('Click DOWN')
         var action = { type: 'ADD_DOWN', postId: this.props.answer._id }
         this.props.dispatch(action)
         incrementDown(this.props.answer._id, this.props.token)

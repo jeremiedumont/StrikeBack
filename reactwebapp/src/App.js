@@ -21,6 +21,7 @@ import Login from './components/login';
 import SignUp from './components/signUp';
 import Admin from './components/administrator';
 import MyActivities from './components/myActivities'; 
+import Notifications from './components/notifications'
 
 import { login as loginDAO } from './DAOs/usersDAO';
 
@@ -32,30 +33,39 @@ import {login} from './actions'
 
 export default function App() {
   console.log('The Strike Back App is running')
-  //const auth = useSelector(state => state.authenticationReducer.token)
   const dispatch = useDispatch()
 
   useEffect(() => {
     //Auto login when first render of App
     const pseudo = localStorage.getItem('pseudo')
     const pwd = localStorage.getItem('pwd')
-    if (pseudo != null && pwd != null) {
-      loginDAO(pseudo, pwd, true)
+
+    // function dispatchEffect(token, heard, ups, downs, reports, admin) {
+    //   dispatch(login(token, heard, ups, downs, reports, admin))
+    // }
+
+    async function autoLogin(pseudo, password) {
+      loginDAO(pseudo, password, true)
       .then((res) => {
-          if (res.status == 200) {
+          if (res.status === 200) {
               res.json().then(resJson => {
-                console.log(resJson)
-                  dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports, resJson.admin))
+                // dispatchEffect(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports, resJson.admin)
+                dispatch(login(resJson.authToken, resJson.heards, resJson.ups, resJson.downs, resJson.reports, resJson.admin))
               })
           } else {
-              console.log(res)
               res.json().then(resJson => {
                   alert(resJson)
               })
           }
       })
     }
-  },[])
+
+    if (pseudo != null && pwd != null) {
+      autoLogin(pseudo, pwd)
+    }
+
+
+  },[dispatch])
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -71,7 +81,8 @@ export default function App() {
             <Route path='/fullRemark:id' render={(props) => <RemarkDetails {...props}></RemarkDetails>}/>
             <Route path='/addRemark' render={(props) => <AddRemark {...props}></AddRemark>}/>
             <Route path='/admin' render={(props) => <Admin {...props}></Admin>}/>
-            <Route path='/myactivities' render={(props) => <MyActivities {...props}></MyActivities>}/>
+            <Route path='/myactivities' exact render={(props) => <MyActivities {...props}></MyActivities>}/>
+            <Route path='/myactivities/notifications' render={(props) => <Notifications {...props}></Notifications>}/>
           </Switch>
           
         </div>

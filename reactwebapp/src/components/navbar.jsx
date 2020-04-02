@@ -23,7 +23,6 @@ import history from '../history'
 import { logout } from '../actions'
 
 const NavBar = (props) => {
-    //var [isLogged, setIsLogged] = useState(useSelector(state => state.isLoggedIn))
     const dispatch = useDispatch()
 
     const _logOut = () => {

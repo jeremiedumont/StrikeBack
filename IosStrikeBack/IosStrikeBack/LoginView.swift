@@ -10,16 +10,15 @@ import SwiftUI
 
 
 struct LoginView: View {
-   
-    //@Environment(\.presentationMode) var presentation
+    
     @State private var pseudo = ""
     @State private var password = ""
     @Binding var isActiveLogin : Bool
     @Binding var showMenu : Bool
-  
+    
     var body: some View {
         VStack() {
-           
+            
             Spacer()
             VStack(alignment: .center, spacing: 15) {
                 TextField("Username", text: self.$pseudo)

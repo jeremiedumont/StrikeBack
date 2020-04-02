@@ -11,12 +11,12 @@ import SwiftUI
 struct CreateRemarkView: View {
     var currentUser : User? = (UIApplication.shared.delegate as! AppDelegate).currentUser
     @ObservedObject private var remark : Remark = Remark(postId : "", userId : "", title : "", text : "", image : UIImage(), date : Date(), heard : 0)
-     @Binding var isActive : Bool
+    @Binding var isActive : Bool
     @ObservedObject var mytab : RemarkSet
-     @State private var showImagePicker : Bool = false
-     @State private var image : UIImage? = nil
-     var imageData : Data?
-     var user = (UIApplication.shared.delegate as! AppDelegate).currentUser
+    @State private var showImagePicker : Bool = false
+    @State private var image : UIImage? = nil
+    var imageData : Data?
+    var user = (UIApplication.shared.delegate as! AppDelegate).currentUser
     
     mutating func convertImage(){
         if let image = image {
@@ -28,8 +28,8 @@ struct CreateRemarkView: View {
         
     }
     
-     var body: some View {
-           NavigationView{
+    var body: some View {
+        NavigationView{
             VStack{
                 
                 Button("Open Camera"){
@@ -38,53 +38,39 @@ struct CreateRemarkView: View {
                     .foregroundColor(Color.white)
                     .background( Color.purple)
                 if(image != nil){
-                    //self.convertImage()
-                    //self.imageData = image.jpegData(compressionQuality: 0.1)
-                    //Text((image!.jpegData(compressionQuality: 0.1)).base64EncodedString())
-                //Text("coucou")
-                        Image(uiImage: image!).resizable().scaledToFit()
+                    Image(uiImage: image!).resizable().scaledToFit()
                     
                 }
                 
-               Form{
-                Section(header: Text("title")){
-                       TextField("title", text: $remark.title)
-                   }
-                   Section(header: Text("text")){
-                    TextField("text", text: $remark.text)
-                   }
-                   Section{
-                       Button(action:{
-                        if let myimage = self.image{
-                            self.remark.image = myimage
-                            //var rep = UIImagePNGRepresentation(image)
-                            //print(String(data : (self.image?.jpegData(compressionQuality: 0.8))!, encoding : .utf8))
-                            //self.remark.image = String(data : (self.image?.pngData())!, encoding : .utf8)!
+                Form{
+                    Section(header: Text("title")){
+                        TextField("title", text: $remark.title)
+                    }
+                    Section(header: Text("text")){
+                        TextField("text", text: $remark.text)
+                    }
+                    Section{
+                        Button(action:{
+                            if let myimage = self.image{
+                                self.remark.image = myimage
+                                
+                            }
+                            if(!(RemarkDAO.addRemark(rem: self.remark))){
+                                print("erreur lors de l'ajout")
+                            }
+                            self.remark.userId = self.currentUser!.userId
+                            self.isActive = false
+                            self.mytab.tabRemark.append(self.remark)
+                        }){
+                            Text("Submit")
                         }
-                        if(!(RemarkDAO.addRemark(rem: self.remark))){
-                            print("erreur lors de l'ajout")
-                        }
-                        self.remark.userId = self.currentUser!.userId
-                        self.isActive = false
-                        self.mytab.tabRemark.append(self.remark)
-                       }){
-                           Text("Submit")
-                       }
-                   }
-               }
+                    }
+                }
             }.sheet(isPresented: self.$showImagePicker){
                 PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
-            
-           }
-       }
+                
+            }
+        }
     }
 }
 
-/*
-struct CreateView : View{
-    @ObservedObject private var person : Person = Person(firstName: "", lastName: "", job: "", department: "")
-//    @State var firstname : String;
-    @Binding var isActive : Bool
-
-}
-*/

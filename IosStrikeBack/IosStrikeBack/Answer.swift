@@ -17,7 +17,7 @@ class Answer : ObservableObject, Identifiable, Codable{
     @Published var date : Date
     @Published var pertinency : Int
     @Published var answerId : String
-   
+    
     init(remarkId : String, userId : String, downs : Int, content : String, ups : Int, date : Date, pertinency : Int, answerId : String){
         self.remarkId = remarkId
         self.userId = userId
@@ -29,8 +29,8 @@ class Answer : ObservableObject, Identifiable, Codable{
         self.answerId = answerId
     }
     
- 
-   
+    
+    
     
     private enum CodingKeys : String, CodingKey{
         case userId = "userId"

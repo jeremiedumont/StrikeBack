@@ -28,9 +28,7 @@ struct NotificationsView: View {
                 temptabrem.append(rem)
             }
         }
-        
         mytab = NotifSet(tabNotif: temptabnot, tabRemark: temptabrem)
-        //count = notifs.count
     }
     
     var body: some View {
@@ -82,15 +80,6 @@ struct NotificationsView: View {
                                 
                             }
                         }
-                        /*NavigationLink(destination : RemarkDetailsView(remark: self.mytab[index].rem)){
-                               
-                            NotifView(notif: self.mytab[index])
-                            
-                        }.simultaneousGesture(TapGesture().onEnded{
-                            if(!NotificationDAO.deleteNotification(id : self.mytab[index].not.notifId)){
-                                print("notif deleted")
-                            }
-                        })*/
                         if(index < self.mytab.tabNotif.count){
                             Divider().frame(height: 20).padding()
                         }

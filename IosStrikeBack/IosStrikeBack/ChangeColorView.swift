@@ -17,7 +17,7 @@ struct ChangeColorView: View {
                 Text("Pickup the Color you want")
             }
             HStack{
-               VStack{
+                VStack{
                     Button(action : {
                         UserDAO.updateColor(userId: self.currentUser!.userId, color: "RedColor")
                         self.currentUser?.color="RedColor"
@@ -25,34 +25,34 @@ struct ChangeColorView: View {
                     }){
                         Text(currentUser!.pseudo)
                     }
-                    }.foregroundColor(Color(UIColor(named: "RedColor")!))
-                        
+                }.foregroundColor(Color(UIColor(named: "RedColor")!))
+                
                 VStack{
-                Button(action : {
-                    UserDAO.updateColor(userId: self.currentUser!.userId, color: "BlueColor")
-                    self.currentUser?.color="BlueColor"
-                    self.isActiveColor = false
-                }){
-                    Text(currentUser!.pseudo)
-                }
+                    Button(action : {
+                        UserDAO.updateColor(userId: self.currentUser!.userId, color: "BlueColor")
+                        self.currentUser?.color="BlueColor"
+                        self.isActiveColor = false
+                    }){
+                        Text(currentUser!.pseudo)
+                    }
                 }.foregroundColor(Color(UIColor(named: "BlueColor")!))
                 VStack{
-                Button(action : {
-                    UserDAO.updateColor(userId: self.currentUser!.userId, color: "GreenColor")
-                    self.currentUser?.color="GreenColor"
-                    self.isActiveColor = false
-                }){
-                    Text(currentUser!.pseudo)
-                }
+                    Button(action : {
+                        UserDAO.updateColor(userId: self.currentUser!.userId, color: "GreenColor")
+                        self.currentUser?.color="GreenColor"
+                        self.isActiveColor = false
+                    }){
+                        Text(currentUser!.pseudo)
+                    }
                 }.foregroundColor(Color(UIColor(named: "GreenColor")!))
                 VStack{
-                Button(action : {
-                    UserDAO.updateColor(userId: self.currentUser!.userId, color: "PinkColor")
-                    self.currentUser?.color="PinkColor"
-                    self.isActiveColor = false
-                }){
-                    Text(currentUser!.pseudo)
-                }
+                    Button(action : {
+                        UserDAO.updateColor(userId: self.currentUser!.userId, color: "PinkColor")
+                        self.currentUser?.color="PinkColor"
+                        self.isActiveColor = false
+                    }){
+                        Text(currentUser!.pseudo)
+                    }
                 }.foregroundColor(Color(UIColor(named: "PinkColor")!))
                 VStack{
                     Button(action : {

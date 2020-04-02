@@ -18,7 +18,7 @@ class ReportDAO{
         let preString = "https://strike-back.herokuapp.com/reports/add"
         let postString = "?token=" + token
         let url = URL(string: preString+postString)
-
+        
         guard let requestUrl = url else { fatalError() }
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
@@ -28,7 +28,6 @@ class ReportDAO{
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: json)
         } catch let error {
-            print("VOILAAAA")
             print(error)
         }
         let semaphore = DispatchSemaphore(value :0)
@@ -36,7 +35,7 @@ class ReportDAO{
         // Perform HTTP Request
         var res : Bool = false
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
+            
             // Check for Error
             if let error = error {
                 print("Error took place \(error)")
@@ -57,7 +56,7 @@ class ReportDAO{
         
         return res
     }
-
+    
     
 }
 

@@ -19,7 +19,7 @@ class Remark : ObservableObject, Identifiable, Codable{
     @Published var date : Date
     @Published var heard : Int
     
-   
+    
     init(postId : String, userId : String, title : String, text : String, image : UIImage?, date : Date, heard : Int){
         self.postId = postId
         self.userId = userId
@@ -30,8 +30,8 @@ class Remark : ObservableObject, Identifiable, Codable{
         self.heard = heard
     }
     
- 
-   
+    
+    
     
     private enum CodingKeys : String, CodingKey{
         case userId = "userId"
@@ -41,7 +41,7 @@ class Remark : ObservableObject, Identifiable, Codable{
         case date = "date"
         case postId = "_id"
         case heard = "heard"
-       
+        
     }
     
     
@@ -64,21 +64,21 @@ class Remark : ObservableObject, Identifiable, Codable{
         print("postid : " + postId + ", image : " + imagestring)
         if(imagestring != "" &&	 imagestring != "none"){
             
-                guard let url = URL(string: imagestring) else{
+            guard let url = URL(string: imagestring) else{
+                
+                return
+            }
+            
+            
+            if let data = try? Data(contentsOf: url) {
+                
+                if let image = UIImage(data: data) {
+                    self.image = image
                     
-                    return
                 }
+            }else{
                 
-                
-                    if let data = try? Data(contentsOf: url) {
-                        
-                        if let image = UIImage(data: data) {
-                                self.image = image
-                                
-                        }
-                    }else{
-                        
-                    }
+            }
         }
     }
     
